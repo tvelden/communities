@@ -1,0 +1,22 @@
+directories
+===========
+
+build-networks: 
+[subdirectories: co-author, document-citation]
+
+network-stats: descriptive stats of networks and their evolution
+e.g. growth of giant component, number of nodes, links, clusters
+
+clustering: Rosvall's scripts
+
+cluster-analysis: 
+[subdirectories: co-author-clusters, topic-areas]
+- e.g. node role analysis for co-author network
+
+community-analysis: 
+- extraction of collaboration/transfer networks from co-author network
+- geographic overlay map
+- topic area association analysis
+- topic area overlay map
+
+visualize-data: R scripts
