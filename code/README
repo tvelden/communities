@@ -1,6 +1,8 @@
 directories
 ===========
 
+batch-processing: shell scripts to automate processing
+
 build-networks: 
 [subdirectories: co-author, document-citation]
 
@@ -19,4 +21,4 @@ community-analysis:
 - topic area association analysis
 - topic area overlay map
 
-visualize-data: R scripts
+data-visualization: R scripts
