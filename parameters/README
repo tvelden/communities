@@ -1,0 +1,30 @@
+The parameter files support the automation of processing.
+
+The parameters-global.txt requires the following parameter values 
+to be specified:
+
+FIELD= 'The name of the field, e.g. Field1. This value is used e.g. 
+to automatically deduce the pathname of output directories'
+
+RUN= 'The name of the run, e.g. run1. This value is used e.g. 
+to automatically deduce the pathname of output directories'
+
+START_YEAR= 'The start year of the data set to be sliced, e.g. 1991.'
+
+END_YEAR= 'The end year of the data set to be sliced, e.g. 2010.'
+
+TYPE= 'The type of time slicing. Possible values are 
+sliding/discrete/accumulative.'
+
+SIZE= 'The length of an individual time slice or time window.'
+
+INPUT_PATH= 'The relative path from the root directory of the github 
+repository, i.e. 'communities' to the actual data file which is typically 
+located within the project directory structure 
+in ProjectRoot/Data/FieldX/DataY/reduced/reducedData.txt.'
+
+OUTPUT_PATH= 'The relative path from the root directory of the github
+repository, i.e. 'communities' to the runs subdirectory within the 
+project directory structure, e.g. ../Dropbox/ProjectRoot/runs/.' 
+
+

@@ -1,7 +1,9 @@
-FIELD=
-RUN=
-START_YEAR=
-END_YEAR=
-TYPE=
-SIZE=
-OUTPUT_PATH=
+FIELD=Field1
+RUN=run1
+START_YEAR=1991
+END_YEAR=2010
+TYPE=sliding
+SIZE=5
+INPUT_PATH=../Dropbox/ProjectRoot/Data/Data1/reduced/reducedData.txt
+OUTPUT_PATH=../Dropbox/ProjectRoot/runs/
+
