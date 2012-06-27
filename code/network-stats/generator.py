@@ -188,7 +188,7 @@ def partitionNetwork(y1, y2, type, s, field, run, path2):
                 for paper in PublicationByYear[i]:
                     Partition[paper] = AllPapers[paper]
                 i = i +1
-            generateNetwork(start,end,Partition,path1, path2, field, run, type,s)
+            generateNetwork(start,end,Partition,path2, field, run, type,s)
             start = end + 1
             end = end + size
     elif(type == 'accumulative'):
@@ -201,7 +201,7 @@ def partitionNetwork(y1, y2, type, s, field, run, path2):
                 for paper in PublicationByYear[i]:
                     Partition[paper] = AllPapers[paper]
                 i = i +1
-            generateNetwork(start,end,Partition,path1, path2, field, run, type,s)
+            generateNetwork(start,end,Partition, path2, field, run, type,s)
             end = end + size
     elif(type == 'sliding'):
         start = year1
@@ -213,7 +213,7 @@ def partitionNetwork(y1, y2, type, s, field, run, path2):
                 for paper in PublicationByYear[i]:
                     Partition[paper] = AllPapers[paper]
                 i = i +1
-            generateNetwork(start,end,Partition,path1, path2, field, run, type,s)
+            generateNetwork(start,end,Partition, path2, field, run, type,s)
             start = start + 1
             end = end + 1
 
@@ -323,10 +323,6 @@ def getParameters():
     while(path[l]!='/'):
         l = l -1
     l = l -1
-    # now at build-networks directory
-    while(path[l]!='/'):
-        l = l -1
-    l = l -1
     # now at code directory
     while(path[l]!='/'):
         l = l -1
@@ -339,7 +335,6 @@ def getParameters():
     l = l-1
     while(path[l]!='/'):
         l = l -1
-    l = l-1
     origin = origin[0:l]
     print origin
     field = ''
@@ -374,11 +369,12 @@ def getParameters():
             print size
         elif(line[0:11] == 'INPUT_PATH='):
             ip = line[11:(l-1)]
-            input_path = origin + ip[2:(len(ip)-1)]
+            input_path = origin + ip[2:(len(ip))]
             print input_path
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
-            output_path = origin + op[2:(len(op)-1)]
+            output_path = origin + op[2:(len(op))]
+            #output_path = origin + '/Test/ProjectRoot/runs/'
             print output_path
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
@@ -387,5 +383,5 @@ if __name__ == "__main__":
     #input_path, start_year, end_year, type, size , field , run
     field, run, start_year, end_year, type, size, input_path, output_path  = getParameters()
     readAllPapers(input_path)
-    output_path = processPath(output_path)
+    output_path = processPath(start_year, end_year, type, size, field, run, output_path)
     partitionNetwork(start_year, end_year, type, size, field, run, output_path)
