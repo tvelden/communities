@@ -305,21 +305,8 @@ def readAllPapers(inputFile):
     #print Productivity
     inFile.close()
 
-def processPath(y1,y2,type,s, field, run):
-    path = str(os.getcwd())
-    l = len(path) - 1
-    while(path[l]!='/'):
-        l = l -1
-    l = l -1
-    while(path[l]!='/'):
-        l = l -1
-    path = path[0:l] + '/runs'
-    #print path
-    path1 = path + '/' + str(field) + '/' + str(run) + '/output/Network/' + str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years'
+def processPath(y1,y2,type,s, field, run, path):
     path2 = path + '/' + str(field) + '/' + str(run) + '/output/Statistics'
-    if not os.path.exists(path1):
-        os.makedirs(path1)
-        print('New directory made: ' + str(path1))
     if not os.path.exists(path2):
         os.makedirs(path2)
         print('New directory made: ' + str(path2))
@@ -327,7 +314,7 @@ def processPath(y1,y2,type,s, field, run):
     file = open(path2,'w')
     file.write('Start_Year, End_Year, Cumulative_No_of_Authors, No_of_New_Authors, No_Of_New_Authors_Connected_to_atleast_one_new_author, No_Of_New_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_new_author, No_Of_Old_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_any_author\n' )
     file.close()
-    return path1, path2
+    return path2
 
 def getParameters():
     path = str(os.getcwd())
@@ -398,6 +385,7 @@ def getParameters():
     
 if __name__ == "__main__":
     #input_path, start_year, end_year, type, size , field , run
-    path1,path2 = processPath(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5], sys.argv[6], sys.argv[7])
-    readAllPapers(sys.argv[1])
-    partitionNetwork(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6], sys.argv[7], path2)
+    field, run, start_year, end_year, type, size, input_path, output_path  = getParameters()
+    readAllPapers(input_path)
+    output_path = processPath(output_path)
+    partitionNetwork(start_year, end_year, type, size, field, run, output_path)
