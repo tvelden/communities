@@ -4,6 +4,6 @@ START_YEAR=1991
 END_YEAR=2010
 TYPE=sliding
 SIZE=5
-INPUT_PATH=../Dropbox/ProjectRoot/Data/Data1/reduced/reducedData.txt
+INPUT_PATH=../Dropbox/ProjectRoot/data/Field1/Data1/reduced/reducedData.txt
 OUTPUT_PATH=../Dropbox/ProjectRoot/runs/
 
