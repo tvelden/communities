@@ -217,15 +217,7 @@ def readAllPapers(inputFile):
     #print Productivity
     inFile.close()
 
-def processPath(y1,y2,type,s, field, run):
-    path = str(os.getcwd())
-    l = len(path) - 1
-    while(path[l]!='/'):
-        l = l -1
-    l = l -1
-    while(path[l]!='/'):
-        l = l -1
-    #print path
+def processPath(y1,y2,type,s, field, run, path):
     path1 = path + '/' + str(field) + '/' + str(run) + '/output/Network/' + str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years'
     if not os.path.exists(path1):
         os.makedirs(path1)
