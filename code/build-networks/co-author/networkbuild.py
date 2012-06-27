@@ -68,7 +68,7 @@ def generateNetwork(y1,y2,Partition,path,field, run):
                     else:
                         CoAuthorShip[Authors[author2]][Authors[author1]] = CoAuthorShip[Authors[author2]][Authors[author1]] + 1
                     
-    fs = path + '/' str(field) + '-' + str(run) + 'CoAuthorshipNetwork_'+ str(y1) + '-' + str(y2) + '.net' 
+    fs = path + '/' + str(field) + '-' + str(run) + 'CoAuthorshipNetwork_'+ str(y1) + '-' + str(y2) + '.net' 
     outFile = open(fs,'w')
     #outFile.write('%START\n')
     #outFile.write('%' + str(y1) + '\n')
@@ -248,7 +248,6 @@ def getParameters():
     l = l-1
     while(path[l]!='/'):
         l = l -1
-    l = l-1
     origin = origin[0:l]
     print origin
     field = ''
@@ -283,11 +282,12 @@ def getParameters():
             print size
         elif(line[0:11] == 'INPUT_PATH='):
             ip = line[11:(l-1)]
-            input_path = origin + ip[2:(len(ip)-1)]
+            input_path = origin + ip[2:(len(ip))]
             print input_path
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
-            output_path = origin + op[2:(len(op)-1)]
+            output_path = origin + op[2:(len(op))]
+            #output_path = origin + '/Test/ProjectRoot/runs/'
             print output_path
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
