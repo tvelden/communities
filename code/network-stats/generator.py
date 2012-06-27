@@ -52,7 +52,7 @@ Productivity = {} #{author_name:[number_of_papers,[paperlist]]}
 PublicationByYear = {} #{year:[list of paper_ids published in that year]}
 CumulativeAuthorList = []
 
-def generateNetwork(y1,y2,Partition,path1, path2,field, run,type,s):
+def generateNetwork(y1,y2,Partition, path2,field, run,type,s):
     Authors = {}
     NewAuthors = []
     CoAuthorShip = {} #{author:{coauthor:publication with that coauthor}}
@@ -164,24 +164,6 @@ def generateNetwork(y1,y2,Partition,path1, path2,field, run,type,s):
         poldold = 0
         poldany = 0
     
-    #output
-    fs = path1 + '/' + str(field) + '-' + str(run) + 'CoAuthorshipNetwork_'+ str(y1) + '-' + str(y2) + '.net' 
-    #print('writing file: ' + str(fs))
-    outFile = open(fs,'w')
-    outFile.write('%START\n')
-    outFile.write('%' + str(y1) + '\n')
-    outFile.write('%END\n')
-    outFile.write('%' + str(y2) + '\n')
-    outFile.write('*Vertices ' + str(index) + '\n')
-    al = sorted(Authors.items(),key=itemgetter(1))
-    for author in al:
-        outFile.write(str(author[1]) + ' ' + '"'+ str(author[0]) + '"' + '\n')
-    outFile.write('*Edges\n')
-    for author in CoAuthorShip:
-        for coauthor in CoAuthorShip[author]:
-            if(author < coauthor):
-                outFile.write(str(author) + ' ' + str(coauthor) + ' ' + str(CoAuthorShip[author][coauthor]) + '\n')
-    outFile.close()
     
     #printing statistics
     statfs = path2 
@@ -191,7 +173,7 @@ def generateNetwork(y1,y2,Partition,path1, path2,field, run,type,s):
     statfile.close()
     
     
-def partitionNetwork(y1, y2, type, s, field, run, path1, path2):
+def partitionNetwork(y1, y2, type, s, field, run, path2):
     year1 = int(y1)
     year2 = int(y2)
     size = int(s)
@@ -346,9 +328,76 @@ def processPath(y1,y2,type,s, field, run):
     file.write('Start_Year, End_Year, Cumulative_No_of_Authors, No_of_New_Authors, No_Of_New_Authors_Connected_to_atleast_one_new_author, No_Of_New_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_new_author, No_Of_Old_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_any_author\n' )
     file.close()
     return path1, path2
+
+def getParameters():
+    path = str(os.getcwd())
+    l = len(path) - 1
+    #now at pwd
+    while(path[l]!='/'):
+        l = l -1
+    l = l -1
+    # now at build-networks directory
+    while(path[l]!='/'):
+        l = l -1
+    l = l -1
+    # now at code directory
+    while(path[l]!='/'):
+        l = l -1
+    # now at communities directory
+    origin = path[0:l]
+    path = path[0:l] + '/parameters/parameters-global.txt'
+    print path
+    while(path[l]!='/'):
+        l = l -1
+    l = l-1
+    while(path[l]!='/'):
+        l = l -1
+    l = l-1
+    origin = origin[0:l]
+    print origin
+    field = ''
+    run = ''
+    start_year = ''
+    end_year = ''
+    type = ''
+    size = ''
+    input_path = ''
+    output_path = ''
+    
+    parameterfile = open(path, "r")
+    for line in parameterfile:
+        l = len(line)
+        if(line[0:6] == 'FIELD='):
+            field = line[6:(l-1)]
+            print field
+        elif(line[0:4] == 'RUN='):
+            run = line[4:(l-1)]
+            print run
+        elif(line[0:11] == 'START_YEAR='):
+            start_year = line[11:(l-1)]
+            print start_year
+        elif(line[0:9] == 'END_YEAR='):
+            end_year = line[9:(l-1)]
+            print end_year
+        elif(line[0:5] == 'TYPE='):
+            type = line[5:(l-1)]
+            print type
+        elif(line[0:5] == 'SIZE='):
+            size = line[5:(l-1)]
+            print size
+        elif(line[0:11] == 'INPUT_PATH='):
+            ip = line[11:(l-1)]
+            input_path = origin + ip[2:(len(ip)-1)]
+            print input_path
+        elif(line[0:12] == 'OUTPUT_PATH='):
+            op = line[12:(l-1)]
+            output_path = origin + op[2:(len(op)-1)]
+            print output_path
+    print field, run, start_year, end_year, type, size, input_path, output_path        
+    return field, run, start_year, end_year, type, size, input_path, output_path 
     
 if __name__ == "__main__":
     #input_path, start_year, end_year, type, size , field , run
     path1,path2 = processPath(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5], sys.argv[6], sys.argv[7])
     readAllPapers(sys.argv[1])
-    partitionNetwork(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6], sys.argv[7], path1, path2)
+    partitionNetwork(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6], sys.argv[7], path2)
