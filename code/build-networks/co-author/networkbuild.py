@@ -1,6 +1,6 @@
 #This file generates network files of different time-sliced windows
 #Author: Syed Ishtiaque Ahmed
-#Last Modified: June 22, 2012
+#Last Modified: June 27, 2012
 #Takes input from parameter file in communities/parameters
 
 
