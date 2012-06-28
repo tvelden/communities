@@ -168,7 +168,7 @@ def generateNetwork(y1,y2,Partition, path2,field, run,type,s):
     #printing statistics
     statfs = path2 
     statfile = open(statfs,'a')
-    statfile.write(str(y1) + ' ' + str(y2) + ' ' + str(numberOfCumulativeAuthors) + ' ' + str(newAuthor) + ' ' +str(nncount) + '(' + str(pnn) + '%)'+ ' ' +str(oldcount) + '(' + str(pold) + '%)' + ' ' +str(oldnewcount) + '(' + str(poldnew) + '%)' + ' ' +str(oldoldcount) + '(' + str(poldold) + '%)' + ' ' +str(activeoldauthornumber) + '(' + str(poldany) + '%)')
+    statfile.write(str(y1) + ',' + str(y2) + ',' + str(numberOfCumulativeAuthors) + ',' + str(newAuthor) + ',' +str(nncount) + ',' + str(pnn) + '%,' +str(oldcount) + ',' + str(pold) + '%,' + str(oldnewcount) + ',' + str(poldnew) + '%,' +str(oldoldcount) + ',' + str(poldold) + ',)' +str(activeoldauthornumber) + ',' + str(poldany) + '%')
     statfile.write('\n')
     statfile.close()
     
@@ -310,7 +310,7 @@ def processPath(y1,y2,type,s, field, run, path):
     if not os.path.exists(path2):
         os.makedirs(path2)
         print('New directory made: ' + str(path2))
-    path2 = path2 + '/' + str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years' + '.txt'
+    path2 = path2 + '/' + str(field) + '-' + str(run) + '_new-author-linking_' +str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years' + '.csv'
     file = open(path2,'w')
     file.write('Start_Year, End_Year, Cumulative_No_of_Authors, No_of_New_Authors, No_Of_New_Authors_Connected_to_atleast_one_new_author, No_Of_New_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_new_author, No_Of_Old_Authors_Connected_to_atleast_one_old_author, No_Of_Old_Authors_Connected_to_atleast_one_any_author\n' )
     file.close()
@@ -374,7 +374,7 @@ def getParameters():
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
             output_path = origin + op[2:(len(op))]
-            #output_path = origin + '/Test/ProjectRoot/runs/'
+            output_path = origin + '/Test/ProjectRoot/runs/'
             print output_path
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
