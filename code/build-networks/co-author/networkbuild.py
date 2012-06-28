@@ -289,7 +289,7 @@ def getParameters():
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
             output_path = origin + op[2:(len(op))]
-            output_path = origin + '/Test/ProjectRoot/runs/'
+            #output_path = origin + '/Test/ProjectRoot/runs/'
             print('output directory runs path: ' + str(output_path))
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
