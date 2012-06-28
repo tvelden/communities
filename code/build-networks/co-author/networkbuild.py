@@ -82,7 +82,7 @@ def generateNetwork(y1,y2,Partition,path,field, run):
     for author in CoAuthorShip:
         for coauthor in CoAuthorShip[author]:
             if(author < coauthor):
-                outFile.write(str(author) + ' ' + str(coauthor) + str(CoAuthorShip[author][coauthor]) + '\n')
+                outFile.write(str(author) + ' ' + str(coauthor) + ' ' + str(CoAuthorShip[author][coauthor]) + '\n')
     outFile.close()
 
 
