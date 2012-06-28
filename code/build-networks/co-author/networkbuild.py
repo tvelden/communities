@@ -77,12 +77,12 @@ def generateNetwork(y1,y2,Partition,path,field, run):
     outFile.write('*Vertices ' + str(index) + '\n')
     al = sorted(Authors.items(),key=itemgetter(1))
     for author in al:
-        outFile.write('"' + str(author[1]) + ' ' + str(author[0]) + '"' + '\n')
+        outFile.write(str(author[1]) + ' "'  + str(author[0]) + '"' + '\n')
     outFile.write('*Edges\n')
     for author in CoAuthorShip:
         for coauthor in CoAuthorShip[author]:
             if(author < coauthor):
-                outFile.write(str(author) + ' ' + str(coauthor) + str(CoAuthorShip[author][coauthor]) + '\n')
+                outFile.write(str(author) + ' ' + str(coauthor) + ' ' + str(CoAuthorShip[author][coauthor]) + '\n')
     outFile.close()
 
 
@@ -288,8 +288,8 @@ def getParameters():
             print('input file path: ' + str(input_path))
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
-            output_path = origin + op[2:(len(op))]
-            output_path = origin + '/Test/ProjectRoot/runs/'
+            output_path = origin + op[2:(len(op)-1)]
+            #output_path = origin + '/Test/ProjectRoot/runs/'
             print('output directory runs path: ' + str(output_path))
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
