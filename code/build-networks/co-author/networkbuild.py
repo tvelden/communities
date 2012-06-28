@@ -77,7 +77,7 @@ def generateNetwork(y1,y2,Partition,path,field, run):
     outFile.write('*Vertices ' + str(index) + '\n')
     al = sorted(Authors.items(),key=itemgetter(1))
     for author in al:
-        outFile.write('"' + str(author[1]) + ' ' + str(author[0]) + '"' + '\n')
+        outFile.write(str(author[1]) + ' "'  + str(author[0]) + '"' + '\n')
     outFile.write('*Edges\n')
     for author in CoAuthorShip:
         for coauthor in CoAuthorShip[author]:
