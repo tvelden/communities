@@ -227,6 +227,7 @@ def processPath(y1,y2,type,s, field, run, path):
 
 def getParameters():
     path = str(os.getcwd())
+    print('present directory of networkbuild.py: ' + str(path))
     l = len(path) - 1
     #now at pwd
     while(path[l]!='/'):
@@ -240,16 +241,17 @@ def getParameters():
     while(path[l]!='/'):
         l = l -1
     # now at communities directory
+    print('communties directory: ' + str(path[0:l]))
     origin = path[0:l]
     path = path[0:l] + '/parameters/parameters-global.txt'
-    print path
+    print('parameter file: ' + str(path))
     while(path[l]!='/'):
         l = l -1
     l = l-1
     while(path[l]!='/'):
         l = l -1
     origin = origin[0:l]
-    print origin
+    print('origin: ' + str(origin))
     field = ''
     run = ''
     start_year = ''
@@ -264,31 +266,31 @@ def getParameters():
         l = len(line)
         if(line[0:6] == 'FIELD='):
             field = line[6:(l-1)]
-            print field
+            #print field
         elif(line[0:4] == 'RUN='):
             run = line[4:(l-1)]
-            print run
+            #print run
         elif(line[0:11] == 'START_YEAR='):
             start_year = line[11:(l-1)]
-            print start_year
+            #print start_year
         elif(line[0:9] == 'END_YEAR='):
             end_year = line[9:(l-1)]
-            print end_year
+            #print end_year
         elif(line[0:5] == 'TYPE='):
             type = line[5:(l-1)]
-            print type
+            #print type
         elif(line[0:5] == 'SIZE='):
             size = line[5:(l-1)]
-            print size
+            #print size
         elif(line[0:11] == 'INPUT_PATH='):
             ip = line[11:(l-1)]
             input_path = origin + ip[2:(len(ip))]
-            print input_path
+            print('input file path: ' + str(input_path))
         elif(line[0:12] == 'OUTPUT_PATH='):
             op = line[12:(l-1)]
             output_path = origin + op[2:(len(op))]
-            #output_path = origin + '/Test/ProjectRoot/runs/'
-            print output_path
+            output_path = origin + '/Test/ProjectRoot/runs/'
+            print('output directory runs path: ' + str(output_path))
     print field, run, start_year, end_year, type, size, input_path, output_path        
     return field, run, start_year, end_year, type, size, input_path, output_path 
             
