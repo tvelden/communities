@@ -231,7 +231,7 @@ def readAllPapers(inputFile):
     for lines in inFile:
         string = str(lines)
         #print string
-        if(len(string) == 1):
+        if((string =='\n') or (string ==' \n')):
             PaperFlag = 0
             AllPapers[p.ID] = p
             InitialNumberOfPapers = InitialNumberOfPapers +1

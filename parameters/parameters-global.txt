@@ -3,7 +3,7 @@ RUN=run1
 START_YEAR=1991
 END_YEAR=2010
 TYPE=discrete
-SIZE=1
+SIZE=20
 INPUT_PATH=../Dropbox/ProjectRoot/data/Field1/Data1/reduced/reducedData.txt
 OUTPUT_PATH=../Dropbox/ProjectRoot/runs/
 
