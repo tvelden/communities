@@ -38,7 +38,6 @@ class Paper:
 
 #Global variables
 AllPapers = {} #{paper_id:<paper_object>}
-Productivity = {} #{author_name:[number_of_papers,[paperlist]]}
 PublicationByYear = {} #{year:[list of paper_ids published in that year]}
 
 
@@ -51,7 +50,7 @@ def generateNetwork(y1,y2,Partition,path,field, run):
             if(author not in Authors):
                 index = index + 1
                 Authors[author] = index
-            if author not in CoAuthorShip:
+            if( Authors[author] not in CoAuthorShip):
                 CoAuthorShip[Authors[author]] = {}
             
         for author1 in Partition[paper].AU:
@@ -143,7 +142,7 @@ def readAllPapers(inputFile):
     for lines in inFile:
         string = str(lines)
         #print string
-        if(len(string) == 1):
+        if((string =='\n') or (string ==' \n')):
             PaperFlag = 0
             AllPapers[p.ID] = p
             InitialNumberOfPapers = InitialNumberOfPapers +1
