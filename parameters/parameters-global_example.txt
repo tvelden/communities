@@ -1,0 +1,9 @@
+FIELD=field1
+RUN=run1
+START_YEAR=1991
+END_YEAR=2010
+TYPE=discrete
+SIZE=1
+INPUT_PATH=../Dropbox/project-root/data/field1/data1/reduced/reduced-data.txt
+OUTPUT_PATH=../Dropbox/project-root/runs/
+
