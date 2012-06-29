@@ -52,19 +52,29 @@ def removeSignlePaperAuthors(p):
     global SinglePaperAuthors 
     global PapersToDelete
     
+    DeletedAuthors = 0
+    
     NumberOfDeletedPapers = 0
     ReducedNumberOfPapers = 0
     
     for author in Productivity:
         if(Productivity[author][0] == 1):
             SinglePaperAuthors.append(author)
-            if(len(Productivity[author][1]) != 1):
-                print 'mistake'
-            if(Productivity[author][1][0] not in PapersToDelete):
-                PapersToDelete.append(Productivity[author][1][0])
-            
+            DeletedAuthors = DeletedAuthors + 1
+    print('Number of Deleted Authors: ' + str(DeletedAuthors) + '\n')
+    
+    for paper in AllPapers:
+        for author in AllPapers[paper].AU:
+            if(author in SinglePaperAuthors):
+                AllPapers[paper].AU.remove(author)
+                #print('Removing author: ' + str(author))
+        if(len(AllPapers[paper].AU)<=1):
+            PapersToDelete.append(paper)
+    
+    
     for paper in PapersToDelete:
         del AllPapers[paper]
+        #print('Deleting paper: ' + str(paper))
         NumberOfDeletedPapers = NumberOfDeletedPapers + 1
     print('Number of Deleted papers: ' + str(NumberOfDeletedPapers) + '\n')
     
@@ -104,6 +114,9 @@ def readAllPapers(p):
     PublicationByYear = {}
     global Productivity
     Productivity = {}
+    
+    TotalAuthors = 0
+    
     path = str(p)
     inFile = open(path, "r")
     InitialNumberOfPapers = 0
@@ -150,6 +163,7 @@ def readAllPapers(p):
                 Productivity[s][0] = Productivity[s][0] + 1
                 Productivity[s][1].append(p.ID)
             else:
+                TotalAuthor = TotalAuthor + 1
                 paperlist = []
                 paperlist.append(p.ID)
                 production = []
@@ -199,6 +213,7 @@ def readAllPapers(p):
     #print AllPapers
     #print Productivity
     print('Initially Total Number of Papers was: ' + str(InitialNumberOfPapers) + '\n')
+    print('Initially Total Number of Authors was: ' + str(TotalAuthors) + '\n')
     inFile.close()
 
 
