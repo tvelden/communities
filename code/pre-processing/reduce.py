@@ -46,15 +46,22 @@ PapersToDelete = []
 
 
 def removeSignlePaperAuthors(p):
-
+    global AllPapers
+    global PublicationByYear
+    global Productivity
+    global SinglePaperAuthors 
+    global PapersToDelete
+    
     NumberOfDeletedPapers = 0
     ReducedNumberOfPapers = 0
     
-    for production in Productivity:
-        if(Productivity[production][0] == 1):
-            SinglePaperAuthors.append(production)
-            if(Productivity[production][1][0] not in PapersToDelete):
-                PapersToDelete.append(Productivity[production][1][0])
+    for author in Productivity:
+        if(Productivity[author][0] == 1):
+            SinglePaperAuthors.append(author)
+            if(len(Productivity[author][1]) != 1):
+                print 'mistake'
+            if(Productivity[author][1][0] not in PapersToDelete):
+                PapersToDelete.append(Productivity[author][1][0])
             
     for paper in PapersToDelete:
         del AllPapers[paper]
@@ -91,7 +98,12 @@ def removeSignlePaperAuthors(p):
     
     
 def readAllPapers(p):
-
+    global AllPapers
+    AllPapers = {}
+    global PublicationByYear
+    PublicationByYear = {}
+    global Productivity
+    Productivity = {}
     path = str(p)
     inFile = open(path, "r")
     InitialNumberOfPapers = 0
