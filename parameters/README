@@ -3,7 +3,7 @@ The parameter files support the automation of processing.
 The parameters-global.txt requires the following parameter values 
 to be specified:
 
-FIELD= 'The name of the field, e.g. Field1. This value is used e.g. 
+FIELD= 'The name of the field, e.g. field1. This value is used e.g. 
 to automatically deduce the pathname of output directories'
 
 RUN= 'The name of the run, e.g. run1. This value is used e.g. 
@@ -21,10 +21,10 @@ SIZE= 'The length of an individual time slice or time window.'
 INPUT_PATH= 'The relative path from the root directory of the github 
 repository, i.e. 'communities' to the actual data file which is typically 
 located within the project directory structure 
-in ProjectRoot/Data/FieldX/DataY/reduced/reducedData.txt.'
+in project-root/data/field2/data1/reduced/reduced-data.txt.'
 
 OUTPUT_PATH= 'The relative path from the root directory of the github
 repository, i.e. 'communities' to the runs subdirectory within the 
-project directory structure, e.g. ../Dropbox/ProjectRoot/runs/.' 
+project directory structure, e.g. ../Dropbox/project-root/runs/.' 
 
 
