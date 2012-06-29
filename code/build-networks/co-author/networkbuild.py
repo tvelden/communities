@@ -217,7 +217,7 @@ def readAllPapers(inputFile):
     inFile.close()
 
 def processPath(y1,y2,type,s, field, run, path):
-    path1 = path + '/' + str(field) + '/' + str(run) + '/output/Network/' + str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years'
+    path1 = path + '/' + str(field) + '/' + str(run) + '/output/network/' + str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years'
     if not os.path.exists(path1):
         os.makedirs(path1)
         print('New directory made: ' + str(path1))
