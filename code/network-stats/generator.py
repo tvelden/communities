@@ -312,7 +312,7 @@ def processPath(y1,y2,type,s, field, run, path):
         print('New directory made: ' + str(path2))
     path2 = path2 + '/' + str(field) + '-' + str(run) + '_new-author-linking_' +str(type) + str(y1)+'-'+str(y2)+'_'+str(s)+'years' + '.csv'
     file = open(path2,'w')
-    file.write('Start_Year, End_Year; Cumulative_No_of_Authors; No_of_New_Authors; No_Of_New_Authors_Connected_to_atleast_one_new_author; percent; No_Of_New_Authors_Connected_to_atleast_one_old_author; percent; No_Of_Old_Authors_Connected_to_atleast_one_new_author; percent, No_Of_Old_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_any_author; percent\n' )
+    file.write('Start_Year; End_Year; Cumulative_No_of_Authors; No_of_New_Authors; No_Of_New_Authors_Connected_to_atleast_one_new_author; percent; No_Of_New_Authors_Connected_to_atleast_one_old_author; percent; No_Of_Old_Authors_Connected_to_atleast_one_new_author; percent; No_Of_Old_Authors_Connected_to_atleast_one_old_author; percent; No_Of_Old_Authors_Connected_to_atleast_one_any_author; percent\n' )
     file.close()
     return path2
 
