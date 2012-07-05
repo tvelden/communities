@@ -4,7 +4,7 @@ import operator
 from operator import itemgetter
 
 #--Global Variables--
-RELATIVE_INPUT_PARAMETER_FILE = 'parameters/parameters-global.txt'
+RELATIVE_INPUT_PARAMETER_FILE = '../../../parameters/parameters-global.txt'
 INPUT_PARAMETER_FILE = ''
 INPUT_ORIGINAL_FILE_PATH = ''
 INPUT_REDUCED_FILE_PATH = ''
@@ -406,18 +406,12 @@ def setFilePaths():
     global OUTPUT_STATISTICS_DIRECTORY
     global OUTPUT_PARENT_DIRECTORY_PATH
     
-    temp_path = RELATIVE_INPUT_PARAMETER_FILE
-    present_directory = str(os.getcwd())
-    ind = present_directory.index('/communities/')
-    communities_directory = present_directory[0:ind+1] + 'communities'
 
-    print communities_directory
-    INPUT_PARAMETER_FILE = communities_directory + '/' + temp_path
-    #print INPUT_PARAMETER_FILE
-    
-    parameterfile = open(INPUT_PARAMETER_FILE, 'r')
+    communities_directory = '../../..' 
+    parameterfile = open(RELATIVE_INPUT_PARAMETER_FILE, 'r')
     for line in parameterfile:
         l = len(line)
+        #print line[0:10]
         if(line[0:6] == 'FIELD='):
             FIELD= line[6:(l-1)]
             print FIELD
@@ -436,37 +430,19 @@ def setFilePaths():
         elif(line[0:5] == 'SIZE='):
             SIZE = int(line[5:(l-1)])
             print SIZE
-        elif(line[0:11] == 'INPUT_PATH='):
-            ip = line[11:(l-1)]
-            i = 0
-            j = len(communities_directory) - 1
-            while(ip[i]=='.' and ip[i+1]=='.' and ip[i+2]=='/'):
-                i = i+3
-                while(communities_directory[j]!='/'):
-                    j = j - 1
-                j = j -1
-            origin = communities_directory[0:j+1]
-            INPUT_REDUCED_FILE_PATH = origin + '/' + ip[i:(len(ip))]
-            print INPUT_REDUCED_FILE_PATH
-        elif(line[0:12] == 'OUTPUT_PATH='):
-            ip = line[12:(l-1)]
-            i = 0
-            j = len(communities_directory) - 1
-            while(ip[i]=='.' and ip[i+1]=='.' and ip[i+2]=='/'):
-                i = i+3
-                while(communities_directory[j]!='/'):
-                    j = j - 1
-                j = j -1
-            origin = communities_directory[0:j+1]
-            OUTPUT_PARENT_DIRECTORY_PATH = origin + '/' + ip[i:(len(ip))]
+        elif(line[0:9] == 'NET_PATH='):
+            OUTPUT_PARENT_DIRECTORY_PATH = communities_directory + '/' + line[9:(len(line)-1)]
             print OUTPUT_PARENT_DIRECTORY_PATH
-            
-    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + 'nwa_' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
+        elif(line[0:10] == 'DATA_PATH='):
+            INPUT_REDUCED_FILE_PATH = OUTPUT_PARENT_DIRECTORY_PATH + '/' + 'nwa-' + str(FIELD) + '/' + 'data/' + line[10:(len(line)-1)]
+            print INPUT_REDUCED_FILE_PATH
+
+    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
     if not os.path.exists(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
     
-    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + 'nwa_' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years-statistics_files'
+    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years-statistics_files'
     if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
