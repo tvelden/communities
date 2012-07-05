@@ -4,7 +4,7 @@ import operator
 from operator import itemgetter
 
 #--Global Variables--
-RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
+RELATIVE_INPUT_PARAMETER_FILE = 'parameters/parameters-global.txt'
 INPUT_PARAMETER_FILE = ''
 INPUT_ORIGINAL_FILE_PATH = ''
 INPUT_REDUCED_FILE_PATH = ''
@@ -408,16 +408,11 @@ def setFilePaths():
     
     temp_path = RELATIVE_INPUT_PARAMETER_FILE
     present_directory = str(os.getcwd())
-    i = 0
-    j =len(present_directory) - 1
-    while(temp_path[i]=='.' and temp_path[i+1]=='.' and temp_path[i+2]=='/'):
-        i = i+3
-        while(present_directory[j]!='/'):
-            j = j - 1
-        j = j -1
-    communities_directory = present_directory[0:j+1]
+    ind = present_directory.index('/communities/')
+    communities_directory = present_directory[0:ind+1] + 'communities'
+
     print communities_directory
-    INPUT_PARAMETER_FILE = communities_directory + '/' + temp_path[i:len(temp_path)]
+    INPUT_PARAMETER_FILE = communities_directory + '/' + temp_path
     #print INPUT_PARAMETER_FILE
     
     parameterfile = open(INPUT_PARAMETER_FILE, 'r')
