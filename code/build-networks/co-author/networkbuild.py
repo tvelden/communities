@@ -497,7 +497,23 @@ def makeCoauthorshipNetworkFilesForPajek():
             Partition.printNetworkForPajek(FIELD, RUN, TYPE, SIZE, OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             start = end + 1
             end = end + SIZE
-
+    elif(TYPE == 'accumulative'):
+        start = START_YEAR
+        end = start + SIZE -1
+        while(end<=END_YEAR):
+            Partition = Network()
+            Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            Partition.printNetworkForPajek(FIELD, RUN, TYPE, SIZE, OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
+            end = end + SIZE
+    elif(TYPE == 'sliding'):
+        start = START_YEAR
+        end = start + SIZE -1
+        while(end<=END_YEAR):
+            Partition = Network()
+            Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            Partition.printNetworkForPajek(FIELD, RUN, TYPE, SIZE, OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
+            start = start + 1
+            end = end + 1
 if __name__ == "__main__":
     setFilePaths()
     makeCoauthorshipNetworkFilesForPajek()
