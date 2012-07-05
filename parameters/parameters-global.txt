@@ -1,16 +1,10 @@
-FIELD=Field1
+FIELD=field1
 RUN=run1
 START_YEAR=1991
 END_YEAR=2010
-<<<<<<< HEAD
 TYPE=discrete
-SIZE=1
-INPUT_PATH=../Dropbox/ProjectRoot/data/Field1/Data1/reduced/reducedData.txt
-OUTPUT_PATH=../Dropbox/ProjectRoot/runs/
-=======
-TYPE=accumulative
 SIZE=1
 INPUT_PATH=../TESTING/ProjectRoot/data/Field1/Data1/reduced/reducedData.txt
 OUTPUT_PATH=../TESTING/ProjectRoot/runs/
->>>>>>> aa5971e96e01ef9dbdd189582ee8228760720a60
+
 
