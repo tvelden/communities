@@ -4,7 +4,7 @@ import operator
 from operator import itemgetter
 
 #--Global Variables--
-RELATIVE_INPUT_PARAMETER_FILE = '../../../parameters/parameters-global.txt'
+RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
 INPUT_PARAMETER_FILE = ''
 INPUT_ORIGINAL_FILE_PATH = ''
 INPUT_REDUCED_FILE_PATH = ''
@@ -264,6 +264,14 @@ class Comparer:
     def __init__(self, Previous, Current):
         self.previous = Previous
         self.current = Current
+        self.numberOfNewNodes = 0
+        self.newNodes = []
+        self.numberOfNewEdges = 0
+        self.newEdges = []
+        self.numberOfCommonNodes = 0
+        self.commonNodes = []
+        self.numberOfCommonEdges = 0
+        self.commonEdges = []
         self.initializeNewNodes()
         self.initializeNewEdges()
         self.initializeCommonNodes()
@@ -283,7 +291,8 @@ class Comparer:
                 self.numberOfNewEdges = self.numberOfNewEdges + 1
                 self.newEdges.append(edge)
     def initializeCommonNodes(self):
-        numberOfCommonNodes = 0
+        self.numberOfCommonNodes = 0
+        self.commonNodes = []
         for node in self.current.nodes:
             if node in self.previous.nodes:
                 self.numberOfCommonNodes = self.numberOfCommonNodes + 1
@@ -296,7 +305,7 @@ class Comparer:
                 self.numberOfCommonEdges = self.numberOfCommonEdges + 1
                 self.commonEdges.append(edge)    
     def cumulativeNumberOfAuthors(self):
-        return self.previous.numberOfNodes + self.current.numberOfNodes
+        return self.previous.numberOfNodes + self.numberOfNewNodes
     def numberOfNewAuthors(self):
         return self.numberOfNewNodes
     def numberOfNewAuthorsAttachedToAtLeastANewAuthor(self):
@@ -332,61 +341,83 @@ class Comparer:
                     break
         return ans
     def numberOfOldAuthorsAttachedToAtLeastAnAuthor(self):
-        return numberOfCommonNodes
+        return self.numberOfCommonNodes
     def numberOfNewLinksAmongNewAuthors(self):
         ans = 0
-        for edge in self.newEdges():
+        for edge in self.current.edges:
             if((edge[0] in self.newNodes) and (edge[1] in self.newNodes)):
                 ans = ans + 1
         return ans
     def numberOfNewLinksBetweenNewAndOldAuthors(self):
         ans = 0
-        for edge in self.newEdges():
+        for edge in self.current.edges:
             if(((edge[0] in self.newNodes) and (edge[1] in self.commonNodes)) or ((edge[1] in self.newNodes) and (edge[0] in self.commonNodes))):
                 ans = ans + 1
         return ans
     def numberOfLinksBetweenOldAuthorsNotConnectedBefore(self):
         ans = 0
-        for edge in self.newEdges:
+        for edge in self.current.edges:
             if((edge[0] in self.commonNodes) and (edge[1] in self.commonNodes) and (edge not in self.previous.edges)):
                 ans = ans + 1
         return ans
     def numberOfLinksBetweenOldAuthorsConnectedBefore(self):
-        ans = 0
-        for edge in self.current.edges:
-            if((edge[0] in self.commonNodes) and (edge[1] in self.commonNodes) and (edge in self.previous.edges)):
-                ans = ans + 1
-        return ans
+        #ans = 0
+        #for edge in self.current.edges:
+            #if((edge[0] in self.commonNodes) and (edge[1] in self.commonNodes) and (edge in self.previous.edges)):
+                #ans = ans + 1
+        return self.numberOfCommonEdges
     def contentForAbbasiTable2(self):
         column1 = self.current.startYear
         column2 = self.current.endYear
         column3 = self.cumulativeNumberOfAuthors()
         column4 = self.numberOfNewAuthors()
+        
         column5 = self.numberOfNewAuthorsAttachedToAtLeastANewAuthor()
-        column6 = int((float(column5)/float(self.numberOfnewAuthors)) * 100.00)
+        if(column4 != 0):
+            column6 = int((float(column5)/float(column4)) * 100.00)
+        else:
+            column6 = 0
+            
         column7 = self.numberOfNewAuthorsAttachedToAtLeastAnOldAuthor()
-        column8 = int((float(column7)/float(self.numberOfnewAuthors)) * 100.00)
+        if(column4 != 0):
+            column8 = int((float(column7)/float(column4)) * 100.00)
+        else:
+            column8 = 0    
+        
         column9 = self.numberOfOldAuthorsAttachedToAtLeastANewAuthor()
-        column10 = int((float(column9)/float(self.previous.numberOfNodes)) * 100.00)
+        if(self.previous.numberOfNodes != 0):
+            column10 = int((float(column9)/float(self.previous.numberOfNodes)) * 100.00)
+        else:
+            column10 = 0
+            
         column11 = self.numberOfOldAuthorsAttachedToAtLeastAnOldAuthor()
-        column12 = int((float(column11)/float(self.previous.numberOfNodes)) * 100.00)
-        column13 = self.numberOfNewAuthorsAttachedToAtLeastAnAuthor()
-        column14 = int((float(column13)/float(self.previous.numberOfNodes)) * 100.00)
+        if(self.previous.numberOfNodes != 0):
+            column12 = int((float(column11)/float(self.previous.numberOfNodes)) * 100.00)
+        else:
+            column12 = 0
+            
+        column13 = self.numberOfOldAuthorsAttachedToAtLeastAnAuthor()
+        if(self.previous.numberOfNodes != 0):
+            column14 = int((float(column13)/float(self.previous.numberOfNodes)) * 100.00)
+        else:
+            column14 = 0
         
         return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 )
+        
     def contentForAbbasiTable3(self):
         column1 = self.current.startYear
         column2 = self.current.endYear
         column3 = self.numberOfNewEdges + self.previous.numberOfEdges
         column4 = self.numberOfNewEdges
+        x = self.current.numberOfEdges
         column5 = self.numberOfNewLinksAmongNewAuthors()
-        column6 = int(((float(column4))/(float(column4)))*100.00)
+        column6 = int(((float(column5))/(float(x)))*100.00)
         column7 = self.numberOfNewLinksBetweenNewAndOldAuthors()
-        column8 = int(((float(column6))/(float(column4)))*100.00)
+        column8 = int(((float(column7))/(float(x)))*100.00)
         column9 = self.numberOfLinksBetweenOldAuthorsNotConnectedBefore()
-        column10 = int(((float(column8))/(float(column4)))*100.00)
+        column10 = int(((float(column9))/(float(x)))*100.00)
         column11 = self.numberOfLinksBetweenOldAuthorsConnectedBefore()
-        column12 = int(((float(column10))/(float(column4)))*100.00)
+        column12 = int(((float(column11))/(float(x)))*100.00)
         
         return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12)
         
@@ -407,7 +438,7 @@ def setFilePaths():
     global OUTPUT_PARENT_DIRECTORY_PATH
     
 
-    communities_directory = '../../..' 
+    communities_directory = '../..' 
     parameterfile = open(RELATIVE_INPUT_PARAMETER_FILE, 'r')
     for line in parameterfile:
         l = len(line)
@@ -485,6 +516,44 @@ def makeCoauthorshipNetworkFilesForPajek():
             Partition.printNetworkForPajek(FIELD, RUN, TYPE, SIZE, OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             start = start + 1
             end = end + 1
+            
+def makeTemporalDataFiles():
+    global TYPE
+    global START_YEAR
+    global SIZE
+    global OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
+    global OUTPUT_STATISTICS_DIRECTORY
+    global FIELD
+    global RUN
+    global END_YEAR
+    
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
+    y1 = START_YEAR
+    y2 = y1 + SIZE -1
+    Table2file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable2.csv'
+    Table2 = open(Table2file, 'w')
+    #Table2.close()
+    Table3file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable3.csv'
+    Table3 = open(Table3file, 'w')
+    #Table3.close()
+    while(y2<=END_YEAR):
+        old = Network()
+        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+        new = Network()
+        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+        C = Comparer(old, new)
+        (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 ) =  C.contentForAbbasiTable2()
+        print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 
+        Table2.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +';'+str(column13) +';'+str(column14) +'\n')
+        (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12) = C.contentForAbbasiTable3()
+        print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12
+        Table3.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +'\n')
+        y1 = y2 + 1
+        y2 = y1 + SIZE -1
+    Table2.close()
+    Table3.close()
 if __name__ == "__main__":
     setFilePaths()
-    makeCoauthorshipNetworkFilesForPajek()
+    #makeCoauthorshipNetworkFilesForPajek()
+    makeTemporalDataFiles()

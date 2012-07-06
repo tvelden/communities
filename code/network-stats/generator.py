@@ -335,6 +335,7 @@ def getParameters():
     l = l-1
     while(path[l]!='/'):
         l = l -1
+    path = path[0:l+1] + 'Test/parameters/parameters-global.txt'
     origin = origin[0:l]
     print origin
     field = ''
