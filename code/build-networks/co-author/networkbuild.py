@@ -227,10 +227,10 @@ class Network:
         fs = directoryPath + '/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
         outFile = open(fs, 'w')
         
-        #outFile.write('%START\n')
-        #outFile.write('%' + str(y1) + '\n')
-        #outFile.write('%END\n')
-        #outFile.write('%' + str(y2) + '\n')
+        outFile.write('%START\n')
+        outFile.write('%' + str(y1) + '\n')
+        outFile.write('%END\n')
+        outFile.write('%' + str(y2) + '\n')
         
         nodeDic = {} #dictionary for indexing the authors
         index = 0

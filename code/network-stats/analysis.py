@@ -1,7 +1,9 @@
 import os
 import sys
 import operator
+import numpy
 from operator import itemgetter
+import pdb
 
 #--Global Variables--
 RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
@@ -296,7 +298,8 @@ class Comparer:
         for node in self.current.nodes:
             if node in self.previous.nodes:
                 self.numberOfCommonNodes = self.numberOfCommonNodes + 1
-                self.commonNodes.append(node)       
+                self.commonNodes.append(node) 
+        #print self.commonNodes
     def initializeCommonEdges(self):
         self.numberOfCommonEdges = 0
         self.commonEdges = []
@@ -421,6 +424,81 @@ class Comparer:
         
         return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12)
         
+    def degreeCentralityVsNewAuthorLinks(self):
+        dcVna = {}
+        for author in self.commonNodes:
+            count = 0
+            for coauthor in self.current.degrees[author][1]:
+                if coauthor in self.newNodes:
+                    count = count + 1
+            list = []
+            list.append(self.previous.degrees[author][0])
+            list.append(count)
+            dcVna[author] = list
+        return dcVna
+    
+    def degreeCentralityVsNewLinks(self):
+        dcVnl = {}
+        #print self.newNodes
+        for author in self.commonNodes:
+            list = []
+            list.append(self.previous.degrees[author][0])
+            list.append(self.current.degrees[author][0])
+            dcVnl[author] = list
+        return dcVnl
+    
+    def degreeCentralityVsOldAuthorLinks(self):
+        dcVoa = {}
+        for author in self.commonNodes:
+            count = 0
+            for coauthor in self.current.degrees[author][1]:
+                if coauthor in self.commonNodes:
+                    count = count + 1
+            list = []
+            list.append(self.previous.degrees[author][0])
+            list.append(count)
+            dcVoa[author] = list
+        return dcVoa
+        
+    def getDataForDegreeCentralityVsLinkAssociations(self):
+        dcVnl = self.degreeCentralityVsNewLinks()
+        dcVna = self.degreeCentralityVsNewAuthorLinks()
+        dcVoa = self.degreeCentralityVsOldAuthorLinks()
+        dVl = {}
+        for author in self.commonNodes:
+            list = []
+            list.append(dcVnl[author][0])
+            list.append(dcVnl[author][1])
+            list.append(dcVna[author][1])
+            list.append(dcVoa[author][1])
+            dVl[author] = list
+        X = []
+        Y = []
+        for author in dVl:
+            X.append(dVl[author][0])
+            
+        #pdb.set_trace()    
+        if(len(X) > 0):
+            Y = []
+            for author in dVl:
+                Y.append(dVl[author][1])
+            corrDVL = numpy.corrcoef(X,Y)
+            Y = []
+            for author in dVl:
+                Y.append(dVl[author][2])
+            corrDVNL = numpy.corrcoef(X,Y)
+            Y = []
+            for author in dVl:
+                Y.append(dVl[author][3])
+            corrDVOL = numpy.corrcoef(X,Y)
+        else:
+            corrDVL = [[0.0,0.0],[0.0,0.0]]
+            corrDVNL = [[0.0,0.0],[0.0,0.0]]
+            corrDVOL = [[0.0,0.0],[0.0,0.0]]
+            
+        #pdb.set_trace()
+        return (START_YEAR, END_YEAR, corrDVL[0][1],corrDVNL[0][1],corrDVOL[0][1])
+        
 #--Global Functions--
 
 def setFilePaths():
@@ -533,9 +611,15 @@ def makeTemporalDataFiles():
     y2 = y1 + SIZE -1
     Table2file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable2.csv'
     Table2 = open(Table2file, 'w')
+    Table2.write('Start_Year; End_Year; Cumulative_No_of_Authors; No_of_New_Authors; No_Of_New_Authors_Connected_to_atleast_one_new_author; Percent_Of_New_Authors_Connected_to_atleast_one_new_author; No_Of_New_Authors_Connected_to_atleast_one_old_author; Percent_Of_New_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_new_author; Percent_Of_Old_Authors_Connected_to_atleast_one_new_author; No_Of_Old_Authors_Connected_to_atleast_one_old_author; Percent_Of_Old_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_any_author; Percent_Of_Old_Authors_Connected_to_atleast_one_any_author\n')
     #Table2.close()
     Table3file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable3.csv'
     Table3 = open(Table3file, 'w')
+    Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before\n')
+    Table4file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-PreferentialAttachment.csv'
+    Table4 = open(Table4file, 'w')
+    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree;\n')
+ 
     #Table3.close()
     while(y2<=END_YEAR):
         old = Network()
@@ -549,10 +633,14 @@ def makeTemporalDataFiles():
         (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12) = C.contentForAbbasiTable3()
         print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12
         Table3.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +'\n')
+        (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
+        print column1, column2, column3, column4, column5
+        Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
     Table2.close()
     Table3.close()
+    Table4.close()
 if __name__ == "__main__":
     setFilePaths()
     #makeCoauthorshipNetworkFilesForPajek()
