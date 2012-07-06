@@ -497,7 +497,7 @@ class Comparer:
             corrDVOL = [[0.0,0.0],[0.0,0.0]]
             
         #pdb.set_trace()
-        return (START_YEAR, END_YEAR, corrDVL[0][1],corrDVNL[0][1],corrDVOL[0][1])
+        return (self.current.startYear, self.current.endYear, corrDVL[0][1],corrDVNL[0][1],corrDVOL[0][1])
         
 #--Global Functions--
 
@@ -618,7 +618,7 @@ def makeTemporalDataFiles():
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before\n')
     Table4file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-PreferentialAttachment.csv'
     Table4 = open(Table4file, 'w')
-    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree;\n')
+    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree\n')
  
     #Table3.close()
     while(y2<=END_YEAR):

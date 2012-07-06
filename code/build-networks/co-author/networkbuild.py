@@ -228,9 +228,9 @@ class Network:
         outFile = open(fs, 'w')
         
         outFile.write('%START\n')
-        outFile.write('%' + str(y1) + '\n')
+        outFile.write('%' + str(self.startYear) + '\n')
         outFile.write('%END\n')
-        outFile.write('%' + str(y2) + '\n')
+        outFile.write('%' + str(self.endYear) + '\n')
         
         nodeDic = {} #dictionary for indexing the authors
         index = 0
