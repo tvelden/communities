@@ -437,15 +437,15 @@ def setFilePaths():
             INPUT_REDUCED_FILE_PATH = OUTPUT_PARENT_DIRECTORY_PATH + '/' + 'nwa-' + str(FIELD) + '/' + 'data/' + line[10:(len(line)-1)]
             print INPUT_REDUCED_FILE_PATH
 
-    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
+    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
     if not os.path.exists(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
     
-    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years-statistics_files'
-    if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
-        os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
-        print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
+    #OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years-statistics_files'
+    #if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
+        #os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
+        #print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
 
 def makeCoauthorshipNetworkFilesForPajek():
     global TYPE
