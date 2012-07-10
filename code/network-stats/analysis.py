@@ -4,6 +4,7 @@ import operator
 import numpy
 from operator import itemgetter
 import pdb
+import networkx as nx
 
 #--Global Variables--
 RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
@@ -81,6 +82,33 @@ class Network:
         self.numberOfDifferentEdges = 0
         self.numberOfEdges = 0
         self.edges = []
+        self.G = nx.MultiGraph()
+        self.DegreeCentrality = {}
+        self.ClosenessCentrality = {}
+        self.BetweennessCentrality = {}
+        
+        
+    def makeGraph(self):
+        Weight = {}
+        for edge in self.edges:
+            if edge not in Weight:
+                Weight[edge] = 1
+            else:
+                Weight[edge] = Weight[edge] + 1
+        list = []
+        for edge in Weight:
+            list.append((edge[0], edge[1], Weight[edge]))
+        self.G.add_nodes_from(self.nodes)
+        self.G.add_weighted_edges_from(list)
+        #print(self.G.nodes())
+        #print(self.G.edges())
+        x = nx.degree_centrality(self.G)
+        self.DegreeCentrality = x
+        y = nx.closeness_centrality(self.G)
+        self.ClosenessCentrality = y
+        #z = nx.betweenness_centrality(self.G)
+        #print y
+        #self.BetweennessCentrality = z
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
         self.endYear = end_Year
@@ -120,6 +148,7 @@ class Network:
     def makeCoauthorshipNetworkFromFile(self, file):
         self.readPapersFromFile(file)
         self.makeCoauthorshipNetworkFromPapers()
+        #self.makeGraph()
     def makeCoauthorshipNetworkFromPapers(self):
         self.nodes = []
         self.differentEdges = {}
@@ -281,7 +310,7 @@ class Network:
                     continue
                 if(((ReverseMap[i], Reversemap[j]) in self.edges) or ((ReverseMap[j], Reversemap[i]) in self.edges)):
                     row.append(1)
-                else
+                else:
                     row.append(INF)
             path.append(row)
         #Floyd-Warshall's Algorithm for finding the shortest path O(n^3)
@@ -504,29 +533,31 @@ class Comparer:
         dcVna = self.getNewAuthorLinks()
         dcVoa = self.getOldAuthorLinks()
         
+        D = self.previous.makeGraph()
+        #print self.previous.DegreeCentrality
         X = []
         for author in self.commonNodes:
-            X.append(self.previous.degrees[author])
+            X.append(self.previous.DegreeCentrality[author])
             
         #pdb.set_trace()    
         if(len(X) > 0):
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
+                X.append(self.previous.DegreeCentrality[author])
                 Y.append(self.current.degrees[author])
             corrDVL = numpy.corrcoef(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
-                Y.append(dVna[author])
+                X.append(self.previous.DegreeCentrality[author])
+                Y.append(dcVna[author])
             corrDVNL = numpy.corrcoef(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
-                Y.append(dVoa[author])
+                X.append(self.previous.DegreeCentrality[author])
+                Y.append(dcVoa[author])
             corrDVOL = numpy.corrcoef(X,Y)
         else:
             corrDVL = [[0.0,0.0],[0.0,0.0]]
@@ -537,40 +568,40 @@ class Comparer:
         return (self.current.startYear, self.current.endYear, corrDVL[0][1],corrDVNL[0][1],corrDVOL[0][1])
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
-        DistanceMatrix = self.previous.getMinDistance()
+        #DistanceMatrix = self.previous.getMinDistance()
         ccVna = self.getNewAuthorLinks()
         ccVoa = self.getOldAuthorLinks()
-        CC = {}
-        for author in self.commonNodes:
-            count = 0.0
-            for coauthor in self.previous.nodes:
-                if(DistanceMatrix[(author,coauthor)] >0):
-                    count = count + (1.0 / float(DistanceMatrix[(author,coauthor)]))
-            CC[author] = count
-        
+        #CC = {}
+        #for author in self.commonNodes:
+            #count = 0.0
+            #for coauthor in self.previous.nodes:
+                #if(DistanceMatrix[(author,coauthor)] >0):
+                    #count = count + (1.0 / float(DistanceMatrix[(author,coauthor)]))
+            #CC[author] = count
+
         X = []
         for author in self.commonNodes:
-            X.append(self.previous.degrees[author])
+            X.append(self.previous.ClosenessCentrality[author])
         #pdb.set_trace()    
         if(len(X) > 0):
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
+                X.append(self.previous.ClosenessCentrality[author])
                 Y.append(self.current.degrees[author])
-            corrDVL = numpy.corrcoef(X,Y)
+            corrCVL = numpy.corrcoef(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
+                X.append(self.previous.ClosenessCentrality[author])
                 Y.append(ccVna[author])
-            corrDVNL = numpy.corrcoef(X,Y)
+            corrCVNL = numpy.corrcoef(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.degrees[author])
+                X.append(self.previous.ClosenessCentrality[author])
                 Y.append(ccVoa[author])
-            corrDVOL = numpy.corrcoef(X,Y)
+            corrCVOL = numpy.corrcoef(X,Y)
         else:
             corrCVL = [[0.0,0.0],[0.0,0.0]]
             corrCVNL = [[0.0,0.0],[0.0,0.0]]
@@ -579,7 +610,7 @@ class Comparer:
         #pdb.set_trace()
         return (self.current.startYear, self.current.endYear, corrCVL[0][1],corrCVNL[0][1],corrCVOL[0][1])
     
-    def getDataForBetweennessCentralityVsLinkAssociations(self):
+    #def getDataForBetweennessCentralityVsLinkAssociations(self):
     
 #--Global Functions--
 
@@ -698,11 +729,13 @@ def makeTemporalDataFiles():
     Table3file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable3.csv'
     Table3 = open(Table3file, 'w')
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before\n')
-    Table4file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-PreferentialAttachment.csv'
+    Table4file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-DegreeCentrality.csv'
     Table4 = open(Table4file, 'w')
     Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree\n')
+    Table5file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-ClosenessCentrality.csv'
+    Table5 = open(Table5file, 'w')
+    Table5.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Closeness_and_New_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree\n')
  
-    #Table3.close()
     while(y2<=END_YEAR):
         old = Network()
         old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
@@ -718,12 +751,16 @@ def makeTemporalDataFiles():
         (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
         print column1, column2, column3, column4, column5
         Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        (column1, column2, column3, column4, column5) =  C.getDataForClosenessCentralityVsLinkAssociations()
+        print column1, column2, column3, column4, column5
+        Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
     Table2.close()
     Table3.close()
     Table4.close()
+    Table5.close()
 if __name__ == "__main__":
     setFilePaths()
-    #makeCoauthorshipNetworkFilesForPajek()
+    makeCoauthorshipNetworkFilesForPajek()
     makeTemporalDataFiles()
