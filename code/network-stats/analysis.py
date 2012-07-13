@@ -2,6 +2,7 @@ import os
 import sys
 import operator
 import numpy
+import scipy.stats
 from operator import itemgetter
 import pdb
 import networkx as nx
@@ -82,42 +83,78 @@ class Network:
         self.numberOfDifferentEdges = 0
         self.numberOfEdges = 0
         self.edges = []
-        self.G = nx.MultiGraph()
-        self.DegreeCentrality = {}
-        self.ClosenessCentrality = {}
-        self.BetweennessCentrality = {}
+        self.G = nx.Graph()
+        #self.DegreeCentrality = {}
+        #self.ClosenessCentrality = {}
+        #self.BetweennessCentrality = {}
+    
+    def getGeneralInfo(self):
+        col1 = self.startYear
+        col2 = self.endYear
+        col3 = len(self.papers)
+        col4 = self.numberOfNodes
+        col5 = self.numberOfEdges
         
+        return (col1, col2, col3, col4, col5)
+    
+    def getCollaborationDistribution(self):
+        max = 0
+        for author in self.differentDegrees:
+            if(self.differentDegrees[author][0] > max):
+                max = self.differentDegrees[author][0]
+        #print max
+        X = {}
+        for i in range(0,max+1):
+            X[i] = 0
+        for author in self.differentDegrees:
+            X[self.differentDegrees[author][0]] = X[self.differentDegrees[author][0]] + 1
         
-    def makeGraph(self):
-        Weight = {}
-        for edge in self.edges:
-            if edge not in Weight:
-                Weight[edge] = 1
-            else:
-                Weight[edge] = Weight[edge] + 1
-        list = []
-        for edge in Weight:
-            list.append((edge[0], edge[1], Weight[edge]))
+        for k in X.keys():
+            if(X[k] == 0):
+                del X[k]
+        return X
+        
+    def makeCoauthorshipGraph(self):
+        #Weight = {}
+        #for edge in self.edges:
+            #if edge not in Weight:
+                #Weight[edge] = 1
+            #else:
+                #Weight[edge] = Weight[edge] + 1
+        #list = []
+        #for edge in Weight:
+            #list.append((edge[0], edge[1], Weight[edge]))
         self.G.add_nodes_from(self.nodes)
-        self.G.add_weighted_edges_from(list)
-        #print(self.G.nodes())
-        #print(self.G.edges())
+        self.G.add_edges_from(self.edges)
+        #print self.G
+        
+    def getDegreeCentrality(self):
         x = nx.degree_centrality(self.G)
-        self.DegreeCentrality = x
-        y = nx.closeness_centrality(self.G)
-        self.ClosenessCentrality = y
-        #z = nx.betweenness_centrality(self.G)
-        #print y
-        #self.BetweennessCentrality = z
+        #self.DegreeCentrality = x
+        return x
+        
+    def getClosenessCentrality(self):
+        x = nx.closeness_centrality(self.G)
+        #self.ClosenessCentrality = x
+        return x
+        
+    def getBetweennessCentrality(self):
+        x = nx.betweenness_centrality(self.G)
+        #self.BetweennessCentrality = x
+        return x
+    
+
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
         self.endYear = end_Year
         self.nodes = []
         self.differentEdges = {}
         self.differentDegrees = {}
+        self.papers = []
         for paper in Super.papers:
             if((paper.YR<self.startYear) or (paper.YR>self.endYear)):
                 continue
+            self.papers.append(paper)
             for author in paper.AU:
                 if(author not in self.nodes):
                     self.nodes.append(author)
@@ -338,7 +375,8 @@ class Comparer:
     #newEdges: array of links who are in current, but not in previous
     #commonNodes: array of authors who contributed both in past and in present
     #commonEdges: array of links who are both in current and previous
-    
+    #dcVna: dictionary {author:}
+    #dcVoa: dictionary {}
     #--Procedures--
     
     def __init__(self, Previous, Current):
@@ -356,6 +394,8 @@ class Comparer:
         self.initializeNewEdges()
         self.initializeCommonNodes()
         self.initializeCommonEdges()
+        self.dcVna = {}
+        self.dcVoa = {}
     def initializeNewNodes(self):
         self.numberOfNewNodes = 0
         self.newNodes = []
@@ -528,87 +568,103 @@ class Comparer:
                     count = count + 1
             dcVoa[author] = count
         return dcVoa
-        
+    
+    def getReadyForCentralityMeasures(self):
+        self.previous.makeCoauthorshipGraph()
+        self.dcVna = self.getNewAuthorLinks()
+        self. dcVoa = self.getOldAuthorLinks()
     def getDataForDegreeCentralityVsLinkAssociations(self):
-        dcVna = self.getNewAuthorLinks()
-        dcVoa = self.getOldAuthorLinks()
-        
-        D = self.previous.makeGraph()
-        #print self.previous.DegreeCentrality
-        X = []
-        for author in self.commonNodes:
-            X.append(self.previous.DegreeCentrality[author])
-            
+        x = self.previous.getDegreeCentrality()
+        #print x
         #pdb.set_trace()    
-        if(len(X) > 0):
+        if(len(x) > 0):
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.DegreeCentrality[author])
+                X.append(x[author])
                 Y.append(self.current.degrees[author])
-            corrDVL = numpy.corrcoef(X,Y)
+            corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.DegreeCentrality[author])
-                Y.append(dcVna[author])
-            corrDVNL = numpy.corrcoef(X,Y)
+                X.append(x[author])
+                Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.DegreeCentrality[author])
-                Y.append(dcVoa[author])
-            corrDVOL = numpy.corrcoef(X,Y)
+                X.append(x[author])
+                Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
         else:
-            corrDVL = [[0.0,0.0],[0.0,0.0]]
-            corrDVNL = [[0.0,0.0],[0.0,0.0]]
-            corrDVOL = [[0.0,0.0],[0.0,0.0]]
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0][1],corrDVNL[0][1],corrDVOL[0][1])
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
-        #DistanceMatrix = self.previous.getMinDistance()
-        ccVna = self.getNewAuthorLinks()
-        ccVoa = self.getOldAuthorLinks()
-        #CC = {}
-        #for author in self.commonNodes:
-            #count = 0.0
-            #for coauthor in self.previous.nodes:
-                #if(DistanceMatrix[(author,coauthor)] >0):
-                    #count = count + (1.0 / float(DistanceMatrix[(author,coauthor)]))
-            #CC[author] = count
-
-        X = []
-        for author in self.commonNodes:
-            X.append(self.previous.ClosenessCentrality[author])
+        x = self.previous.getClosenessCentrality()
+            
         #pdb.set_trace()    
-        if(len(X) > 0):
+        if(len(x) > 0):
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.ClosenessCentrality[author])
+                X.append(x[author])
                 Y.append(self.current.degrees[author])
-            corrCVL = numpy.corrcoef(X,Y)
+            corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.ClosenessCentrality[author])
-                Y.append(ccVna[author])
-            corrCVNL = numpy.corrcoef(X,Y)
+                X.append(x[author])
+                Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
             for author in self.commonNodes:
-                X.append(self.previous.ClosenessCentrality[author])
-                Y.append(ccVoa[author])
-            corrCVOL = numpy.corrcoef(X,Y)
+                X.append(x[author])
+                Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
         else:
-            corrCVL = [[0.0,0.0],[0.0,0.0]]
-            corrCVNL = [[0.0,0.0],[0.0,0.0]]
-            corrCVOL = [[0.0,0.0],[0.0,0.0]]
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrCVL[0][1],corrCVNL[0][1],corrCVOL[0][1])
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+    
+    def getDataForBetweennessCentralityVsLinkAssociations(self):
+        x = self.previous.getBetweennessCentrality()
+            
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+                X.append(x[author])
+                Y.append(self.current.degrees[author])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+                X.append(x[author])
+                Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+                X.append(x[author])
+                Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
     
     #def getDataForBetweennessCentralityVsLinkAssociations(self):
     
@@ -708,7 +764,7 @@ def makeCoauthorshipNetworkFilesForPajek():
             start = start + 1
             end = end + 1
             
-def makeTemporalDataFiles():
+def makeTemporalDataFilesForAbbasi():
     global TYPE
     global START_YEAR
     global SIZE
@@ -720,12 +776,10 @@ def makeTemporalDataFiles():
     
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
-    y1 = START_YEAR
-    y2 = y1 + SIZE -1
+    
     Table2file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable2.csv'
     Table2 = open(Table2file, 'w')
     Table2.write('Start_Year; End_Year; Cumulative_No_of_Authors; No_of_New_Authors; No_Of_New_Authors_Connected_to_atleast_one_new_author; Percent_Of_New_Authors_Connected_to_atleast_one_new_author; No_Of_New_Authors_Connected_to_atleast_one_old_author; Percent_Of_New_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_new_author; Percent_Of_Old_Authors_Connected_to_atleast_one_new_author; No_Of_Old_Authors_Connected_to_atleast_one_old_author; Percent_Of_Old_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_any_author; Percent_Of_Old_Authors_Connected_to_atleast_one_any_author\n')
-    #Table2.close()
     Table3file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-AbbasiTable3.csv'
     Table3 = open(Table3file, 'w')
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before\n')
@@ -735,7 +789,12 @@ def makeTemporalDataFiles():
     Table5file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-ClosenessCentrality.csv'
     Table5 = open(Table5file, 'w')
     Table5.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Closeness_and_New_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree\n')
- 
+    Table6file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-BetweennessCentrality.csv'
+    Table6 = open(Table6file, 'w')
+    Table6.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Betweenness_and_New_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree\n')
+
+    y1 = START_YEAR
+    y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
         old = Network()
         old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
@@ -748,6 +807,20 @@ def makeTemporalDataFiles():
         (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12) = C.contentForAbbasiTable3()
         print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12
         Table3.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +'\n')
+        y1 = y2 + 1
+        y2 = y1 + SIZE -1
+    Table2.close()
+    Table3.close()
+    
+    y1 = START_YEAR
+    y2 = y1 + SIZE -1    
+    while(y2<=END_YEAR):
+        old = Network()
+        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+        new = Network()
+        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+        C = Comparer(old, new) 
+        C.getReadyForCentralityMeasures()
         (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
         print column1, column2, column3, column4, column5
         Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
@@ -756,11 +829,95 @@ def makeTemporalDataFiles():
         Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
-    Table2.close()
-    Table3.close()
     Table4.close()
     Table5.close()
+        
+    y1 = START_YEAR
+    y2 = y1 + SIZE -1
+    while(y2<=END_YEAR):
+        old = Network()
+        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+        new = Network()
+        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+        C = Comparer(old, new)  
+        C.getReadyForCentralityMeasures()
+        (column1, column2, column3, column4, column5) =  C.getDataForBetweennessCentralityVsLinkAssociations()
+        print column1, column2, column3, column4, column5
+        Table6.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        y1 = y2 + 1
+        y2 = y1 + SIZE -1
+    Table6.close()
+
+def makeCollaborationDistributionFile():
+    global TYPE
+    global START_YEAR
+    global SIZE
+    global OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
+    global FIELD
+    global RUN
+    global END_YEAR
+    global OUTPUT_STATISTICS_DIRECTORY
+    
+    Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'CollaborationDistribution.csv'
+    MF = open(Mfile, 'w')
+    MF.write('# of Collaborators; Frequency')
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
+    X = N.getCollaborationDistribution()
+    for k in X:
+        MF.write(str(k) + ';' + str(X[k]) + '\n')
+    MF.close()
+
+def makeGeneralNetworkDataFile():
+    global TYPE
+    global START_YEAR
+    global SIZE
+    global OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
+    global FIELD
+    global RUN
+    global END_YEAR
+    
+    Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
+    MF = open(Mfile, 'w')
+    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges\n')
+    
+ 
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
+    if(TYPE == 'discrete'):
+        start = START_YEAR
+        end = start + SIZE -1
+        while(end<=END_YEAR):
+            Partition = Network()
+            Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            start = end + 1
+            end = end + SIZE
+    elif(TYPE == 'accumulative'):
+        start = START_YEAR
+        end = start + SIZE -1
+        while(end<=END_YEAR):
+            Partition = Network()
+            Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            end = end + SIZE
+    elif(TYPE == 'sliding'):
+        start = START_YEAR
+        end = start + SIZE -1
+        while(end<=END_YEAR):
+            Partition = Network()
+            Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            start = start + 1
+            end = end + 1
+    MF.close()
 if __name__ == "__main__":
     setFilePaths()
+    makeGeneralNetworkDataFile()
     makeCoauthorshipNetworkFilesForPajek()
-    makeTemporalDataFiles()
+    makeCollaborationDistributionFile()
+    makeTemporalDataFilesForAbbasi()
+    
