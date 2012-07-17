@@ -115,15 +115,6 @@ class Network:
         return X
         
     def makeCoauthorshipGraph(self):
-        #Weight = {}
-        #for edge in self.edges:
-            #if edge not in Weight:
-                #Weight[edge] = 1
-            #else:
-                #Weight[edge] = Weight[edge] + 1
-        #list = []
-        #for edge in Weight:
-            #list.append((edge[0], edge[1], Weight[edge]))
         self.G.add_nodes_from(self.nodes)
         self.G.add_edges_from(self.edges)
         #print self.G
@@ -143,7 +134,6 @@ class Network:
         #self.BetweennessCentrality = x
         return x
     
-
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
         self.endYear = end_Year
@@ -307,11 +297,6 @@ class Network:
             print('New directory made: ' + str(path2))
         fs = directoryPath + '/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
         outFile = open(fs, 'w')
-        
-        #outFile.write('%START\n')
-        #outFile.write('%' + str(y1) + '\n')
-        #outFile.write('%END\n')
-        #outFile.write('%' + str(y2) + '\n')
         
         nodeDic = {} #dictionary for indexing the authors
         index = 0
@@ -880,8 +865,6 @@ def makeGeneralNetworkDataFile():
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
     MF = open(Mfile, 'w')
     MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges\n')
-    
- 
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     if(TYPE == 'discrete'):
@@ -917,7 +900,7 @@ def makeGeneralNetworkDataFile():
 if __name__ == "__main__":
     setFilePaths()
     makeGeneralNetworkDataFile()
-    makeCoauthorshipNetworkFilesForPajek()
+    #makeCoauthorshipNetworkFilesForPajek()
     makeCollaborationDistributionFile()
     makeTemporalDataFilesForAbbasi()
     
