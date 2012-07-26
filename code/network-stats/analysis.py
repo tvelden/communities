@@ -10,7 +10,7 @@ import networkx as nx
 #--Global Variables--
 
 #SWITCHES: Change the values to "False" if you dont want them
-I_WANT_ABBASI_TABLES = True
+I_WANT_ABBASI_TABLE_2_3 = True
 I_WANT_DEGREE_CENTRALITY = True
 I_WANT_CLOSENESS_CENTRALITY = True 
 I_WANT_BETWEENNESS_CENTRALITY = True
@@ -61,6 +61,7 @@ class Paper:
         self.RF = []
         self.CA = []
         self.YR = 0 #integer
+        
 class Network:
     #--Variables--
     #papers []: array of paper type objects
@@ -569,6 +570,7 @@ class Comparer:
         self.previous.makeCoauthorshipGraph()
         self.dcVna = self.getNewAuthorLinks()
         self. dcVoa = self.getOldAuthorLinks()
+        
     def getDataForDegreeCentralityVsLinkAssociations(self):
         x = self.previous.getDegreeCentrality()
         #print x
@@ -662,7 +664,7 @@ class Comparer:
         #pdb.set_trace()
         return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
     
-    #def getDataForBetweennessCentralityVsLinkAssociations(self):
+
     
 #--Global Functions--
 
@@ -792,7 +794,7 @@ def makeTemporalDataFilesForAbbasi():
     y1 = START_YEAR
     y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
-        if(I_WANT_ABBASI_TABLE == True):
+        if(I_WANT_ABBASI_TABLE_2_3 == True):
             old = Network()
             old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
             new = Network()
@@ -876,7 +878,6 @@ def makeTemporalDataFilesForAbbasi():
     Table6.close()
     print "Computation for Betweenness Centrality is completed"
     
-    
 def makeCollaborationDistributionFile():
     global TYPE
     global START_YEAR
@@ -889,7 +890,7 @@ def makeCollaborationDistributionFile():
     
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'CollaborationDistribution.csv'
     MF = open(Mfile, 'w')
-    MF.write('# of Collaborators; Frequency')
+    MF.write('Collaborators; Frequency\n')
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     X = N.getCollaborationDistribution()
@@ -941,6 +942,7 @@ def makeGeneralNetworkDataFile():
             start = start + 1
             end = end + 1
     MF.close()
+    
 if __name__ == "__main__":
     setFilePaths()
     makeGeneralNetworkDataFile()
