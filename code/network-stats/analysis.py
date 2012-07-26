@@ -8,6 +8,14 @@ import pdb
 import networkx as nx
 
 #--Global Variables--
+
+#SWITCHES: Change the values to "False" if you dont want them
+I_WANT_ABBASI_TABLES = True
+I_WANT_DEGREE_CENTRALITY = True
+I_WANT_CLOSENESS_CENTRALITY = True 
+I_WANT_BETWEENNESS_CENTRALITY = True
+
+#Others:
 RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
 INPUT_PARAMETER_FILE = ''
 INPUT_ORIGINAL_FILE_PATH = ''
@@ -21,6 +29,9 @@ START_YEAR = 0
 END_YEAR = 0
 TYPE = ''
 SIZE = 0
+
+
+
 #/Users/Kallol/communities/code/network-stats/analysis.py
 
 #--Classes--
@@ -781,58 +792,91 @@ def makeTemporalDataFilesForAbbasi():
     y1 = START_YEAR
     y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
-        old = Network()
-        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
-        new = Network()
-        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
-        C = Comparer(old, new)
-        (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 ) =  C.contentForAbbasiTable2()
-        print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 
-        Table2.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +';'+str(column13) +';'+str(column14) +'\n')
-        (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12) = C.contentForAbbasiTable3()
-        print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12
-        Table3.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +'\n')
+        if(I_WANT_ABBASI_TABLE == True):
+            old = Network()
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+            new = Network()
+            new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+            C = Comparer(old, new)
+            (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 ) =  C.contentForAbbasiTable2()
+            print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 
+            Table2.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +';'+str(column13) +';'+str(column14) +'\n')
+            (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12) = C.contentForAbbasiTable3()
+            print column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12
+            Table3.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) +';'+str(column6) +';'+str(column7) +';'+str(column8) +';'+str(column9) +';'+str(column10) +';'+str(column11) +';'+str(column12) +'\n')
+        else:
+            Table2.write('0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0\n')
+            Table3.write('0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
     Table2.close()
     Table3.close()
     
+    #Degree Centrality Correlations
     y1 = START_YEAR
     y2 = y1 + SIZE -1    
     while(y2<=END_YEAR):
-        old = Network()
-        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
-        new = Network()
-        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
-        C = Comparer(old, new) 
-        C.getReadyForCentralityMeasures()
-        (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
-        print column1, column2, column3, column4, column5
-        Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
-        (column1, column2, column3, column4, column5) =  C.getDataForClosenessCentralityVsLinkAssociations()
-        print column1, column2, column3, column4, column5
-        Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        if(I_WANT_DEGREE_CENTRALITY == True):
+            old = Network()
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+            new = Network()
+            new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+            C = Comparer(old, new) 
+            C.getReadyForCentralityMeasures()
+            (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
+            print column1, column2, column3, column4, column5
+            Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        else:
+            Table4.write('0; 0; 0; 0; 0\n')
+        y1 = y2 + 1
+        y2 = y1 + SIZE -1
+    Table4.close()
+    print "Computation for Degree Centrality is completed"
+    
+    #Closeness Centrality Correlations
+    y1 = START_YEAR
+    y2 = y1 + SIZE -1    
+    while(y2<=END_YEAR):
+        if(I_WANT_CLOSENESS_CENTRALITY == True):
+            old = Network()
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+            new = Network()
+            new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+            C = Comparer(old, new) 
+            C.getReadyForCentralityMeasures()
+            (column1, column2, column3, column4, column5) =  C.getDataForClosenessCentralityVsLinkAssociations()
+            print column1, column2, column3, column4, column5
+            Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        else:
+            Table5.write('0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
     Table4.close()
     Table5.close()
-        
+    print "Computation for Closeness Centrality is completed"
+    
+    #Betweenness Centrality Correlations
     y1 = START_YEAR
     y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
-        old = Network()
-        old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
-        new = Network()
-        new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
-        C = Comparer(old, new)  
-        C.getReadyForCentralityMeasures()
-        (column1, column2, column3, column4, column5) =  C.getDataForBetweennessCentralityVsLinkAssociations()
-        print column1, column2, column3, column4, column5
-        Table6.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        if(I_WANT_BETWEENNESS_CENTRALITY == True):
+            old = Network()
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, START_YEAR, y1-1)
+            new = Network()
+            new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
+            C = Comparer(old, new)  
+            C.getReadyForCentralityMeasures()
+            (column1, column2, column3, column4, column5) =  C.getDataForBetweennessCentralityVsLinkAssociations()
+            print column1, column2, column3, column4, column5
+            Table6.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+        else:
+            Table6.write('0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + SIZE -1
     Table6.close()
-
+    print "Computation for Betweenness Centrality is completed"
+    
+    
 def makeCollaborationDistributionFile():
     global TYPE
     global START_YEAR
