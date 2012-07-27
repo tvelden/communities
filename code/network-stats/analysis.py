@@ -12,8 +12,8 @@ import networkx as nx
 #SWITCHES: Change the values to "False" if you dont want them
 I_WANT_ABBASI_TABLE_2_3 = True
 I_WANT_DEGREE_CENTRALITY = True
-I_WANT_CLOSENESS_CENTRALITY = True 
-I_WANT_BETWEENNESS_CENTRALITY = True
+I_WANT_CLOSENESS_CENTRALITY = False 
+I_WANT_BETWEENNESS_CENTRALITY = False
 
 #Others:
 RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
@@ -238,7 +238,7 @@ class Network:
         for lines in inFile:
             string = str(lines)
             #print string
-            if(len(string) == 1):
+            if(string =='\n' or string ==' \n'):
                 PaperFlag = 0
                 self.papers.append(p)
                 InitialNumberOfPapers = InitialNumberOfPapers +1
@@ -305,25 +305,38 @@ class Network:
         inFile.close()
     def printNetworkForPajek(self, field, run, type, size, directoryPath):
         if not os.path.exists(directoryPath):
-            os.makedirs(fs)
-            print('New directory made: ' + str(path2))
-        fs = directoryPath + '/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+            os.makedirs(directoryPath)
+            print('New directory made: ' + str(dp1))
+        dp1 = directoryPath + '/net_files/'
+        if not os.path.exists(dp1):
+            os.makedirs(dp1)
+            print('New directory made: ' + str(dp1))
+        dp1 = directoryPath + '/vec_files/'
+        if not os.path.exists(dp1):
+            os.makedirs(dp1)
+            print('New directory made: ' + str(dp1))
+        fs = directoryPath + '/net_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+        fsvec = directoryPath + '/vec_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
         outFile = open(fs, 'w')
+        outFilevec = open(fsvec,'w')
         
         nodeDic = {} #dictionary for indexing the authors
         index = 0
         for node in self.nodes:
             index = index + 1
             nodeDic[node] = index
-        outFile.write('*Vertices ' + str(index) + '\n')        
+        outFile.write('*Vertices ' + str(index) + '\n') 
+        outFilevec.write('*Vertices ' + str(index) + '\n')
         sortedAuthorList = sorted(nodeDic.items(), key = itemgetter(1))
         for author in sortedAuthorList:
             outFile.write(str(author[1]) + ' "'  + str(author[0]) + '"' + '\n')
+            outFilevec.write(str(self.degrees[author[0]]) + '\n')
         outFile.write('*Edges\n')
         sortedEdges = sorted(self.differentEdges.items(), key = itemgetter(1))
         for edge in sortedEdges:
             outFile.write(str(nodeDic[edge[0][0]]) + ' ' + str(nodeDic[edge[0][1]]) + ' ' + str(edge[1]) + '\n')
         outFile.close()
+    
     def getMinDistance(): #Returns the minimum distance dictionary: {(author1_name,author2_name):dis} ... dis ==1 -> no path
         index = 0
         AuthorMap = {} #{'author_name':author index}
@@ -682,7 +695,7 @@ def setFilePaths():
     global OUTPUT_STATISTICS_DIRECTORY
     global OUTPUT_PARENT_DIRECTORY_PATH
     
-
+    print 'Setting Input and output path ...'
     communities_directory = '../..' 
     parameterfile = open(RELATIVE_INPUT_PARAMETER_FILE, 'r')
     for line in parameterfile:
@@ -722,7 +735,8 @@ def setFilePaths():
     if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
-
+    print 'path setting completed !!'
+    
 def makeCoauthorshipNetworkFilesForPajek():
     global TYPE
     global START_YEAR
@@ -772,6 +786,8 @@ def makeTemporalDataFilesForAbbasi():
     global RUN
     global END_YEAR
     
+    print 'Started gathering data for Abbasi ...'
+    
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     
@@ -790,7 +806,8 @@ def makeTemporalDataFilesForAbbasi():
     Table6file = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-BetweennessCentrality.csv'
     Table6 = open(Table6file, 'w')
     Table6.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Betweenness_and_New_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree\n')
-
+    
+    print 'Making Table2 and Table3 ...'
     y1 = START_YEAR
     y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
@@ -813,8 +830,10 @@ def makeTemporalDataFilesForAbbasi():
         y2 = y1 + SIZE -1
     Table2.close()
     Table3.close()
+    print 'Finished making Table2 and Table 3!!'
     
     #Degree Centrality Correlations
+    print 'Started Computing Degree Centrality correlation ...'
     y1 = START_YEAR
     y2 = y1 + SIZE -1    
     while(y2<=END_YEAR):
@@ -836,6 +855,7 @@ def makeTemporalDataFilesForAbbasi():
     print "Computation for Degree Centrality is completed"
     
     #Closeness Centrality Correlations
+    print 'Started Computing Closeness Centrality correlation ...'
     y1 = START_YEAR
     y2 = y1 + SIZE -1    
     while(y2<=END_YEAR):
@@ -858,6 +878,7 @@ def makeTemporalDataFilesForAbbasi():
     print "Computation for Closeness Centrality is completed"
     
     #Betweenness Centrality Correlations
+    print 'Started Computing Betweenness Centrality correlation ...'
     y1 = START_YEAR
     y2 = y1 + SIZE -1
     while(y2<=END_YEAR):
@@ -888,6 +909,8 @@ def makeCollaborationDistributionFile():
     global END_YEAR
     global OUTPUT_STATISTICS_DIRECTORY
     
+    print 'Gathering data for collaboration distribution over the time ...'
+    
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'CollaborationDistribution.csv'
     MF = open(Mfile, 'w')
     MF.write('Collaborators; Frequency\n')
@@ -897,7 +920,8 @@ def makeCollaborationDistributionFile():
     for k in X:
         MF.write(str(k) + ';' + str(X[k]) + '\n')
     MF.close()
-
+    print 'Finished gathering data for collaboration distribution!!'
+    
 def makeGeneralNetworkDataFile():
     global TYPE
     global START_YEAR
@@ -906,6 +930,8 @@ def makeGeneralNetworkDataFile():
     global FIELD
     global RUN
     global END_YEAR
+    
+    print 'Gathering the general information of the total network ...'
     
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
     MF = open(Mfile, 'w')
@@ -942,6 +968,7 @@ def makeGeneralNetworkDataFile():
             start = start + 1
             end = end + 1
     MF.close()
+    print 'Finished gathering the general information !!'
     
 if __name__ == "__main__":
     setFilePaths()

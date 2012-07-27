@@ -1,8 +1,11 @@
 library(ggplot2)
 
-GI1 = read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_1years-statistics_files/field1run1discrete1991-2010_1GeneralInfo.csv', header = TRUE, sep =';')
+Field1GeneralInformationFile <- '/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_1years-statistics_files/field1run1discrete1991-2010_1GeneralInfo.csv'
+Field2GeneralInformationFile <- '/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years-statistics_files/field2run1discrete1991-2010_1GeneralInfo.csv'
 
-GI2 = read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years-statistics_files/field2run1discrete1991-2010_1GeneralInfo.csv', header = TRUE, sep =';')
+
+GI1 <- read.table(Field1GeneralInformationFile, header = TRUE, sep =';')
+GI2 <- read.table(Field2GeneralInformationFile, header = TRUE, sep =';')
 
 p<-ggplot(GI1)
 

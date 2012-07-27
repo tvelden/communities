@@ -1,7 +1,11 @@
 import os
 import sys
 import operator
+import numpy
+import scipy.stats
 from operator import itemgetter
+import pdb
+import networkx as nx
 
 #--Global Variables--
 RELATIVE_INPUT_PARAMETER_FILE = '../../../parameters/parameters-global.txt'
@@ -51,9 +55,12 @@ class Network:
     #papers []: array of paper type objects
     #nodes []: array of author names
     #numberOfNodes: Number of authors
-    #edges {}: Dictionary of pairs of author names , number of occurences. {('x','y'):4} !!IMPORATNT!!: x is ALWAYS less than y (alphabetically
-    #numberOfEdges: Number of Links
-    #degrees {}: Dectionary of author, their degrees and list of coauthors. {'x':[5,['a','b','c','d',e']]}
+    #degrees {}: total degrees {author_name: degree} .. if an author has 3 papers with some coauthor it will add up to 3 to this count
+    #edges:  array of Links (if there are 3 links beteen 2 authors, that will contribute thrice to this total) -> array of pairs
+    #differentEdges {}: Dictionary of unique pairs of author names , number of occurences. {('x','y'):4} !!IMPORATNT!!: x is ALWAYS less than y (alphabetically
+    #numberOfDifferentEdges: Number of Different Links
+    #numberOfEdges: Number of total Links (if there are 3 links beteen 2 authors, that will contribute 3 to this total)
+    #differentDegrees {}: Dectionary of author, their degrees and list of coauthors. {'x':[5,['a','b','c','d',e']]}
     #startYear
     #endYear
     
@@ -67,52 +74,114 @@ class Network:
     def __init__(self):
         self.papers = [] 
         self.nodes = []
-        self.edges = {}
+        self.differentEdges = {}
         self.degrees = {}
+        self.differentDegrees = {}
         self.startYear = 0
         self.endYear = 0
         self.numberOfNodes = 0
+        self.numberOfDifferentEdges = 0
         self.numberOfEdges = 0
+        self.edges = []
+        self.G = nx.Graph()
+        #self.DegreeCentrality = {}
+        #self.ClosenessCentrality = {}
+        #self.BetweennessCentrality = {}
+    
+    def getGeneralInfo(self):
+        col1 = self.startYear
+        col2 = self.endYear
+        col3 = len(self.papers)
+        col4 = self.numberOfNodes
+        col5 = self.numberOfEdges
+        
+        return (col1, col2, col3, col4, col5)
+    
+    def getCollaborationDistribution(self):
+        max = 0
+        for author in self.differentDegrees:
+            if(self.differentDegrees[author][0] > max):
+                max = self.differentDegrees[author][0]
+        #print max
+        X = {}
+        for i in range(0,max+1):
+            X[i] = 0
+        for author in self.differentDegrees:
+            X[self.differentDegrees[author][0]] = X[self.differentDegrees[author][0]] + 1
+        
+        for k in X.keys():
+            if(X[k] == 0):
+                del X[k]
+        return X
+        
+    def makeCoauthorshipGraph(self):
+        self.G.add_nodes_from(self.nodes)
+        self.G.add_edges_from(self.edges)
+        #print self.G
+        
+    def getDegreeCentrality(self):
+        x = nx.degree_centrality(self.G)
+        #self.DegreeCentrality = x
+        return x
+        
+    def getClosenessCentrality(self):
+        x = nx.closeness_centrality(self.G)
+        #self.ClosenessCentrality = x
+        return x
+        
+    def getBetweennessCentrality(self):
+        x = nx.betweenness_centrality(self.G)
+        #self.BetweennessCentrality = x
+        return x
+    
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
         self.endYear = end_Year
         self.nodes = []
-        self.edges = {}
-        self.degrees = {}
+        self.differentEdges = {}
+        self.differentDegrees = {}
+        self.papers = []
         for paper in Super.papers:
             if((paper.YR<self.startYear) or (paper.YR>self.endYear)):
                 continue
+            self.papers.append(paper)
             for author in paper.AU:
                 if(author not in self.nodes):
                     self.nodes.append(author)
                     self.numberOfNodes = self.numberOfNodes + 1
-                if(author not in self.degrees):
+                    self.degrees[author] = 0
+                if(author not in self.differentDegrees):
                     list = []
                     list.append(0)
                     list.append([])
-                    self.degrees[author] = list
+                    self.differentDegrees[author] = list
             for author in paper.AU:
                 for anotherAuthor in paper.AU:
                     if((author<anotherAuthor)): 
-                        if((author,anotherAuthor) not in self.edges):
-                            self.edges[(author,anotherAuthor)] = 1
-                            self.numberOfEdges = self.numberOfEdges + 1
+                        self.numberOfEdges = self.numberOfEdges + 1
+                        self.edges.append((author,anotherAuthor))
+                        if((author,anotherAuthor) not in self.differentEdges):
+                            self.differentEdges[(author,anotherAuthor)] = 1
+                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1
                         else:
-                            self.edges[(author,anotherAuthor)] = self.edges[(author,anotherAuthor)] + 1
-                        if(anotherAuthor not in self.degrees[author][1]):
-                            self.degrees[author][0] = self.degrees[author][0] + 1
-                            self.degrees[author][1].append(anotherAuthor)
-                            self.degrees[anotherAuthor][0] = self.degrees[anotherAuthor][0] + 1
-                            self.degrees[anotherAuthor][1].append(author)  
+                            self.differentEdges[(author,anotherAuthor)] = self.differentEdges[(author,anotherAuthor)] + 1
+                        self.degrees[author] = self.degrees[author] + 1
+                        self.degrees[anotherAuthor] = self.degrees[anotherAuthor] + 1
+                        if(anotherAuthor not in self.differentDegrees[author][1]):
+                            self.differentDegrees[author][0] = self.differentDegrees[author][0] + 1
+                            self.differentDegrees[author][1].append(anotherAuthor)
+                            self.differentDegrees[anotherAuthor][0] = self.differentDegrees[anotherAuthor][0] + 1
+                            self.differentDegrees[anotherAuthor][1].append(author)  
     def makeCoauthorshipNetworkFromFile(self, file):
         self.readPapersFromFile(file)
         self.makeCoauthorshipNetworkFromPapers()
+        #self.makeGraph()
     def makeCoauthorshipNetworkFromPapers(self):
         self.nodes = []
-        self.edges = {}
-        self.degrees = {}
+        self.differentEdges = {}
+        self.differentDegrees = {}
         self.numberOfNodes = 0
-        self.numberOfEdges = 0
+        self.numberOfDifferentEdges = 0
         minYear = 2011
         maxYear = 1990
         for paper in self.papers:
@@ -120,25 +189,27 @@ class Network:
                 if(author not in self.nodes):
                     self.nodes.append(author)
                     self.numberOfNodes = self.numberOfNodes + 1
-                if(author not in self.degrees):
+                if(author not in self.differentDegrees):
                     list = []
                     list.append(0)
                     list.append([])
-                    self.degrees[author] = list
+                    self.differentDegrees[author] = list
             for author in paper.AU:
                 for anotherAuthor in paper.AU:
                     if((author<anotherAuthor)): 
-                        if((author,anotherAuthor) not in self.edges):
-                            self.edges[(author,anotherAuthor)] = 1
-                            self.numberOfEdges = self.numberOfEdges + 1
+                        self.numberOfEdges = self.numberOfEdges + 1
+                        self.edges.append((author,anotherAuthor))
+                        if((author,anotherAuthor) not in self.differentEdges):
+                            self.differentEdges[(author,anotherAuthor)] = 1
+                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1
                         else:
-                            self.edges[(author,anotherAuthor)] = self.edges[(author,anotherAuthor)] + 1
+                            self.differentEdges[(author,anotherAuthor)] = self.differentEdges[(author,anotherAuthor)] + 1
                             
-                        if(anotherAuthor not in self.degrees[author][1]):
-                            self.degrees[author][0] = self.degrees[author][0] + 1
-                            self.degrees[author][1].append(anotherAuthor)
-                            self.degrees[anotherAuthor][0] = self.degrees[anotherAuthor][0] + 1
-                            self.degrees[anotherAuthor][1].append(author)
+                        if(anotherAuthor not in self.differentDegrees[author][1]):
+                            self.differentDegrees[author][0] = self.differentDegrees[author][0] + 1
+                            self.differentDegrees[author][1].append(anotherAuthor)
+                            self.differentDegrees[anotherAuthor][0] = self.differentDegrees[anotherAuthor][0] + 1
+                            self.differentDegrees[anotherAuthor][1].append(author)
             if(paper.YR>maxYear):
                 maxYear = paper.YR
             if(paper.YR<minYear):
@@ -155,7 +226,7 @@ class Network:
         for lines in inFile:
             string = str(lines)
             #print string
-            if(len(string) == 1):
+            if(string =='\n' or string ==' \n'):
                 PaperFlag = 0
                 self.papers.append(p)
                 InitialNumberOfPapers = InitialNumberOfPapers +1
@@ -222,174 +293,75 @@ class Network:
         inFile.close()
     def printNetworkForPajek(self, field, run, type, size, directoryPath):
         if not os.path.exists(directoryPath):
-            os.makedirs(fs)
-            print('New directory made: ' + str(path2))
-        fs = directoryPath + '/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+            os.makedirs(directoryPath)
+            print('New directory made: ' + str(dp1))
+        dp1 = directoryPath + '/net_files/'
+        if not os.path.exists(dp1):
+            os.makedirs(dp1)
+            print('New directory made: ' + str(dp1))
+        dp1 = directoryPath + '/vec_files/'
+        if not os.path.exists(dp1):
+            os.makedirs(dp1)
+            print('New directory made: ' + str(dp1))
+        fs = directoryPath + '/net_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+        fsvec = directoryPath + '/vec_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
         outFile = open(fs, 'w')
-        
-        outFile.write('%START\n')
-        outFile.write('%' + str(self.startYear) + '\n')
-        outFile.write('%END\n')
-        outFile.write('%' + str(self.endYear) + '\n')
+        outFilevec = open(fsvec,'w')
         
         nodeDic = {} #dictionary for indexing the authors
         index = 0
         for node in self.nodes:
             index = index + 1
             nodeDic[node] = index
-        outFile.write('*Vertices ' + str(index) + '\n')        
+        outFile.write('*Vertices ' + str(index) + '\n') 
+        outFilevec.write('*Vertices ' + str(index) + '\n')
         sortedAuthorList = sorted(nodeDic.items(), key = itemgetter(1))
         for author in sortedAuthorList:
             outFile.write(str(author[1]) + ' "'  + str(author[0]) + '"' + '\n')
+            outFilevec.write(str(self.degrees[author[0]]) + '\n')
         outFile.write('*Edges\n')
-        sortedEdges = sorted(self.edges.items(), key = itemgetter(1))
+        sortedEdges = sorted(self.differentEdges.items(), key = itemgetter(1))
         for edge in sortedEdges:
             outFile.write(str(nodeDic[edge[0][0]]) + ' ' + str(nodeDic[edge[0][1]]) + ' ' + str(edge[1]) + '\n')
         outFile.close()
-class Comparer:
-    #--Variables--
-    #previous : The previous Network, Network type object
-    #current : The present Network, Network type object
-    #numberOfNewNodes
-    #numberOfNewEdges
-    #numberOfCommonNodes
-    #numberOfCommonEdges
-    #newNodes: array of authors who are in current, but not in previous
-    #newEdges: array of links who are in current, but not in previous
-    #commonNodes: array of authors who contributed both in past and in present
-    #commonEdges: array of links who are both in current and previous
+
     
-    #--Procedures--
-    
-    def __init__(self, Previous, Current):
-        self.previous = Previous
-        self.current = Current
-        self.initializeNewNodes()
-        self.initializeNewEdges()
-        self.initializeCommonNodes()
-        self.initializeCommonEdges()
-    def initializeNewNodes(self):
-        self.numberOfNewNodes = 0
-        self.newNodes = []
-        for node in self.current.nodes:
-            if node not in self.previous.nodes:
-                self.numberOfNewNodes = self.numberOfNewNodes + 1
-                self.newNodes.append(node)
-    def initializeNewEdges(self):
-        self.numberOfNewEdges = 0
-        self.newEdges = []
-        for edge in self.current.edges:
-            if edge not in self.previous.edges:
-                self.numberOfNewEdges = self.numberOfNewEdges + 1
-                self.newEdges.append(edge)
-    def initializeCommonNodes(self):
-        numberOfCommonNodes = 0
-        for node in self.current.nodes:
-            if node in self.previous.nodes:
-                self.numberOfCommonNodes = self.numberOfCommonNodes + 1
-                self.commonNodes.append(node)       
-    def initializeCommonEdges(self):
-        self.numberOfCommonEdges = 0
-        self.commonEdges = []
-        for edge in self.current.edges:
-            if edge in self.previous.edges:
-                self.numberOfCommonEdges = self.numberOfCommonEdges + 1
-                self.commonEdges.append(edge)    
-    def cumulativeNumberOfAuthors(self):
-        return self.previous.numberOfNodes + self.current.numberOfNodes
-    def numberOfNewAuthors(self):
-        return self.numberOfNewNodes
-    def numberOfNewAuthorsAttachedToAtLeastANewAuthor(self):
-        ans = 0
-        for author in self.newNodes:
-            for coauthor in self.current.degrees[author][1]:
-                if coauthor in self.newNodes:
-                    ans = ans + 1
-                    break
-        return ans
-    def numberOfNewAuthorsAttachedToAtLeastAnOldAuthor(self):
-        ans = 0
-        for author in self.newNodes:
-            for coauthor in self.current.degrees[author][1]:
-                if coauthor in self.previous.nodes:
-                    ans = ans + 1
-                    break
-        return ans
-    def numberOfOldAuthorsAttachedToAtLeastANewAuthor(self):
-        ans = 0
-        for author in self.commonNodes:
-            for coauthor in self.current.degrees[author][1]:
-                if coauthor in self.newNodes:
-                    ans = ans + 1
-                    break
-        return ans
-    def numberOfOldAuthorsAttachedToAtLeastAnOldAuthor(self):
-        ans = 0
-        for author in self.commonNodes:
-            for coauthor in self.current.degrees[author][1]:
-                if coauthor in self.previous.nodes:
-                    ans = ans + 1
-                    break
-        return ans
-    def numberOfOldAuthorsAttachedToAtLeastAnAuthor(self):
-        return numberOfCommonNodes
-    def numberOfNewLinksAmongNewAuthors(self):
-        ans = 0
-        for edge in self.newEdges():
-            if((edge[0] in self.newNodes) and (edge[1] in self.newNodes)):
-                ans = ans + 1
-        return ans
-    def numberOfNewLinksBetweenNewAndOldAuthors(self):
-        ans = 0
-        for edge in self.newEdges():
-            if(((edge[0] in self.newNodes) and (edge[1] in self.commonNodes)) or ((edge[1] in self.newNodes) and (edge[0] in self.commonNodes))):
-                ans = ans + 1
-        return ans
-    def numberOfLinksBetweenOldAuthorsNotConnectedBefore(self):
-        ans = 0
-        for edge in self.newEdges:
-            if((edge[0] in self.commonNodes) and (edge[1] in self.commonNodes) and (edge not in self.previous.edges)):
-                ans = ans + 1
-        return ans
-    def numberOfLinksBetweenOldAuthorsConnectedBefore(self):
-        ans = 0
-        for edge in self.current.edges:
-            if((edge[0] in self.commonNodes) and (edge[1] in self.commonNodes) and (edge in self.previous.edges)):
-                ans = ans + 1
-        return ans
-    def contentForAbbasiTable2(self):
-        column1 = self.current.startYear
-        column2 = self.current.endYear
-        column3 = self.cumulativeNumberOfAuthors()
-        column4 = self.numberOfNewAuthors()
-        column5 = self.numberOfNewAuthorsAttachedToAtLeastANewAuthor()
-        column6 = int((float(column5)/float(self.numberOfnewAuthors)) * 100.00)
-        column7 = self.numberOfNewAuthorsAttachedToAtLeastAnOldAuthor()
-        column8 = int((float(column7)/float(self.numberOfnewAuthors)) * 100.00)
-        column9 = self.numberOfOldAuthorsAttachedToAtLeastANewAuthor()
-        column10 = int((float(column9)/float(self.previous.numberOfNodes)) * 100.00)
-        column11 = self.numberOfOldAuthorsAttachedToAtLeastAnOldAuthor()
-        column12 = int((float(column11)/float(self.previous.numberOfNodes)) * 100.00)
-        column13 = self.numberOfNewAuthorsAttachedToAtLeastAnAuthor()
-        column14 = int((float(column13)/float(self.previous.numberOfNodes)) * 100.00)
-        
-        return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 )
-    def contentForAbbasiTable3(self):
-        column1 = self.current.startYear
-        column2 = self.current.endYear
-        column3 = self.numberOfNewEdges + self.previous.numberOfEdges
-        column4 = self.numberOfNewEdges
-        column5 = self.numberOfNewLinksAmongNewAuthors()
-        column6 = int(((float(column4))/(float(column4)))*100.00)
-        column7 = self.numberOfNewLinksBetweenNewAndOldAuthors()
-        column8 = int(((float(column6))/(float(column4)))*100.00)
-        column9 = self.numberOfLinksBetweenOldAuthorsNotConnectedBefore()
-        column10 = int(((float(column8))/(float(column4)))*100.00)
-        column11 = self.numberOfLinksBetweenOldAuthorsConnectedBefore()
-        column12 = int(((float(column10))/(float(column4)))*100.00)
-        
-        return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12)
-        
+    def getMinDistance(): #Returns the minimum distance dictionary: {(author1_name,author2_name):dis} ... dis ==1 -> no path
+        index = 0
+        AuthorMap = {} #{'author_name':author index}
+        ReverseMap = {}
+        AuthorDis = {} #{('x,'y'):4} -> x,y: author_names and 4 is min distance between those two
+        for author in self.nodes:
+            if author not in AuthorMap:
+                AuthorMap[author] = index
+                ReverseMap[index] = author
+                index = index + 1
+        INF = self.numberOfNodes*100
+        path = []
+        row = []
+        for i in range(0,self.numberOfNodes):
+            for j in range(0,self.numberOfNodes):
+                if(i==j):
+                    row.append(0)
+                    continue
+                if(((ReverseMap[i], Reversemap[j]) in self.edges) or ((ReverseMap[j], Reversemap[i]) in self.edges)):
+                    row.append(1)
+                else:
+                    row.append(INF)
+            path.append(row)
+        #Floyd-Warshall's Algorithm for finding the shortest path O(n^3)
+        for k in range(0,self.numberOfNodes):
+            for i in range(0,self.numberOfNodes):
+                for j in range(0,self.numberOfNodes):
+                    if(path[i][j] < (path[i][k] + path[k][j])):
+                        path[i][j] = (path[i][k] + path[k][j])
+        for i in range(0,self.numberOfNodes):
+            for j in range(0,self.numberOfNodes):
+                if(path[i][j] == INF):
+                    path[i][j] == -1
+                AuthorDis[(ReverseMap[i], ReverseMap[j])]  = path[i][j]
+        return AuthorDis
+       
 #--Global Functions--
 
 def setFilePaths():
@@ -437,7 +409,7 @@ def setFilePaths():
             INPUT_REDUCED_FILE_PATH = OUTPUT_PARENT_DIRECTORY_PATH + '/' + 'nwa-' + str(FIELD) + '/' + 'data/' + line[10:(len(line)-1)]
             print INPUT_REDUCED_FILE_PATH
 
-    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
+    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files' + '/whole_net'
     if not os.path.exists(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
