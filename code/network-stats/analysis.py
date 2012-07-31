@@ -106,8 +106,9 @@ class Network:
         col3 = len(self.papers)
         col4 = self.numberOfNodes
         col5 = self.numberOfEdges
+        col6 = self.numberOfDifferentEdges
         
-        return (col1, col2, col3, col4, col5)
+        return (col1, col2, col3, col4, col5, col6)
     
     def getCollaborationDistribution(self):
         max = 0
@@ -935,7 +936,7 @@ def makeGeneralNetworkDataFile():
     
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
     MF = open(Mfile, 'w')
-    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges\n')
+    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_of_Unweighted_Edges\n')
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     if(TYPE == 'discrete'):
@@ -944,8 +945,8 @@ def makeGeneralNetworkDataFile():
         while(end<=END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
-            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
-            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            (col1, col2, col3, col4, col5, col6) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + ';' + str(col6) + '\n' )
             start = end + 1
             end = end + SIZE
     elif(TYPE == 'accumulative'):
@@ -954,8 +955,8 @@ def makeGeneralNetworkDataFile():
         while(end<=END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
-            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
-            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            (col1, col2, col3, col4, col5, col6) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + ';' + str(col6) + '\n' )
             end = end + SIZE
     elif(TYPE == 'sliding'):
         start = START_YEAR
@@ -963,8 +964,8 @@ def makeGeneralNetworkDataFile():
         while(end<=END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
-            (col1, col2, col3, col4, col5) = Partition.getGeneralInfo()
-            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + '\n' )
+            (col1, col2, col3, col4, col5, col6) = Partition.getGeneralInfo()
+            MF.write(str(col1) + ';' + str(col2) + ';' + str(col3) + ';' + str(col4) + ';' + str(col5) + ';' + str(col6) + '\n' )
             start = start + 1
             end = end + 1
     MF.close()
@@ -974,6 +975,6 @@ if __name__ == "__main__":
     setFilePaths()
     makeGeneralNetworkDataFile()
     #makeCoauthorshipNetworkFilesForPajek()
-    makeCollaborationDistributionFile()
-    makeTemporalDataFilesForAbbasi()
+    #makeCollaborationDistributionFile()
+    #makeTemporalDataFilesForAbbasi()
     
