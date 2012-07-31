@@ -1,0 +1,11 @@
+FIELD=field2
+RUN=run1
+START_YEAR=1991
+END_YEAR=2010
+TYPE=accumulative
+SIZE=1
+NET_PATH=../TESTING
+DATA_PATH=data1/reduced/reducedData.txt
+
+
+
