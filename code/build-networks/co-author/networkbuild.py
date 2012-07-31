@@ -303,8 +303,8 @@ class Network:
         if not os.path.exists(dp1):
             os.makedirs(dp1)
             print('New directory made: ' + str(dp1))
-        fs = directoryPath + '/net_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
-        fsvec = directoryPath + '/vec_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
+        fs = directoryPath + '/net_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+        fsvec = directoryPath + '/vec_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
         outFile = open(fs, 'w')
         outFilevec = open(fsvec,'w')
         
