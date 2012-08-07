@@ -1,5 +1,22 @@
 library(ggplot2)
 library(scales)
+
+M<-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_20years/field1run1discrete1991-2010_20HubCollaborationDistribution.csv', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/Field1_HubMilojevic_1.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans(x = "log10", y = "log10")
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+M<-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_20years/field2run1discrete1991-2010_20HubCollaborationDistribution.csv', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/Field2_HubMilojevic_1.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans(x = "log10", y = "log10")
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
 M<-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_1years-statistics_files/field1run1discrete1991-2010_1CollaborationDistribution.csv', header = TRUE, sep = ';')
 pdffile <-c("/Users/kallol/Testing/Graphs/Field1_Milojevic_1.pdf")
 pdf(pdffile)

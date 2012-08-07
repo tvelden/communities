@@ -58,6 +58,32 @@ pdf(pdffile)
 p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))
 ggsave(pdffile)
 
+
+
+DC2<-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years/field2run1discrete1991-2010_1years-DegreeCentrality.csv', header = TRUE, sep =';')
+CC2<-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years/field2run1discrete1991-2010_1years-ClosenessCentrality.csv', header = TRUE, sep =';')
+BC2<-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years/field2run1discrete1991-2010_1years-BetweennessCentrality.csv', header = TRUE, sep =';')
+
+p<-ggplot(DC2)
+
+pdffile <-c("/Users/Kallol/Testing/Graphs/PA_Field2_ComparisonForNewLinkAttachment.pdf")
+pdf(pdffile)
+p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))
+
+ggsave(pdffile)
+
+pdffile <-c("/Users/Kallol/Testing/Graphs/PA_Field2_ComparisonForNewLinkWithNewAuthorsAttachment.pdf")
+pdf(pdffile)
+p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))
+ggsave(pdffile)
+
+pdffile <-c("/Users/Kallol/Testing/Graphs/PA_Field2_ComparisonForNewLinkWithOldAuthorsAttachment.pdf")
+pdf(pdffile)
+p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC2$Start_Year,DC2$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC2$Start_Year,CC2$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC2$Start_Year,BC2$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))
+ggsave(pdffile)
+
+
+
 AB<-read.table("/Users/Kallol/Testing/AbbasiTable2.txt", header = TRUE, sep= ";")
 AB1<-read.table("/Users/Kallol/Testing/abbasi/field1run1discrete1991-2010_1years-AbbasiTable2.csv", header=TRUE, sep = ';')
 AB2<-read.table("/Users/Kallol/Testing/abbasi/field2run1discrete1991-2010_1years-AbbasiTable2.csv", header=TRUE, sep = ';')

@@ -23,6 +23,7 @@ INPUT_REDUCED_FILE_PATH = ''
 OUTPUT_PARENT_DIRECTORY_PATH = ''
 OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = ''
 OUTPUT_STATISTICS_DIRECTORY = ''
+OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS = ''
 FIELD = ''
 RUN = ''
 START_YEAR = 0
@@ -96,9 +97,74 @@ class Network:
         self.numberOfEdges = 0
         self.edges = []
         self.G = nx.Graph()
-        #self.DegreeCentrality = {}
-        #self.ClosenessCentrality = {}
-        #self.BetweennessCentrality = {}
+    
+    def printNetworkComponents(self, field, run, type, size, directoryPath):
+        
+        color = {}
+        component = {}
+        for node in self.nodes:
+            color[node] = 0
+            component[node] = 0
+            
+        alist = {}
+        for node in self.nodes:
+            alist[node] = []
+        for edge in self.differentEdges:
+            alist[edge[0]].append(edge[1])
+            alist[edge[1]].append(edge[0])
+         
+        index = 0
+        stack = []
+        for node in self.nodes:
+            if(color[node] == 0):
+                color[node] = 1
+                index = index + 1
+                component[node] = index
+                stack.append(node)
+                while(len(stack)>0):
+                    x = stack.pop()
+                    for e in alist[x]:
+                        if(color[e] == 0):
+                            color[e] = 1
+                            component[e] = index
+                            stack.append(e)
+        #for node in self.nodes:
+            #print node, component[node]
+        C = {}
+        for i in range(1,index + 1):
+            C[i] = []
+            C[i].append(0)
+            C[i].append([])
+        for node in self.nodes:
+            C[component[node]][0] = C[component[node]][0] + 1
+            C[component[node]][1].append(node)
+            
+        sortedComponentList = sorted(C.items(), key = itemgetter(1), reverse = True)
+        SL = []
+        for e in sortedComponentList:
+            #print e[1][0]
+            SL.append(e)
+        #print SL[0][1][0]
+        
+        #making the component file
+        fs = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'Components.txt'
+        out = open(fs, 'w')
+        out.write('Number of Vertices:' + str(self.numberOfNodes) + '\n')
+        out.write('Number of Components:' +str(index) + '\n')
+        out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
+        out.write('Size of the Second Largest Compnent:' +str(SL[1][1][0]) + '\n')
+        out.write('Components:\n\n')
+        i = 0
+        for e in SL:
+            i = i + 1
+            out.write('*Component ' + str(i) + '\n')
+            out.write('Size' + str(SL[i-1][1][0]) + '\n')
+            for x in SL[i-1][1][1]:
+                out.write(str(x) + '\n')
+            out.write('\n')
+        out.close()
+        
+        
     
     def getGeneralInfo(self):
         col1 = self.startYear
@@ -106,9 +172,8 @@ class Network:
         col3 = len(self.papers)
         col4 = self.numberOfNodes
         col5 = self.numberOfEdges
-        col6 = self.numberOfDifferentEdges
         
-        return (col1, col2, col3, col4, col5, col6)
+        return (col1, col2, col3, col4, col5)
     
     def getCollaborationDistribution(self):
         max = 0
@@ -316,8 +381,8 @@ class Network:
         if not os.path.exists(dp1):
             os.makedirs(dp1)
             print('New directory made: ' + str(dp1))
-        fs = directoryPath + '/net_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
-        fsvec = directoryPath + '/vec_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
+        fs = directoryPath + '/net_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+        fsvec = directoryPath + '/vec_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
         outFile = open(fs, 'w')
         outFilevec = open(fsvec,'w')
         
@@ -337,6 +402,7 @@ class Network:
         for edge in sortedEdges:
             outFile.write(str(nodeDic[edge[0][0]]) + ' ' + str(nodeDic[edge[0][1]]) + ' ' + str(edge[1]) + '\n')
         outFile.close()
+
     
     def getMinDistance(): #Returns the minimum distance dictionary: {(author1_name,author2_name):dis} ... dis ==1 -> no path
         index = 0
@@ -373,7 +439,7 @@ class Network:
                     path[i][j] == -1
                 AuthorDis[(ReverseMap[i], ReverseMap[j])]  = path[i][j]
         return AuthorDis
-        
+  
 class Comparer:
     #--Variables--
     #previous : The previous Network, Network type object
@@ -695,8 +761,8 @@ def setFilePaths():
     global OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
     global OUTPUT_STATISTICS_DIRECTORY
     global OUTPUT_PARENT_DIRECTORY_PATH
-    
-    print 'Setting Input and output path ...'
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
+
     communities_directory = '../..' 
     parameterfile = open(RELATIVE_INPUT_PARAMETER_FILE, 'r')
     for line in parameterfile:
@@ -727,12 +793,17 @@ def setFilePaths():
             INPUT_REDUCED_FILE_PATH = OUTPUT_PARENT_DIRECTORY_PATH + '/' + 'nwa-' + str(FIELD) + '/' + 'data/' + line[10:(len(line)-1)]
             print INPUT_REDUCED_FILE_PATH
 
-    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years-network_files'
+    OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years' + '/whole_net/pajek'
     if not os.path.exists(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
-    
-    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years-statistics_files'
+
+    OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/networks/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'years' + '/components/'
+    if not os.path.exists(OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS):
+        os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS)
+        print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS))
+        
+    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + '/whole_net'
     if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
@@ -746,6 +817,7 @@ def makeCoauthorshipNetworkFilesForPajek():
     global FIELD
     global RUN
     global END_YEAR
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
     
     #output_directory = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/' + 
     N = Network()
@@ -786,6 +858,7 @@ def makeTemporalDataFilesForAbbasi():
     global FIELD
     global RUN
     global END_YEAR
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
     
     print 'Started gathering data for Abbasi ...'
     
@@ -909,6 +982,7 @@ def makeCollaborationDistributionFile():
     global RUN
     global END_YEAR
     global OUTPUT_STATISTICS_DIRECTORY
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
     
     print 'Gathering data for collaboration distribution over the time ...'
     
@@ -923,6 +997,30 @@ def makeCollaborationDistributionFile():
     MF.close()
     print 'Finished gathering data for collaboration distribution!!'
     
+def makeHubCollaborationDistributionFile():
+    global TYPE
+    global START_YEAR
+    global SIZE
+    global OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
+    global FIELD
+    global RUN
+    global END_YEAR
+    global OUTPUT_STATISTICS_DIRECTORY
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
+    
+    print 'Gathering data for collaboration distribution over the time ...'
+    
+    Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'HubCollaborationDistribution.csv'
+    MF = open(Mfile, 'w')
+    MF.write('Collaborators; Frequency\n')
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
+    X = N.getHubCollaborationDistribution()
+    for k in X:
+        MF.write(str(k) + ';' + str(X[k]) + '\n')
+    MF.close()
+    print 'Finished gathering data for collaboration distribution!!'
+    
 def makeGeneralNetworkDataFile():
     global TYPE
     global START_YEAR
@@ -931,6 +1029,7 @@ def makeGeneralNetworkDataFile():
     global FIELD
     global RUN
     global END_YEAR
+    global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
     
     print 'Gathering the general information of the total network ...'
     
@@ -977,4 +1076,5 @@ if __name__ == "__main__":
     #makeCoauthorshipNetworkFilesForPajek()
     #makeCollaborationDistributionFile()
     #makeTemporalDataFilesForAbbasi()
+    makeHubCollaborationDistributionFile()
     

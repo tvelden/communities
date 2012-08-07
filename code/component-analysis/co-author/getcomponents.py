@@ -165,17 +165,21 @@ class Network:
             out.close()
         except:
             A = []
-
+        
+        #print len(A)
+        #print A
+        #print SL[0][1][1]
         for e in SL[0][1][1]:
-            if e not in A:
+            if (e not in A):
                 A.append(e)
-                
+        #print len(A)
+        
         fs = directoryPath + '/' + str(type) + 'AccumulatedLargest.txt' 
         fs2 = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years-' + 'AccumulatedLargestComponent.txt'
         out = open(fs, 'w')
         out2 = open(fs2, 'w')
-        out.write('**Size:'+ str(SL[0][1][0]) + '\n')
-        out2.write('**Size:'+ str(SL[0][1][0]) + '\n')
+        out.write('**Size:'+ str(len(A)) + '\n')
+        out2.write('**Size:'+ str(len(A)) + '\n')
         for e in A:
             out.write(str(e) + '\n')
             out2.write(str(e) + '\n')
@@ -195,12 +199,12 @@ class Network:
         except: 
             A = []
         sec = SL[1][1][0]
-        i = 1
-        while(SL[i][1][0] == sec):
-            for e in SL[i][1][1]:
+        if(SL[1][1][0] == SL[2][1][0]):
+            A = []
+        else:
+            for e in SL[1][1][1]:
                 if e not in A:
                     A.append(e)
-            i = i + 1
         fs = directoryPath + '/' + str(type) + 'AccumulatedSecond.txt'
         fs2 = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years-' + 'AccumulatedSecondLargestComponent.txt'
         out = open(fs, 'w')
@@ -233,6 +237,13 @@ class Network:
             out.write(str(X[edge[0]]) + ' ' + str(X[edge[1]]) + ' ' + str(E[edge]) + '\n')
         out.close()
         
+        #making the Second largest component network
+        fs = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years-' + 'SecondLargestComponent.txt'
+        out = open(fs,'w')
+        out.write('*Vertices ' + str(SL[1][1][0]) + '\n')
+        for e in SL[1][1][1]:
+            out.write(str(e)+'\n')
+        out.close()
         
     def getGeneralInfo(self):
         col1 = self.startYear
@@ -615,7 +626,13 @@ def makeComponents():
     global END_YEAR
     global OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS
     
-    #output_directory = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/' + 
+    fs = OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS + '/' + str(TYPE) + 'AccumulatedLargest.txt'
+    out = open(fs, 'w')
+    out.close()
+    fs = OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS + '/' + str(TYPE) + 'AccumulatedSecond.txt'
+    out = open(fs, 'w')
+    out.close()
+    
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     if(TYPE == 'discrete'):
@@ -647,5 +664,5 @@ def makeComponents():
 
 if __name__ == "__main__":
     setFilePaths()
-    makeCoauthorshipNetworkFilesForPajek()
-    #makeComponents()
+    #makeCoauthorshipNetworkFilesForPajek()
+    makeComponents()

@@ -6,7 +6,8 @@ import scipy.stats
 from operator import itemgetter
 import pdb
 import networkx as nx
-import glob
+
+
 
 #--Global Variables--
 RELATIVE_INPUT_PARAMETER_FILE = '../../../parameters/parameters-global.txt'
@@ -77,68 +78,56 @@ def setFilePaths():
     #if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
         #os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
         #print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
-        
-def rearrange():
-    path = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/'
-    for filename in glob.glob(os.path.join(path, '*.net')):
-        print filename
-        l = len(filename)
-        if(filename[l-5] == 'p' and filename[l-6] == 'a' and filename[l-7] == 'm'):
+
+
+def gethub():
+    allfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.all.txt'
+    netfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.net'
+    hubfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.hub'
+    
+    #allfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + 'CoauthorshipNetwork.all.txt'
+    
+    netfile = open(netfilename, 'r')
+    allfile = open(allfilename, 'r')
+    hubfile = open(hubfilename, 'w')
+    
+    A = {}
+    for line in netfile:
+        if(line == '*Edges\n'):
+            break
+        if(line[0] == '*'):
             continue
-            
-        A = []
-        index = 0
-        file = open(filename, 'r')
-        for line in file:
-            if(index ==0):
-                index = index + 1
-                continue
-            if(line == '*Edges\n'):
-                break
-            i = 0
-            while(line[i]!= ' '):
-                i = i + 1
-            name = line[i+1:len(line)-1]
-            A.append(name)
-        
-        i = len(filename) - 1
-        while(filename[i] != '.'):
-            i = i - 1
-        treefilename = filename[0:i] + '.tree'
-        treefile = open(treefilename, 'r')
-        S = {}
-        for line in treefile:
-            i = 0
-            while(line[i] != ' '):
-                 i = i + 1
+        n = ''
+        i = 0
+        while(line[i] != ' '):
+            n = n + line[i]
             i = i + 1
-            while(line[i] != ' '):
-                 i = i + 1
-            i = i + 1
-            s = line[i:len(line)-1]
-            s0 = line[0:i]
-            S[s] = s0
-        treefile.close()
-        
-        i = len(filename) - 1
-        while(filename[i] != '.'):
-            i = i - 1
-        clusterfilename = filename[0:i] + '.clu'
-        print clusterfilename
-        clusterfile = open(clusterfilename, 'w')
-        clusterfile.write('# Code length 2.98541 in 669 modules.\n')
-        for e in A:
-            t = str(S[e])
+        number = int(n)
+        i = i + 1
+        a = line[i:len(line) -1]
+        A[number] = a
+    #print A
+    
+    L = []
+    for line in allfile:
+        l = len(line)
+        l = l - 1
+        if(line[l-1] == '5' or line[l-1] == '6' or line[l-1] == '7'):
             i = 0
-            ts = ''
-            while(t[i] != ':'):
-                ts = ts + t[i]
+            s = ''
+            while(line[i] != ' '):
+                s = s + line[i]
                 i = i + 1
-            
-            clusterfile.write(str(ts) + '\n')
-        clusterfile.close()
+            number = int(s)
+            L.append(number)
+    
+    for e in L:
+        hubfile.write( str(A[e])+ '\n')
+    
+    allfile.close()
+    netfile.close()
+    hubfile.close()
     
 if __name__ == "__main__":
     setFilePaths()
-    rearrange()
-    
+    gethub()

@@ -19,7 +19,8 @@ my %w= ();
 my %cs= ();
 
 sub loadgraph {
-    open(SNET, "../data/output/network/$dirname.snet");
+    #open(SNET, "../data/output/network/$dirname.snet");
+    open(SNET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
 
     my $li= 0;
     my $ln= 0;
@@ -119,8 +120,8 @@ my %authcount= ();
 my %hubcount= ();
 
 
-open(ALL, ">../data/output/zP/$dirname.all.txt");
-open(CON, ">../data/output/zP/$dirname.con.txt");
+open(ALL, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.all.txt");
+open(CON, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.con.txt");
 
 foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 
@@ -165,8 +166,8 @@ foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 close(CON);
 close(ALL);
 
-open(AU, ">../data/output/misc/$dirname.authcount.txt");
-open(HB, ">../data/output/misc/$dirname.hubcount.txt");
+open(AU, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.authcount.txt");
+open(HB, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.hubcount.txt");
 
 foreach my $cu (keys %authcount){
     print AU "$cu $authcount{$cu}\n";
