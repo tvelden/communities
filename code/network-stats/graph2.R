@@ -1,6 +1,50 @@
 library(ggplot2)
 library(scales)
 
+#staging starts
+
+M <-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1accumulative1991-2010_1years/components/accumulative1991-1991_1years-Large-SecondLargeData.txt', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/SecondEver_1.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Year') + ylab('Percent from Second (ever)') + geom_point(aes(M$End_year, M$Ever_Second_Percent, color = 'From Second')) + geom_line(aes(M$End_year, M$Ever_Second_Percent, color = 'From Second'))+coord_cartesian(ylim=c(0.0, 100.0))
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+M <-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1accumulative1991-2010_1years/components/accumulative1991-1991_1years-Large-SecondLargeData.txt', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/SecondPrevious_1.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Year') + ylab('Percent from Second (just previous)') + geom_point(aes(M$End_year, (M$Just_Previous_Percent), color = 'From Second')) + geom_line(aes(M$End_year, (M$Just_Previous_Percent), color = 'From Second')) + geom_point(aes(M$End_year, M$Percent_from_others, color = 'From Others')) + geom_line(aes(M$End_year, M$Percent_from_others, color = 'From Others'))+geom_point(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_line(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) +geom_point(aes(M$End_year, M$Percent_New, color = 'New Comers')) + geom_line(aes(M$End_year, M$Percent_New, color = 'New Comers')) + coord_cartesian(ylim=c(0.0, 100.0))
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+M <-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1accumulative1991-2010_1years/components/accumulative1991-1991_1years-Large-SecondLargeData.txt', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/SecondPrevious_1_1.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Year') + ylab('Percent from Second (just previous)') + geom_point(aes(M$End_year, (M$Others_Percent), color = 'Other Component')) + geom_line(aes(M$End_year, (M$Others_Percent), color = 'Other Component')) + geom_point(aes(M$End_year, M$Percent_from_others, color = 'From Others')) + geom_line(aes(M$End_year, M$Percent_from_others, color = 'From Others'))+geom_point(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_line(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) +geom_point(aes(M$End_year, M$Percent_New, color = 'New Comers')) + geom_line(aes(M$End_year, M$Percent_New, color = 'New Comers')) + coord_cartesian(ylim=c(0.0, 100.0))
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+M <-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1accumulative1991-2010_1years/components/accumulative1991-1991_1years-Large-SecondLargeData.txt', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/SecondEver_2.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Year') + ylab('Percent from Second (ever)') + geom_point(aes(M$End_year, (M$Ever_Second_Percent))) + geom_line(aes(M$End_year, (M$Ever_Second_Percent))) + coord_cartesian(ylim=c(0.0, 40.0))
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+M <-read.table('/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1accumulative1991-2010_1years/components/accumulative1991-1991_1years-Large-SecondLargeData.txt', header = TRUE, sep = ';')
+pdffile <-c("/Users/kallol/Testing/Graphs/SecondPrevious_2.pdf")
+pdf(pdffile)
+p<-ggplot(M)
+p + xlab('Year') + ylab('Percent from Second (just previous)') + geom_point(aes(M$End_year, (M$Just_Previous_Percent))) + geom_line(aes(M$End_year, (M$Just_Previous_Percent)))  + coord_cartesian(ylim=c(0.0, 40.0))
+#qplot(log10(Collaborators), log10(Frequency), data = M, geom= c("point", "line"))
+ggsave(pdffile)
+
+#staging ends
+
 M<-read.table('/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_20years/field1run1discrete1991-2010_20HubCollaborationDistribution.csv', header = TRUE, sep = ';')
 pdffile <-c("/Users/kallol/Testing/Graphs/Field1_HubMilojevic_1.pdf")
 pdf(pdffile)

@@ -153,6 +153,21 @@ class Network:
             out.write('\n')
         out.close()
         
+        #making the 'others' comoponets' authors' list
+        st = 2
+        if(SL[1][1][0] == SL[2][1][0]):
+            st = 1
+        L = []
+        while(st<index):
+            for e in SL[st][1][1]:
+                L.append(e)
+            st = st + 1
+        fs = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years-' + 'OtherComponentsAuthors.txt'
+        out = open(fs, 'w')
+        for e in L:
+            out.write(str(e) + '\n')
+        out.close()
+        
         #making the list of nodes of largest component
         A = []
         try:
