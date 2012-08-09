@@ -1,17 +1,20 @@
 library(ggplot2)
 
-Field1GeneralInformationFile <- '/Users/Kallol/Testing/nwa-field1/runs/run1/output/statistics/field1run1discrete1991-2010_1years-statistics_files/field1run1discrete1991-2010_1GeneralInfo.csv'
-Field2GeneralInformationFile <- '/Users/Kallol/Testing/nwa-field2/runs/run1/output/statistics/field2run1discrete1991-2010_1years-statistics_files/field2run1discrete1991-2010_1GeneralInfo.csv'
+parameter<-read.table('../../parameters/parameters-global.csv', head = T, sep = ';')
+community<-'../..'
+dir<-paste(getwd(),'/',community, '/',parameter$NET_PATH,'/', sep= '')
+
+GeneralInformationFile <- paste(dir,'nwa-',parameter$FIELD,'/runs/',parameter$RUN,'/output/statistics/',parameter$TYPE,parameter$START_YEAR,'-',parameter$END_YEAR,'_',parameter$SIZE,'years/whole_net/data/',parameter$FIELD,parameter$RUN,parameter$TYPE,parameter$START_YEAR,'-',parameter$END_YEAR,'_',parameter$SIZE,'GeneralInfo.csv',sep = '')
 
 
-GI1 <- read.table(Field1GeneralInformationFile, header = TRUE, sep =';')
-GI2 <- read.table(Field2GeneralInformationFile, header = TRUE, sep =';')
 
-p<-ggplot(GI1)
+GI <- read.table(GeneralInformationFile, header = TRUE, sep =';')
 
-pdffile <-c("/Users/Kallol/Testing/Graphs/PaperComparison.pdf")
+p<-ggplot(GI)
+f<- paste(dir, 'nwa-',parameter$FIELD,'/','runs/',parameter$RUN,'/output/statistics/',parameter$TYPE,parameter$START_YEAR,'-',parameter$END_YEAR,'_',parameter$SIZE,'years/whole_net/graphs/',parameter$FIELD,parameter$RUN,parameter$TYPE,parameter$START_YEAR,'-',parameter$END_YEAR,'_',parameter$SIZE,'PaperComparison.pdf', sep = '')
+pdffile <-c(f)
 pdf(pdffile)
-p + xlab('Year') + ylab('Number of Papers Published') + geom_point(aes(GI1$Start_Year,GI1$Number_Of_Papers, color = 'Field 1')) + geom_point(aes(GI2$Start_Year,GI2$Number_Of_Papers, color = 'Field 2')) + geom_line(aes(GI1$Start_Year,GI1$Number_Of_Papers, color = 'Field 1')) + geom_line(aes(GI2$Start_Year,GI2$Number_Of_Papers, color = 'Field 2'))+ opts(legend.title=theme_blank())
+p + xlab('Year') + ylab('Number of Papers Published') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = paste('Field',substr(parameter$FIELD,6,6)))) + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = paste('Field',substr(parameter$FIELD,6,6)))) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = paste('Field',substr(parameter$FIELD,6,6)))) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = paste('Field',substr(parameter$FIELD,6,6))))+ opts(legend.title=theme_blank())
 ggsave(pdffile)
 
 

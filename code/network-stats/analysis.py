@@ -10,8 +10,8 @@ import networkx as nx
 #--Global Variables--
 
 #SWITCHES: Change the values to "False" if you dont want them
-I_WANT_ABBASI_TABLE_2_3 = True
-I_WANT_DEGREE_CENTRALITY = True
+I_WANT_ABBASI_TABLE_2_3 = False
+I_WANT_DEGREE_CENTRALITY = False
 I_WANT_CLOSENESS_CENTRALITY = False 
 I_WANT_BETWEENNESS_CENTRALITY = False
 
@@ -172,8 +172,9 @@ class Network:
         col3 = len(self.papers)
         col4 = self.numberOfNodes
         col5 = self.numberOfEdges
+        col6 = self.numberOfDifferentEdges
         
-        return (col1, col2, col3, col4, col5)
+        return (col1, col2, col3, col4, col5, col6)
     
     def getCollaborationDistribution(self):
         max = 0
@@ -249,7 +250,7 @@ class Network:
                             self.differentDegrees[author][0] = self.differentDegrees[author][0] + 1
                             self.differentDegrees[author][1].append(anotherAuthor)
                             self.differentDegrees[anotherAuthor][0] = self.differentDegrees[anotherAuthor][0] + 1
-                            self.differentDegrees[anotherAuthor][1].append(author)  
+                            self.differentDegrees[anotherAuthor][1].append(author)   
     def makeCoauthorshipNetworkFromFile(self, file):
         self.readPapersFromFile(file)
         self.makeCoauthorshipNetworkFromPapers()
@@ -381,8 +382,8 @@ class Network:
         if not os.path.exists(dp1):
             os.makedirs(dp1)
             print('New directory made: ' + str(dp1))
-        fs = directoryPath + '/net_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
-        fsvec = directoryPath + '/vec_files/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
+        fs = directoryPath + '/net_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.net'
+        fsvec = directoryPath + '/vec_files/' + str(field) + str(run) + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years' + 'CoauthorshipNetwork.vec'
         outFile = open(fs, 'w')
         outFilevec = open(fsvec,'w')
         
@@ -402,8 +403,7 @@ class Network:
         for edge in sortedEdges:
             outFile.write(str(nodeDic[edge[0][0]]) + ' ' + str(nodeDic[edge[0][1]]) + ' ' + str(edge[1]) + '\n')
         outFile.close()
-
-    
+        
     def getMinDistance(): #Returns the minimum distance dictionary: {(author1_name,author2_name):dis} ... dis ==1 -> no path
         index = 0
         AuthorMap = {} #{'author_name':author index}
@@ -439,7 +439,6 @@ class Network:
                     path[i][j] == -1
                 AuthorDis[(ReverseMap[i], ReverseMap[j])]  = path[i][j]
         return AuthorDis
-  
 class Comparer:
     #--Variables--
     #previous : The previous Network, Network type object
@@ -653,6 +652,15 @@ class Comparer:
         
     def getDataForDegreeCentralityVsLinkAssociations(self):
         x = self.previous.getDegreeCentrality()
+        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/DegreeCentrality/' 
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR)
+            print('New directory made: ' + str(OUTPUT_DIR))
+        s = OUTPUT_DIR + '/DegreeCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
+        out = open(s,'w')
+        for e in x:
+            out.write(str(e) + '; ' + str(x[e]) + '\n')
+        out.close()
         #print x
         #pdb.set_trace()    
         if(len(x) > 0):
@@ -684,7 +692,15 @@ class Comparer:
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
         x = self.previous.getClosenessCentrality()
-            
+        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/ClosenessCentrality/' 
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR)
+            print('New directory made: ' + str(OUTPUT_DIR))
+        s = OUTPUT_DIR + '/ClosenessCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
+        out = open(s,'w')
+        for e in x:
+            out.write(str(e) + '; ' + str(x[e]) + '\n')
+        out.close()    
         #pdb.set_trace()    
         if(len(x) > 0):
             X = []
@@ -715,7 +731,15 @@ class Comparer:
     
     def getDataForBetweennessCentralityVsLinkAssociations(self):
         x = self.previous.getBetweennessCentrality()
-            
+        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/BetweennessCentrality/' 
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR)
+            print('New directory made: ' + str(OUTPUT_DIR))
+        s = OUTPUT_DIR + '/BetweennessCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
+        out = open(s,'w')
+        for e in x:
+            out.write(str(e) + '; ' + str(x[e]) + '\n')
+        out.close()    
         #pdb.set_trace()    
         if(len(x) > 0):
             X = []
@@ -744,7 +768,6 @@ class Comparer:
         #pdb.set_trace()
         return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
     
-
     
 #--Global Functions--
 
@@ -803,10 +826,15 @@ def setFilePaths():
         os.makedirs(OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS)
         print('New directory made: ' + str(OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS))
         
-    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + '/whole_net'
+    OUTPUT_STATISTICS_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + '/whole_net/data'
     if not os.path.exists(OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(OUTPUT_STATISTICS_DIRECTORY))
+    OUTPUT_STATISTICS_GRAPH_DIRECTORY = OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(FIELD) + '/' + 'runs/' + str(RUN) + '/output/statistics/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + '/whole_net/graphs'
+    if not os.path.exists(OUTPUT_STATISTICS_GRAPH_DIRECTORY):
+        os.makedirs(OUTPUT_STATISTICS_GRAPH_DIRECTORY)
+        print('New directory made: ' + str(OUTPUT_STATISTICS_GRAPH_DIRECTORY))
+    
     print 'path setting completed !!'
     
 def makeCoauthorshipNetworkFilesForPajek():
@@ -1035,7 +1063,7 @@ def makeGeneralNetworkDataFile():
     
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
     MF = open(Mfile, 'w')
-    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_of_Unweighted_Edges\n')
+    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_Of_Unweighted_Edges\n')
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     if(TYPE == 'discrete'):
@@ -1076,5 +1104,5 @@ if __name__ == "__main__":
     #makeCoauthorshipNetworkFilesForPajek()
     #makeCollaborationDistributionFile()
     #makeTemporalDataFilesForAbbasi()
-    makeHubCollaborationDistributionFile()
+    #makeHubCollaborationDistributionFile()
     

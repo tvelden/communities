@@ -961,7 +961,7 @@ def makeGeneralNetworkDataFile():
     
     Mfile = OUTPUT_STATISTICS_DIRECTORY + '/'+ str(FIELD) + str(RUN) + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) +'GeneralInfo.csv'
     MF = open(Mfile, 'w')
-    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_of_Unweighted_Edges\n')
+    MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_Of_Unweighted_Edges\n')
     N = Network()
     N.makeCoauthorshipNetworkFromFile(INPUT_REDUCED_FILE_PATH)
     if(TYPE == 'discrete'):
