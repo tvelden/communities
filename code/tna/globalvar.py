@@ -1,6 +1,15 @@
+import os
+import sys
+import operator
+import numpy
+import scipy.stats
+from operator import itemgetter
+import pdb
+import networkx as nx
+import globalvar
 
 #--Global Variables--
-RELATIVE_INPUT_PARAMETER_FILE = '../../parameters/parameters-global.txt'
+RELATIVE_INPUT_PARAMETER_FILE = os.path.realpath('../../../parameters/parameters-global.txt')
 INPUT_PARAMETER_FILE = ''
 INPUT_ORIGINAL_FILE_PATH = ''
 INPUT_REDUCED_FILE_PATH = ''
