@@ -123,7 +123,7 @@ class Network:
         fsd = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years/components/pajek'
         if not os.path.exists(fsd):
             os.makedirs(fsd)
-        fs = fsd + '/' + str(field) + str(run) + str(type) + '_' + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_components.net'
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_components.net'
         out = open(fs, 'w')
         out.write('Number of Vertices:' + str(self.numberOfNodes) + '\n')
         out.write('Number of Components:' +str(index) + '\n')
@@ -377,41 +377,7 @@ class Network:
         outFile.close()
         outFilevec.close()
         
-    def getMinDistance(): #Returns the minimum distance dictionary: {(author1_name,author2_name):dis} ... dis ==1 -> no path
-        index = 0
-        AuthorMap = {} #{'author_name':author index}
-        ReverseMap = {}
-        AuthorDis = {} #{('x,'y'):4} -> x,y: author_names and 4 is min distance between those two
-        for author in self.nodes:
-            if author not in AuthorMap:
-                AuthorMap[author] = index
-                ReverseMap[index] = author
-                index = index + 1
-        INF = self.numberOfNodes*100
-        path = []
-        row = []
-        for i in range(0,self.numberOfNodes):
-            for j in range(0,self.numberOfNodes):
-                if(i==j):
-                    row.append(0)
-                    continue
-                if(((ReverseMap[i], Reversemap[j]) in self.edges) or ((ReverseMap[j], Reversemap[i]) in self.edges)):
-                    row.append(1)
-                else:
-                    row.append(INF)
-            path.append(row)
-        #Floyd-Warshall's Algorithm for finding the shortest path O(n^3)
-        for k in range(0,self.numberOfNodes):
-            for i in range(0,self.numberOfNodes):
-                for j in range(0,self.numberOfNodes):
-                    if(path[i][j] < (path[i][k] + path[k][j])):
-                        path[i][j] = (path[i][k] + path[k][j])
-        for i in range(0,self.numberOfNodes):
-            for j in range(0,self.numberOfNodes):
-                if(path[i][j] == INF):
-                    path[i][j] == -1
-                AuthorDis[(ReverseMap[i], ReverseMap[j])]  = path[i][j]
-        return AuthorDis
+
 
 class Comparer:
     #--Variables--
