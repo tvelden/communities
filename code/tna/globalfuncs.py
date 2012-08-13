@@ -40,17 +40,17 @@ def setFilePaths():
             globalvar.INPUT_REDUCED_FILE_PATH = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'data/' + line[10:(len(line)-1)]))
             print globalvar.INPUT_REDUCED_FILE_PATH
 
-    globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
+    globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
     if not os.path.exists(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         os.makedirs(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
     
-    globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE)  + '_' +str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
+    globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) +str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
     if not os.path.exists(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS):
         os.makedirs(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS)
         print('New directory made: ' + str(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS))
         
-    globalvar.OUTPUT_STATISTICS_DIRECTORY = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/statistics/' + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
+    globalvar.OUTPUT_STATISTICS_DIRECTORY = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/statistics/' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
     if not os.path.exists(globalvar.OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(globalvar.OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(globalvar.OUTPUT_STATISTICS_DIRECTORY))

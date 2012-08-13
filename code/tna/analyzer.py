@@ -351,11 +351,11 @@ class Network:
             os.makedirs(directoryPath)
             print('New directory made: ' + str(directoryPath))
 
-        fsd = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years/whole_net/pajek' 
+        fsd = directoryPath + '/' + str(self.startYear) + '-' + str(self.endYear) + '/whole_net/pajek' 
         if not os.path.exists(fsd):
             os.makedirs(fsd)
-        fs = fsd + '/' + str(field) + str(run) + str(type) + '_' + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_wholenet.net'
-        fsvec = fsd + '/' + str(field) + str(run) + str(type) + '_' + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_wholenet.vec'
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_wholenet.net'
+        fsvec = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_wholenet.vec'
         outFile = open(fs, 'w')
         outFilevec = open(fsvec,'w')
         
