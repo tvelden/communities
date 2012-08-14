@@ -376,8 +376,6 @@ class Network:
             outFile.write(str(nodeDic[edge[0][0]]) + ' ' + str(nodeDic[edge[0][1]]) + ' ' + str(edge[1]) + '\n')
         outFile.close()
         outFilevec.close()
-        
-
 
 class Comparer:
     #--Variables--
@@ -592,16 +590,6 @@ class Comparer:
         
     def getDataForDegreeCentralityVsLinkAssociations(self):
         x = self.previous.getDegreeCentrality()
-        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/DegreeCentrality/' 
-        if not os.path.exists(OUTPUT_DIR):
-            os.makedirs(OUTPUT_DIR)
-            print('New directory made: ' + str(OUTPUT_DIR))
-        s = OUTPUT_DIR + '/DegreeCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
-        out = open(s,'w')
-        for e in x:
-            out.write(str(e) + '; ' + str(x[e]) + '\n')
-        out.close()
-        #print x
         #pdb.set_trace()    
         if(len(x) > 0):
             X = []
@@ -632,15 +620,7 @@ class Comparer:
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
         x = self.previous.getClosenessCentrality()
-        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/ClosenessCentrality/' 
-        if not os.path.exists(OUTPUT_DIR):
-            os.makedirs(OUTPUT_DIR)
-            print('New directory made: ' + str(OUTPUT_DIR))
-        s = OUTPUT_DIR + '/ClosenessCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
-        out = open(s,'w')
-        for e in x:
-            out.write(str(e) + '; ' + str(x[e]) + '\n')
-        out.close()    
+        
         #pdb.set_trace()    
         if(len(x) > 0):
             X = []
@@ -671,15 +651,7 @@ class Comparer:
     
     def getDataForBetweennessCentralityVsLinkAssociations(self):
         x = self.previous.getBetweennessCentrality()
-        OUTPUT_DIR = OUTPUT_STATISTICS_DIRECTORY + '/BetweennessCentrality/' 
-        if not os.path.exists(OUTPUT_DIR):
-            os.makedirs(OUTPUT_DIR)
-            print('New directory made: ' + str(OUTPUT_DIR))
-        s = OUTPUT_DIR + '/BetweennessCentrality_' + str(self.previous.startYear) + '-' + str(self.previous.endYear)+'.txt'
-        out = open(s,'w')
-        for e in x:
-            out.write(str(e) + '; ' + str(x[e]) + '\n')
-        out.close()    
+           
         #pdb.set_trace()    
         if(len(x) > 0):
             X = []

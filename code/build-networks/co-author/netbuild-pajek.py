@@ -46,5 +46,6 @@ def makeCoauthorshipNetworkFilesForPajek():
 
 
 if __name__ == "__main__":
-    setFilePaths()
+    communities_directory = os.path.realpath(os.getcwd() + '/../../..')
+    setFilePaths(communities_directory)
     makeCoauthorshipNetworkFilesForPajek()

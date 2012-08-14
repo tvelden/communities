@@ -28,13 +28,13 @@ class Net:
         self.CollaborationDistributionFile = ''
         self.graphpath = ''
     def setPath(self):
-        self.GeneralInfoFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_GeneralInfo.csv'
-        self.AbbasiTable2File = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AbbasiTable2.csv'
-        self.AbbasiTable3File = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AbbasiTable3.csv'
-        self.DegreeCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_DegreeCentrality.csv'
-        self.ClosenessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_ClosenessCentrality.csv'
-        self.BetweennessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_BetweennessCentrality.csv'
-        self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
+        self.GeneralInfoFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_GeneralInfo.csv'
+        self.AbbasiTable2File = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AbbasiTable2.csv'
+        self.AbbasiTable3File = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AbbasiTable3.csv'
+        self.DegreeCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_DegreeCentrality.csv'
+        self.ClosenessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_ClosenessCentrality.csv'
+        self.BetweennessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_BetweennessCentrality.csv'
+        self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
         
         self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
 class GraphDrawer:
@@ -79,7 +79,7 @@ class GraphDrawer:
         fi.write("\n\n#General Info\n")
         #number of papers
         fi.write("p<-ggplot(GI)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfPapers.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type)  + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfPapers.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Number of Papers Published') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
@@ -87,7 +87,7 @@ class GraphDrawer:
         
         #number of authors
         fi.write("p<-ggplot(GI)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfAuthors.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run)+ '_' + str(g.type)  + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Number of Authors') + geom_point(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) + geom_line(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
@@ -95,7 +95,7 @@ class GraphDrawer:
         
         #number of edges
         fi.write("p<-ggplot(GI)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfLinks.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Number of Links') + geom_point(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) + geom_line(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
@@ -103,7 +103,7 @@ class GraphDrawer:
         
         #number of Links
         fi.write("p<-ggplot(GI)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfEdges.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfEdges.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Number of Edges') + geom_point(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) + geom_line(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
@@ -111,7 +111,7 @@ class GraphDrawer:
         
         #summary
         fi.write("p<-ggplot(GI)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_Summary.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_Summary.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Number') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
@@ -129,14 +129,14 @@ class GraphDrawer:
         fi.write("AB1<- read.table('" + g.AbbasiTable2File + "', header = TRUE, sep =';')\n" )
         
         fi.write("\n\np<-ggplot(AB1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewAuthorAttachmentDistribution.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Percent of New Authors') + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(AB1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_OldAuthorAttachmentDistribution.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_OldAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Percent of old Authors') + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
@@ -152,7 +152,7 @@ class GraphDrawer:
         fi.write("ABT1<- read.table('" + g.AbbasiTable3File + "', header = TRUE, sep =';')\n" )
         
         fi.write("\n\np<-ggplot(ABT1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewLinkDistribution.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewLinkDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Percent New Links') + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
@@ -169,21 +169,21 @@ class GraphDrawer:
         fi.write("BC1<- read.table('" + g.BetweennessCentralityFile + "', header = TRUE, sep =';')\n" )
         
         fi.write("\n\np<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
@@ -198,7 +198,7 @@ class GraphDrawer:
         fi.write("M<- read.table('" + g.CollaborationDistributionFile + "', header = TRUE, sep =';')\n" )
         
         fi.write("p<-ggplot(M)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + str(g.type) + '_' + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10')\n")
