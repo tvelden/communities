@@ -63,4 +63,4 @@ def gethub(netfilename, allfilename, hubfilename):
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../../..')
     setFilePaths(communities_directory)
-    gethub()
+    gethub(sys.argv[1], sys.argv[2], sys.argv[2])
