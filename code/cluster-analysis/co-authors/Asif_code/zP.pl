@@ -1,4 +1,4 @@
-# !/usr/bin/perl
+#!/usr/bin/perl
 
 # args: dirname
 # example : lab5run1_3
@@ -10,8 +10,8 @@
 use strict;
 
 my $dirname= $ARGV[0];
+my $outdirname= $ARGV[1];
 
-##############################################
 my %nsize= ();
 my %cid= ();
 my %e= ();
@@ -19,8 +19,8 @@ my %w= ();
 my %cs= ();
 
 sub loadgraph {
-    #open(SNET, "../data/output/network/$dirname.snet");
-    open(SNET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
+    open(SNET, "$dirname.snet");
+    #open(SNET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
 
     my $li= 0;
     my $ln= 0;
@@ -120,8 +120,10 @@ my %authcount= ();
 my %hubcount= ();
 
 
-open(ALL, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.all.txt");
-open(CON, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.con.txt");
+open(ALL, ">$outdirname.all.txt");
+#open(ALL, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.all.txt");
+open(CON, ">$outdirname.con.txt");
+#open(CON, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.con.txt");
 
 foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 
@@ -166,8 +168,11 @@ foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 close(CON);
 close(ALL);
 
-open(AU, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.authcount.txt");
-open(HB, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.hubcount.txt");
+open(AU, ">$outdirname.authcount.txt");
+open(HB, ">$outdirname.hubcount.txt");
+
+#open(AU, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.authcount.txt");
+#open(HB, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.hubcount.txt");
 
 foreach my $cu (keys %authcount){
     print AU "$cu $authcount{$cu}\n";

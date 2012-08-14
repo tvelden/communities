@@ -14,7 +14,7 @@
 use strict;
 
 my $dirname= $ARGV[0];
-my $fileprefix= $ARGV[1];
+my $basename= $ARGV[1];
 
 my %nodesize= ();
 my %clusterid= ();
@@ -23,8 +23,8 @@ my %adjacent= ();
 my %weight= ();
 
 
-#open(NET, "../data/input/$dirname/$fileprefix-coauthors_giant.net");
-open(NET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.net");
+open(NET, "$dirname/$basename.net");
+#open(NET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.net");
 
 while(my $l= <NET>){
     chomp($l);
@@ -50,8 +50,8 @@ close(NET);
 
 my $node;
 
-#open(SIZE, "../data/input/$dirname/$fileprefix-coauthors_giant-sizes_pubs.vec");
-open(SIZE, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.vec");
+open(SIZE, "$dirname/$basename.vec");
+#open(SIZE, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.vec");
 
 $node= 1;
 while(my $l= <SIZE>){
@@ -64,8 +64,8 @@ while(my $l= <SIZE>){
 
 close(SIZE);
 
-#open(CLUST, "../data/input/$dirname/$fileprefix-coauthors_giant.clu");
-open(CLUST, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.clu");
+open(CLUST, "$dirname/$basename.clu");
+#open(CLUST, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.clu");
 
 $node= 1;
 while(my $l= <CLUST>){
@@ -79,8 +79,8 @@ while(my $l= <CLUST>){
 close(CLUST);
 
 
-#open(SNET, ">../data/output/network/$dirname.snet");
-open(SNET, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
+open(SNET, ">$dirname/$basename.snet");
+#open(SNET, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
 
 
 foreach $node (sort {$a <=> $b} keys %nodesize){
