@@ -32,19 +32,19 @@ def makeTemporalDataFilesForAbbasi():
     if not os.path.exists(directoryPath):
             os.makedirs(directoryPath)
             print('New directory made: ' + str(directoryPath))
-    Table2file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_AbbasiTable2.csv'
+    Table2file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_AbbasiTable2.csv'
     Table2 = open(Table2file, 'w')
     Table2.write('Start_Year; End_Year; Cumulative_No_of_Authors; No_of_New_Authors; No_Of_New_Authors_Connected_to_atleast_one_new_author; Percent_Of_New_Authors_Connected_to_atleast_one_new_author; No_Of_New_Authors_Connected_to_atleast_one_old_author; Percent_Of_New_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_new_author; Percent_Of_Old_Authors_Connected_to_atleast_one_new_author; No_Of_Old_Authors_Connected_to_atleast_one_old_author; Percent_Of_Old_Authors_Connected_to_atleast_one_old_author; No_Of_Old_Authors_Connected_to_atleast_one_any_author; Percent_Of_Old_Authors_Connected_to_atleast_one_any_author\n')
-    Table3file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_AbbasiTable3.csv'
+    Table3file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_AbbasiTable3.csv'
     Table3 = open(Table3file, 'w')
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_Of_Links_Between_New_and_Old; Percent_Of_Links_Between_New_and_Old; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before ; Percent_of_Links_Among_Old_Authors_Connected_Before\n')
-    Table4file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_DegreeCentrality.csv'
+    Table4file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_DegreeCentrality.csv'
     Table4 = open(Table4file, 'w')
     Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree\n')
-    Table5file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_ClosenessCentrality.csv'
+    Table5file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE)  + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_ClosenessCentrality.csv'
     Table5 = open(Table5file, 'w')
     Table5.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Closeness_and_New_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree\n')
-    Table6file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_BetweennessCentrality.csv'
+    Table6file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_BetweennessCentrality.csv'
     Table6 = open(Table6file, 'w')
     Table6.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Betweenness_and_New_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree\n')
     
@@ -146,7 +146,7 @@ def makeCollaborationDistributionFile():
     if not os.path.exists(directoryPath):
             os.makedirs(directoryPath)
             print('New directory made: ' + str(directoryPath))
-    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_CollaborationDistribution.csv'
+    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_CollaborationDistribution.csv'
     MF = open(Mfile, 'w')
     MF.write('Collaborators; Frequency\n')
     N = Network()
@@ -167,7 +167,7 @@ def makeGeneralNetworkDataFile():
     if not os.path.exists(directoryPath):
             os.makedirs(directoryPath)
             print('New directory made: ' + str(directoryPath))
-    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + str(globalvar.TYPE) + '_' + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_GeneralInfo.csv'
+    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_GeneralInfo.csv'
     MF = open(Mfile, 'w')
     MF.write('Start_Year; End_Year; Number_Of_Papers; Number_Of_Authors; Number_Of_Edges; Number_Of_Unweighted_Edges\n')
     N = Network()
@@ -205,7 +205,8 @@ def makeGeneralNetworkDataFile():
     print 'Finished gathering the general information !!'
     
 if __name__ == "__main__":
-    setFilePaths()
+    communities_directory = os.path.realpath(os.getcwd() + '/../../..')
+    setFilePaths(communities_directory)
     makeGeneralNetworkDataFile()
     makeCollaborationDistributionFile()
     makeTemporalDataFilesForAbbasi()
