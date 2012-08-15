@@ -143,12 +143,14 @@ echo "Running Asif's Legacy Code"
 cd ../cluster-analysis/co-authors/Asif_code/
 pwd
 
+echo $linebreak
+echo " "
+
 i=0
 j=0
 while [ $i -lt ${#pajekpath[@]} ]
 do
-	echo "processing slice $i"
-
+	echo "processing slice ${years[$i]} with networksummarize.pl"
 	./networksummarize.pl ../../${pajekpath[$i]} ${basenames[$i]}
 	if [ $? != 0 ]
 	then
@@ -156,8 +158,15 @@ do
 		echo "There was a problem running Asif Legacy Code - networksummarize.pl"
 		exit 1
 	fi
-	
-	./zP.pl ../../${pajekpath[$i]}/${basenames[$i]} ../../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}
+	echo $linebreak
+	echo "processing slice ${years[$i]} with zP.pl"
+	dirname="../../${pajekpath[$i]}/${basenames[$i]}"
+	outdirname="../../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}"
+
+	echo "dirname used is $dirname"
+	echo "outdirname used is $outdirname"
+
+	./zP.pl ${dirname} ${outdirname}
 
 	if [ $? != 0 ]
 	then
@@ -165,12 +174,30 @@ do
 		echo "There was a problem running Asif Legacy Code - zP.pl"
 		exit 1
 	fi
-
+	
+	echo $linebreak
+	echo "processing slice ${years[$i]} hubs with hub.py"
 	cd ../../../hub-analysis/co-author
 	
-	#python hub.py ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/pajek/${basenames[$i]}.net ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.all.txt ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.hub
+	hubnet="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/pajek/${basenames[$i]}.net"
+	huball="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.all.txt"
+	hubout="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.hub"
+
+	echo "hubnet used is $hubnet"
+	echo "huball used is $huball"
+	echo "hubout should be $hubout"
+
+	python hub.py $hubnet $huball $hubout
 	
+	if [ $? != 0 ]
+	then
+		echo "//////////////////------WARNING-------///////////////////"
+		echo "There was a problem running hub.py for ${years[$i]}"
+		exit 1
+	fi
+
 	cd -
 	i=$[i+1]
+	echo $linebreak
 done
 
