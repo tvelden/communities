@@ -141,11 +141,14 @@ echo $linebreak
 
 echo "Running Asif's Legacy Code"
 cd ../cluster-analysis/co-authors/Asif_code/
+pwd
 
 i=0
 j=0
 while [ $i -lt ${#pajekpath[@]} ]
 do
+	echo "processing slice $i"
+
 	./networksummarize.pl ../../${pajekpath[$i]} ${basenames[$i]}
 	if [ $? != 0 ]
 	then
@@ -163,10 +166,11 @@ do
 		exit 1
 	fi
 
-	cd ../../../hub-analysis/coauthor
+	cd ../../../hub-analysis/co-author
 	
-	python hub.py ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/pajek/${basenames[$i]}.net ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.all.txt ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.hub
-
+	#python hub.py ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/pajek/${basenames[$i]}.net ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.all.txt ../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.hub
+	
+	cd -
 	i=$[i+1]
 done
 
