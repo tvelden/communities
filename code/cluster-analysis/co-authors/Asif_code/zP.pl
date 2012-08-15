@@ -10,18 +10,24 @@
 use strict;
 
 my $dirname= $ARGV[0];
-my $outdirname= $ARGV[1];
+my $snet= $ARGV[1];
+my $all= $ARGV[2];
+my $con= $ARGV[3];
+my $authcount= $ARGV[4];
+my $hubcount= $ARGV[5];
 
+##############################################
 my %nsize= ();
 my %cid= ();
 my %e= ();
 my %w= ();
 my %cs= ();
-
+my $outputsign = '>';
 sub loadgraph {
-    open(SNET, "$dirname.snet");
+    #open(SNET, "../data/output/network/$dirname.snet");
     #open(SNET, "/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.snet");
-
+    open (SNET, "${ARGV[1]}");
+	print "${ARGV[1]}";
     my $li= 0;
     my $ln= 0;
 
@@ -120,11 +126,12 @@ my %authcount= ();
 my %hubcount= ();
 
 
-open(ALL, ">$outdirname.all.txt");
 #open(ALL, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.all.txt");
-open(CON, ">$outdirname.con.txt");
+open (ALL, "${outputsign}${ARGV[2]}");
+print "${outputsign}${ARGV[2]}";
 #open(CON, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.con.txt");
-
+open (CON, "${outputsign}${ARGV[3]}");
+print "${outputsign}${ARGV[3]}";
 foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 
     my $cu= $cid{$u};
@@ -168,12 +175,12 @@ foreach my $u (sort {$z{$b} <=> $z{$a}} keys %z){
 close(CON);
 close(ALL);
 
-open(AU, ">$outdirname.authcount.txt");
-open(HB, ">$outdirname.hubcount.txt");
-
 #open(AU, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.authcount.txt");
+open (AU, "${outputsign}${ARGV[4]}");
+print "${outputsign}${ARGV[4]}";
 #open(HB, ">/Users/Kallol/Testing/nwa-field2/runs/run1/output/networks/discrete1991-2010_20years/whole_net/pajek/net_files/discrete1991-2010_20yearsCoauthorshipNetwork.hubcount.txt");
-
+open (HB, "${outputsign}${ARGV[5]}");
+print "${outputsign}${ARGV[5]}";
 foreach my $cu (keys %authcount){
     print AU "$cu $authcount{$cu}\n";
     $hubcount{$cu}= 0 if !exists($hubcount{$cu});

@@ -160,13 +160,13 @@ do
 	fi
 	echo $linebreak
 	echo "processing slice ${years[$i]} with zP.pl"
-	dirname="../../${pajekpath[$i]}/${basenames[$i]}"
+	dirname="../../${pajekpath[$i]}${basenames[$i]}"
 	outdirname="../../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}"
 
 	echo "dirname used is $dirname"
 	echo "outdirname used is $outdirname"
 
-	./zP.pl ${dirname} ${outdirname}
+	./zP.pl ${dirname} ${dirname}.snet ${outdirname}.all.txt ${outdirname}.con.txt ${outdirname}.authcount.txt ${outdirname}.hubcount.txt
 
 	if [ $? != 0 ]
 	then
@@ -178,7 +178,8 @@ do
 	echo $linebreak
 	echo "processing slice ${years[$i]} hubs with hub.py"
 	cd ../../../hub-analysis/co-author
-	
+	echo "working directory is now :"
+	pwd
 	hubnet="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/pajek/${basenames[$i]}.net"
 	huball="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.all.txt"
 	hubout="../${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${years[$i]}/whole_net/hubs/${basenames[$i]}.hub"
@@ -197,6 +198,8 @@ do
 	fi
 
 	cd -
+	echo "working directory is now :"
+	pwd
 	i=$[i+1]
 	echo $linebreak
 done

@@ -22,7 +22,8 @@ def gethub(netfilename, allfilename, hubfilename):
     netfile = open(netfilename, 'r')
     allfile = open(allfilename, 'r')
     hubfile = open(hubfilename, 'w')
-    
+    print hubfilename
+
     A = {}
     for line in netfile:
         if(line == '*Edges\n'):
@@ -63,4 +64,4 @@ def gethub(netfilename, allfilename, hubfilename):
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../../..')
     setFilePaths(communities_directory)
-    gethub(sys.argv[1], sys.argv[2], sys.argv[2])
+    gethub(sys.argv[1], sys.argv[2], sys.argv[3])
