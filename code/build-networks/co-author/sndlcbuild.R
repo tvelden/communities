@@ -13,12 +13,9 @@ if(length(args)==0){
 
 
 #extract start and end year of time slice from file name
-regexp <- "([0-9]{4})"
-stupidlist <- strsplit(filepath, "/")
-otherlist <- strsplit(stupidlist[[1]][[13]], "-")
-start <- str_extract(otherlist[[1]][[1]], regexp)
-end <- str_extract(otherlist[[1]][[2]], regexp)
-outpath <- paste(outpath, field, run, type, start, "-", end, "_", size, "years_sndlc.net", sep="")
+yearsplit <- strsplit(years, "-")
+start <- yearsplit[[1]][[1]]
+end <- yearsplit[[1]][[2]]
 
 #open csv file
 data <- read.csv(csv)

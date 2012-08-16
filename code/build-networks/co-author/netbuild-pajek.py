@@ -20,7 +20,7 @@ def makeCoauthorshipNetworkFilesForPajek():
         start = globalvar.START_YEAR
         end = start + globalvar.SIZE -1
         while(end<=globalvar.END_YEAR):
-            Partition = globalvar.Network()
+            Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
             Partition.printNetworkForPajek(globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             start = end + 1

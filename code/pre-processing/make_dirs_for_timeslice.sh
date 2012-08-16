@@ -277,4 +277,4 @@ fi
 	
 
 cd ${FULL_RUN_PATH}/${RUN}/output/statistics
-tree
+#tree

@@ -44,13 +44,13 @@ then
 	#initialize array to discrete
 	echo "Setting up slicing for discrete"
 	let "window=${END_YEAR}-${START_YEAR}"
-	#echo "window is $window"
+	echo "window is $window"
 	let "numslices=$window/$SIZE"
 	let "firstendyear=$START_YEAR+$SIZE-1"
 	firststartyear=${START_YEAR}
 	for ((i=${firststartyear}, k=${firstendyear}; k <=${END_YEAR}; i+=${SIZE}, k+=${SIZE}))
 	do
-		#echo "$i - $k"
+		echo "$i - $k"
 		years[${#years[*]}]="${i}-${k}"
 	done
 	echo $linebreak
