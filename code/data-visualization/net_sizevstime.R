@@ -12,15 +12,15 @@ if(length(args)==0){
 }
 
 if ( net_type == "lc" ) {
-	print("Plotting Large Component Growth")
+	#print("Plotting Large Component Growth")
 	data.df <- read.csv(csv)
-	print(data.df)
-	nodes.outpath <- paste(outpath, "_actual_nodes.png")
-	edges.outpath <- paste(outpath, "_actual_edges.png")
+	#print(data.df)
+	nodes.outpath <- paste(outpath, "_actual_nodes.png", sep="")
+	edges.outpath <- paste(outpath, "_actual_edges.png", sep="")
 	nodes.title <- paste("Largest Component Growth (by Nodes)", field, run, sep=" ")
-	print(nodes.title)
+	#print(nodes.title)
 	edges.title <- paste("Largest Component Growth (by Edges)", field, run, sep=" ")
-	print(edges.title)
+	#print(edges.title)
 
 	#create plot from csv data
 	p <- ggplot(data.df, aes(END, LC_SIZE_NODES)) + geom_line(colour="black") + geom_point(colour="red")
@@ -38,16 +38,17 @@ if ( net_type == "lc" ) {
 	q <- q + aes(ymin=0) + xlim(as.integer(start_year), as.integer(end_year))
 	summary(q)
 	ggsave(q, file=edges.outpath, dpi=72)
+
 } else if ( net_type == "whole" ) {
-	print("Plotting Whole Network Growth")
+	#print("Plotting Whole Network Growth")
 	data.df <- read.csv(csv)
-	print(data.df)
-	nodes.outpath <- paste(outpath, "_actual_nodes.png")
-	edges.outpath <- paste(outpath, "_actual_edges.png")
+	#print(data.df)
+	nodes.outpath <- paste(outpath, "_actual_nodes.png", sep="")
+	edges.outpath <- paste(outpath, "_actual_edges.png", sep="")
 	nodes.title <- paste("Whole Network Growth (by Nodes)", field, run, sep=" ")
-	print(nodes.title)
+	#print(nodes.title)
 	edges.title <- paste("Whole Network Growth (by Edges)", field, run, sep=" ")
-	print(edges.title)
+	#print(edges.title)
 
 	#create plot from csv data
 	p <- ggplot(data.df, aes(END, TOTAL_SIZE_NODES)) + geom_line(colour="black") + geom_point(colour="red")
@@ -65,4 +66,5 @@ if ( net_type == "lc" ) {
 	q <- q + aes(ymin=0) + xlim(as.integer(start_year), as.integer(end_year))
 	summary(q)
 	ggsave(q, file=edges.outpath, dpi=72)
-	
+}	
+q()

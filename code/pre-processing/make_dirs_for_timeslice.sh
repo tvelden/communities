@@ -92,36 +92,38 @@ then
 	
 	for i in ${endyears[*]}
 	do	
-		mkdir ${thisrun_net}/generic/$i
+		mkdir -p ${thisrun_net}/generic/$i
 		for j in ${net_types[*]}
 		do
 			echo ${thisrun_net}/generic/$i/$j
-			mkdir ${thisrun_net}/generic/$i/$j
+			mkdir -p ${thisrun_net}/generic/$i/$j
 		done
-		mkdir ${thisrun_net}/generic/$i/components/4alluvial
-		mkdir ${thisrun_net}/generic/$i/large_component/images
-		mkdir ${thisrun_net}/generic/$i/large_component/pajek
-		mkdir ${thisrun_net}/generic/$i/whole_net/hubs/
-		mkdir ${thisrun_net}/generic/$i/whole_net/images/
-		mkdir ${thisrun_net}/generic/$i/whole_net/pajek/
+		mkdir -p ${thisrun_net}/generic/$i/components/4alluvial
+		mkdir -p ${thisrun_net}/generic/$i/large_component/images
+		mkdir -p ${thisrun_net}/generic/$i/large_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/images
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/hubs/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/images/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/pajek/
 	done
 
 	
 	for i in ${endyears[*]}
 	do
-		mkdir "${thisrun_net}/collaboration/${i}"
-		mkdir "${thisrun_net}/transfer/${i}"
-		mkdir "${thisrun_net}/collaboration/${i}/author_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/author_level_net"
-		mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}"
+		mkdir -p "${thisrun_net}/transfer/${i}"
+		mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net"
 
 		for j in ${net_types[*]}
 		do
-			mkdir "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
 		done
 	done
 
@@ -130,13 +132,13 @@ then
 	do	
 		for h in ${subdir[*]}
 		do
-			mkdir ${thisrun_stat}/$h/$i
+			mkdir -p ${thisrun_stat}/$h/$i
 			for j in ${net_types[*]}
 			do
 				echo ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j/images
-				mkdir ${thisrun_stat}/$h/$i/$j/tables
+				mkdir -p ${thisrun_stat}/$h/$i/$j
+				mkdir -p ${thisrun_stat}/$h/$i/$j/images
+				mkdir -p ${thisrun_stat}/$h/$i/$j/tables
 			done
 		done
 	done
@@ -159,35 +161,37 @@ then
 	
 	for i in ${years[*]}
 	do	
-		mkdir ${thisrun_net}/generic/$i
+		mkdir -p ${thisrun_net}/generic/$i
 		for j in ${net_types[*]}
 		do
 			echo ${thisrun_net}/generic/$i/$j
-			mkdir ${thisrun_net}/generic/$i/$j
+			mkdir -p ${thisrun_net}/generic/$i/$j
 		done
-		mkdir ${thisrun_net}/generic/$i/components/4alluvial
-		mkdir ${thisrun_net}/generic/$i/large_component/images
-		mkdir ${thisrun_net}/generic/$i/large_component/pajek
-		mkdir ${thisrun_net}/generic/$i/whole_net/hubs/
-		mkdir ${thisrun_net}/generic/$i/whole_net/images/
-		mkdir ${thisrun_net}/generic/$i/whole_net/pajek/
+		mkdir -p ${thisrun_net}/generic/$i/components/4alluvial
+		mkdir -p ${thisrun_net}/generic/$i/large_component/images
+		mkdir -p ${thisrun_net}/generic/$i/large_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/images
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/hubs/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/images/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/pajek/
 	done
 
 	for i in ${years[*]}
 	do
-		mkdir "${thisrun_net}/collaboration/${i}"
-		mkdir "${thisrun_net}/transfer/${i}"
-		mkdir "${thisrun_net}/collaboration/${i}/author_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/author_level_net"
-		mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}"
+		mkdir -p "${thisrun_net}/transfer/${i}"
+		mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net"
 
 		for j in ${net_types[*]}
 		do
-			mkdir "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
 		done
 	done
 
@@ -196,13 +200,13 @@ then
 	do	
 		for h in ${subdir[*]}
 		do
-			mkdir ${thisrun_stat}/$h/$i
+			mkdir -p ${thisrun_stat}/$h/$i
 			for j in ${net_types[*]}
 			do
 				echo ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j/images
-				mkdir ${thisrun_stat}/$h/$i/$j/tables
+				mkdir -p ${thisrun_stat}/$h/$i/$j
+				mkdir -p ${thisrun_stat}/$h/$i/$j/images
+				mkdir -p ${thisrun_stat}/$h/$i/$j/tables
 			done
 		done
 	done
@@ -224,35 +228,37 @@ then
 
 	for i in ${years[*]}
 	do	
-		mkdir ${thisrun_net}/generic/$i
+		mkdir -p ${thisrun_net}/generic/$i
 		for j in ${net_types[*]}
 		do
 			echo ${thisrun_net}/generic/$i/$j
-			mkdir ${thisrun_net}/generic/$i/$j
+			mkdir -p ${thisrun_net}/generic/$i/$j
 		done
-		mkdir ${thisrun_net}/generic/$i/components/4alluvial
-		mkdir ${thisrun_net}/generic/$i/large_component/images
-		mkdir ${thisrun_net}/generic/$i/large_component/pajek
-		mkdir ${thisrun_net}/generic/$i/whole_net/hubs/
-		mkdir ${thisrun_net}/generic/$i/whole_net/images/
-		mkdir ${thisrun_net}/generic/$i/whole_net/pajek/
+		mkdir -p ${thisrun_net}/generic/$i/components/4alluvial
+		mkdir -p ${thisrun_net}/generic/$i/large_component/images
+		mkdir -p ${thisrun_net}/generic/$i/large_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/images
+		mkdir -p ${thisrun_net}/generic/$i/2ndlargest_component/pajek
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/hubs/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/images/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/pajek/
 	done
 
 	for i in ${years[*]}
 	do
-		mkdir "${thisrun_net}/collaboration/${i}"
-		mkdir "${thisrun_net}/transfer/${i}"
-		mkdir "${thisrun_net}/collaboration/${i}/author_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/author_level_net"
-		mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net"
-		mkdir "${thisrun_net}/transfer/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}"
+		mkdir -p "${thisrun_net}/transfer/${i}"
+		mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/author_level_net"
+		mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net"
+		mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net"
 
 		for j in ${net_types[*]}
 		do
-			mkdir "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/author_level_net/${j}"
-			mkdir "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
-			mkdir "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/author_level_net/${j}"
+			mkdir -p "${thisrun_net}/collaboration/${i}/cluster_level_net/${j}"
+			mkdir -p "${thisrun_net}/transfer/${i}/cluster_level_net/${j}"
 		done
 	done
 
@@ -261,13 +267,13 @@ then
 	do	
 		for h in ${subdir[*]}
 		do
-			mkdir ${thisrun_stat}/$h/$i
+			mkdir -p ${thisrun_stat}/$h/$i
 			for j in ${net_types[*]}
 			do
 				echo ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j
-				mkdir ${thisrun_stat}/$h/$i/$j/images
-				mkdir ${thisrun_stat}/$h/$i/$j/tables
+				mkdir -p ${thisrun_stat}/$h/$i/$j
+				mkdir -p ${thisrun_stat}/$h/$i/$j/images
+				mkdir -p ${thisrun_stat}/$h/$i/$j/tables
 			done
 		done
 	done
