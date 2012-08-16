@@ -1,0 +1,281 @@
+#!/bin/bash
+
+#loads the parameter file
+. ../../parameters/parameters-global.txt
+echo "These are the parameters designated by ../../parameters/parameters-global.txt"
+echo "FIELD = " $FIELD
+echo "RUN = " $RUN
+echo "START_YEAR = " $START_YEAR
+echo "END YEAR = "$END_YEAR
+echo "TYPE = " $TYPE
+echo "SIZE = " $SIZE
+echo "NET_PATH =  " $NET_PATH
+echo "DATA_PATH =  " $DATA_PATH
+
+ROOT_PATH="../../"
+FULL_DATA_PATH=${ROOT_PATH}${NET_PATH}/nwa-${FIELD}/data/$DATA_PATH
+FULL_RUN_PATH=${ROOT_PATH}${NET_PATH}/nwa-${FIELD}/runs/
+slicing=${TYPE}${START_YEAR}-${END_YEAR}_${SIZE}years
+linebreak="---------------------------------------------------------"
+
+#initialize time slice structure
+cd ../pre-processing
+./make_dirs_for_timeslice.sh
+cd -
+
+#figure out time slices
+if [ "${TYPE}" == "accumulative" ]
+then
+	#initialize array to accumulative
+	echo "Setting up slicing for accumulative"
+	let "window=${END_YEAR}-${START_YEAR}"
+	#echo "window is $window"
+	let "numslices=$window/$SIZE"
+	let "firstendyear=$START_YEAR+$SIZE-1"
+	for ((i=${firstendyear}; i <=${END_YEAR}; i+=${SIZE}))
+	do
+		#echo $i
+		years[${#years[*]}]="${START_YEAR}-${i}"
+	done
+	echo $linebreak
+
+elif [ "${TYPE}" == "discrete" ]
+then
+	#initialize array to discrete
+	echo "Setting up slicing for discrete"
+	let "window=${END_YEAR}-${START_YEAR}"
+	#echo "window is $window"
+	let "numslices=$window/$SIZE"
+	let "firstendyear=$START_YEAR+$SIZE-1"
+	firststartyear=${START_YEAR}
+	for ((i=${firststartyear}, k=${firstendyear}; k <=${END_YEAR}; i+=${SIZE}, k+=${SIZE}))
+	do
+		#echo "$i - $k"
+		years[${#years[*]}]="${i}-${k}"
+	done
+	echo $linebreak
+elif [ "${TYPE}" == "sliding" ]
+then
+	#initialize array to discrete
+	echo "Setting up slicing for discrete"
+	let "window=${END_YEAR}-${START_YEAR}"
+	#echo "window is $window"
+	let "numslices=$window/$SIZE"
+	let "firstendyear=$START_YEAR+$SIZE-1"
+	firststartyear=${START_YEAR}
+	for ((i=${firststartyear}, k=${firstendyear}; k <=${END_YEAR}; i+=${SIZE}, k+=${SIZE}))
+	do
+		#echo "$i - $k"
+		years[${#years[*]}]="${i}-${k}"
+	done
+	echo $linebreak
+else
+	echo "The parameter file is using an invalid type, $TYPE"
+	exit 1
+fi
+
+#count the number of slices which have a network slice
+count=0
+for i in ${years[*]}
+do
+	if [ `ls -1 ${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/pajek/*.net | wc -l` -ne 0 ]
+	then
+		count=$[count+1]
+	fi
+done
+
+echo $linebreak
+
+#check for network files in whole_net, run networkbuild.py if they don't exist
+echo "There are $count time slices created for these parameter settings"
+if [ $count != 0 ]
+then
+	echo "The whole network .net files for $time_slice have already been created"
+	networkbuildcheck=0
+else
+	echo "The whole network .net files for $time_slice have not been processed yet"
+	echo "Running networkbuild.py now to create $time_slice time slices"
+	cd ../build-networks/co-author
+	pwd
+	python netbuild-pajek.py 
+	networkbuildcheck=$? #grab exit code from running python script
+	if [[ $networkbuildcheck != 0 ]] #check exit code
+	then
+		echo "networkbuild.py did not finish correctly"
+		exit 1 # END SHELL SCRIPT WITH EXIT STATUS CODE 1
+	else
+		echo "networkbuild.py has finished making time sliced .net files for ${time_slice}"
+	fi
+	cd -
+	pwd
+fi
+
+echo $linebreak
+
+#create statistics CSV for whole network and large component network
+stat_csv="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/whole_net/tables/whole_lc_stats"
+headers="START, END, TOTAL_SIZE_NODES, TOTAL_SIZE_EDGES, LC_SIZE_NODES, LC_SIZE_EDGES, LC_DIAM"
+if [ -e $stat_csv ]
+then
+	echo "component_analysis csv has already been initialized"
+else
+	echo "initializing analysis csv"
+	echo $headers > ${stat_csv}
+fi
+
+#create statistics csv for 2nd largest component network
+snd_stat_csv="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/whole_net/tables/sndlc_stats"
+if [ -e $snd_stat_csv ]
+then
+	echo "component_analysis csv has already been initialized"
+else
+	headers2="START, END, SNDLC_SIZE_NODES, SNDLC_SIZE_EDGES, SNDLC_DIAM"	
+	echo $headers2 > ${snd_stat_csv}
+fi
+
+#get filenames for each .net file
+for i in ${years[*]}
+do
+	fullnet[${#fullnet[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/pajek/${FIELD}${RUN}_${TYPE}${i}_${SIZE}years_wholenet.net
+	lc_pajek[${#lc_pajek[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/large_component/pajek/
+	sndlc_pajek[${#sndlc_pajek[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/2ndlargest_component/pajek/
+	pajekpath[${#pajekpath[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/pajek/
+	basenames[${#basenames[*]}]=${FIELD}${RUN}_${TYPE}${i}_${SIZE}years
+done
+
+echo $linebreak
+
+###################################################################################################
+
+#check if there are large component files for this run already, creates files if they don't exist
+#count the number of slices which have a large component network slice
+lc_count=0
+i=0
+while [ $i -lt ${#years[@]} ]
+do
+	if [ -e ${lc_pajek[$i]}/${basenames[$i]}_lc.net ]
+	then
+		lc_count=$[lc_count + 1]
+	fi
+	i=$[i+1]
+done
+
+echo "There are ${lc_count} large component time slices created for these parameter settings"
+if [ ${lc_count} != 0 ]
+then
+	echo "Largest Component network files have already been generated"
+else
+	i=0
+	while [ $i -lt ${#years[@]} ]
+	do
+		args="--args filepath='${fullnet[$i]}' outpath='${lc_pajek[$i]}/${basenames[$i]}_lc.net' csv='${stat_csv}' years='${years[$i]}'"
+		echo "Largest Component : ${years[$i]}"
+		R --slave "$args" < ../build-networks/co-author/lcbuild.R
+		R_Check=$?
+		if [ ${R_Check} != 0 ]
+		then
+			echo "problem running lcbuild.R for $i"
+			exit 1
+		fi
+	i=$[i+1]
+	done
+fi
+
+echo $linebreak
+echo "Computing statistics for the Second Largest Component and processing subnetwork"
+#check if there are second largest component files for this run already, creates files if they don't exist
+sndlc_count=0
+i=0
+while [ $i -lt ${#years[@]} ]
+do
+	if [ -e ${sndlc_pajek[$i]}/${basenames[$i]}_sndlc.net ]
+	then
+		sndlc_count=$[sndlc_count + 1]
+	fi
+	i=$[i+1]
+done
+
+echo "There are ${sndlc_count} second large component time slices created for these parameter settings"
+if [ ${sndlc_count} != 0 ]
+then
+	echo "Second Largest Component network files have already been generated"
+else
+	i=0
+	while [ $i -lt ${#years[@]} ]
+	do
+		args="--args filepath='${fullnet[$i]}' outpath='${sndlc_pajek[$i]}/${basenames[$i]}_sndlc.net' csv='${snd_stat_csv}' years='${years[$i]}'"
+		echo "Second Largest Component : ${years[$i]}"
+		R --slave "$args" < ../build-networks/co-author/sndlcbuild.R
+		R_Check=$?
+		if [ ${R_Check} != 0 ]
+		then
+			echo "problem running lcbuild.R for $i"
+			exit 1
+		fi
+	i=$[i+1]
+	done
+fi
+
+echo $linebreak
+
+#network visualizations are out until a more memory efficient method is devised
+
+#check if large component visulization files for this run exist already,
+# creates files if they don't exist
+#if [ -d ${stat_time_slice}/images/visualizations/ ]
+#then
+#	echo "visualizations folder has already been created"
+#else
+#	mkdir ${stat_time_slice}/images/visualizations/
+#	echo "visualization folder was created"
+#fi
+
+#lcnet=(${net_time_slice}large_component/net/*.net)
+#count=`ls -1 ${stat_time_slice}images/visualizations/large_component/*.net  | wc -l`
+#echo "There are $count visualizations created for these parameter settings"
+#if [ $count == 0 ]
+#then
+#	echo "Largest Component Visualizations have already been made"
+#else
+#	for i in ${lcnet[*]}
+#	do
+#		args="--args filepath='$i' outpath='${dir[2]}/${time_slice}/large_component/images/' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' desc='Largest Component'"
+#		echo "Largest Component Visualization : $i"
+#		R --slave "$args" < ../data-visualization/lcvisualization.R
+#		R_Check=$?
+#		if [ ${R_Check} != 0 ]
+#		then
+#			echo "problem running visualizations for netvisualization.R for $i"
+#			exit 1
+#		fi
+#	done
+#fi
+
+# Plot Graph of Large Component Size vs. Time
+#check if there are second largest component files for this run already, creates files if they don't exist
+lcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_size-vs-time"
+if [ -e  ${lcsizevtime}_actual_nodes.png ]
+then
+	echo "Plot graph of Largest Component Size vs. Time has already been created at :"
+	echo $lcsizevtimeactual
+else
+	args="--args net_type='lc' outpath='${lcsizevtime}' field='${FIELD}' run='${RUN}' #size='${SIZE}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+	#echo $linebreak
+	#echo $args
+	#echo $linebreak
+	echo "Creating Plot graph of Large Component vs. Time at ${lcsizevtime}"
+	echo $linebreak
+	R --slave "$args" < ../data-visualization/net_sizevstime.R
+	R_Check=$?
+	if [ ${R_Check} != 0 ]
+	then
+		echo "problem creating plot for Large Component Size vs. Time"
+		exit 1
+	fi
+fi
+
+
+
+echo $linebreak
+echo "PROGRAM FINISHED"
+echo $linebreak
