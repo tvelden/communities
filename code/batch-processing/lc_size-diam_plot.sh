@@ -257,7 +257,8 @@ lcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyear
 if [ -e  ${lcsizevtime}_actual_nodes.png ]
 then
 	echo "Plot graph of Largest Component Size vs. Time has already been created at :"
-	echo $lcsizevtimeactual
+	echo $lcsizevtime
+	echo $linebreak
 else
 	args="--args net_type='lc' outpath='${lcsizevtime}' field='${FIELD}' run='${RUN}' #size='${SIZE}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
 	#echo $linebreak
@@ -274,8 +275,52 @@ else
 	fi
 fi
 
+# Plot Graph of Large Component Size vs. Time
+#check if there are second largest component files for this run already, creates files if they don't exist
+sndlcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/2ndlargest_component/images/lc_size-vs-time"
+if [ -e  ${sndlcsizevtime}_actual_nodes.png ]
+then
+	echo "Plot graph of Second Largest Component Size vs. Time has already been created at :"
+	echo $sndlcsizevtime
+	echo $linebreak
+else
+	args="--args net_type='sndlc' outpath='${sndlcsizevtime}' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' csv='${snd_stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+	#echo $linebreak
+	#echo $args
+	#echo $linebreak
+	echo "Creating Plot graph of Second Largest Component vs. Time at ${lcsizevtime}"
+	echo $linebreak
+	R --slave "$args" < ../data-visualization/net_sizevstime.R
+	R_Check=$?
+	if [ ${R_Check} != 0 ]
+	then
+		echo "problem creating plot for Second Largest Component Size vs. Time"
+		exit 1
+	fi
+fi
 
+# Plot Graph of Largest Component Diameter vs. Time
+lcdiamvtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_diam-vs-time"
 
-echo $linebreak
-echo "PROGRAM FINISHED"
-echo $linebreak
+if [ -e ${lcdiamvtime}_diam.png ]
+then
+	echo "Plot graph of Largest Component Diamater vs. Time has already been created at :"
+	echo $lcdiamvtime
+	echo $linebreak
+else
+	args="--args net_type='lc' outpath='${lcdiamvtime}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+
+	echo "Creating Plot graph of Largest Component Diameter vs. Time"
+	echo $linebreak
+	R --slave "$args" < ../data-visualization/net_diamvstime.R
+	R_Check=$?
+	if [ ${R_Check} != 0 ]
+	then
+		echo "problem creating plot for Largest Component Diameter vs. Time"
+		exit 1
+	fi
+fi
+
+#echo $linebreak
+#echo "PROGRAM FINISHED"
+#echo $linebreak
