@@ -5,6 +5,7 @@ import numpy
 import scipy.stats
 from operator import itemgetter
 import pdb
+import globalvar
 import networkx as nx
 
 
@@ -71,6 +72,45 @@ class Network:
         self.edges = []
         self.G = nx.Graph()
     
+    def removeHyperAuthorshipPapers(self):
+        fname = os.path.realpath(os.path.dirname(globalvar.INPUT_REDUCED_FILE_PATH)) + '/HyperAuthorshipLess.txt'
+        outFile = open(fname, 'w')
+        
+        fname = os.path.realpath(os.path.dirname(globalvar.INPUT_REDUCED_FILE_PATH)) + '/SignificantPapers.txt'
+        infile = open(fname, 'r')
+        
+        S = [] #list of significant papers
+        for line in infile:
+            S.append(line[0:len(line)-1])
+        
+        for p in self.papers:
+            if(p.ID in S):
+                outFile.write('ID ' + str(p.ID) + '\n')
+                outFile.write('CI ' + str(p.CI) + '\n')
+                outFile.write('SO ' + str(p.SO) + '\n')
+                outFile.write('TI ' + str(p.TI) + '\n')
+                outFile.write('BI ' + str(p.BI) + '\n')
+                if(len(p.AU)>0 ):
+                    outFile.write('AU')
+                    for author in p.AU:
+                        outFile.write(' ' + str(author) + '\n')
+                for element in p.AF:
+                    outFile.write('AF ' + str(element) + '\n')
+                for element in p.CT:
+                    outFile.write('CT ' + str(element) + '\n')
+                for element in p.CO:
+                    outFile.write('CO ' + str(element) + '\n')
+                for element in p.RF:
+                    outFile.write('RF ' + str(element) + '\n')
+                for element in p.CA:
+                    outFile.write('CA ' + str(element) + '\n')
+                outFile.write('\n')
+        
+        outFile.close()
+        infile.close()
+                
+        
+        
     def printNetworkComponents(self, field, run, type, size, directoryPath):
         
         color = {}
@@ -120,11 +160,13 @@ class Network:
         #print SL[0][1][0]
         
         #making the component file
-        fsd = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years/components/pajek'
+        fsd = directoryPath + '/' + str(self.startYear) + '-' + str(self.endYear)  + '/components/pajek'
         if not os.path.exists(fsd):
             os.makedirs(fsd)
         fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_components.net'
         out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
         out.write('Number of Vertices:' + str(self.numberOfNodes) + '\n')
         out.write('Number of Components:' +str(index) + '\n')
         out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
@@ -134,12 +176,30 @@ class Network:
         for e in SL:
             i = i + 1
             out.write('*Component ' + str(i) + '\n')
-            out.write('Size' + str(SL[i-1][1][0]) + '\n')
+            out.write('**Size' + str(SL[i-1][1][0]) + '\n')
             for x in SL[i-1][1][1]:
                 out.write(str(x) + '\n')
             out.write('\n')
         out.close()
-    
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_LargestComponent.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
+        out.write('*Size:' + str(SL[0][1][0]) + '\n')
+        for x in SL[0][1][1]:
+            out.write(str(SL[0][1][1]) + '\n')
+        out.close()
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_SecondLargestComponent.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
+        out.write('*Size:' + str(SL[1][1][0]) + '\n')
+        for x in SL[1][1][1]:
+            out.write(str(SL[1][1][1]) + '\n')
+        out.close()
+        
     def getGeneralInfo(self):
         col1 = self.startYear
         col2 = self.endYear
@@ -185,6 +245,22 @@ class Network:
         x = nx.betweenness_centrality(self.G)
         #self.BetweennessCentrality = x
         return x
+    
+    def getAuthorDistributionAmongPapers(self):
+        D = {}
+        for p in self.papers:
+            n = len(p.AU)
+            if (n not in D):
+                l = []
+                alist = []
+                alist.append(p.ID)
+                l.append(1)
+                l.append(alist)
+                D[n] = l
+            else:
+                D[n][0] = D[n][0] + 1
+                D[n][1].append(p.ID)
+        return D
     
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
@@ -538,7 +614,7 @@ class Comparer:
             column14 = 0
         
         return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 )
-        
+    
     def contentForAbbasiTable3(self):
         column1 = self.current.startYear
         column2 = self.current.endYear

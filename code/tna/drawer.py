@@ -35,8 +35,8 @@ class Net:
         self.ClosenessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_ClosenessCentrality.csv'
         self.BetweennessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_BetweennessCentrality.csv'
         self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
-        
-        self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + '_' + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
+        self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AuthorDistribution.csv'
+        self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
 class GraphDrawer:
     def __init__(self):
         self.GList = []
@@ -198,7 +198,7 @@ class GraphDrawer:
         fi.write("M<- read.table('" + g.CollaborationDistributionFile + "', header = TRUE, sep =';')\n" )
         
         fi.write("p<-ggplot(M)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CollaborationDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
         fi.write("p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10')\n")
@@ -206,6 +206,22 @@ class GraphDrawer:
 
         fi.write("#Degree Distribution ends\n\n\n")
         fi.close()
+        
+    def addAuthorDistribution(self, g, fs):
+        fi = open(fs, 'a')
+        fi.write("\n\n#Author Distribution starts\n")
+        fi.write("M<- read.table('" + g.Authordistributionfile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("p<-ggplot(M)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_AuthorDistribution.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('No. of Authors') + ylab('Number of Papers') + geom_point(aes(M$No_of_Authors, M$Frequency_of_Papers)) + geom_line(aes(M$No_of_Authors, M$Frequency_of_Papers)) \n")
+        fi.write("ggsave(pdffile)\n\n")
+
+        fi.write("#Author Distribution ends\n\n\n")
+        fi.close()
+        
     def makeIndividualGraphs(self, fs):
         for g in self.GList:
             self.addGeneralInfo(g,fs)
@@ -213,6 +229,7 @@ class GraphDrawer:
             self.addAbbasi3(g,fs)
             self.addCentrality(g,fs)
             self.addDegreeDistribution(g,fs)
+            self.addAuthorDistribution(g,fs)
             
     def makeComparisonGraphs(self, fs):
         print 'hello'

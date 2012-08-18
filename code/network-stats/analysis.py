@@ -1,6 +1,7 @@
 import os
 import sys
 import operator
+import math
 import numpy
 import scipy.stats
 from operator import itemgetter
@@ -141,7 +142,7 @@ def makeTemporalDataFilesForAbbasi():
     print "Computation for Betweenness Centrality is completed"
     
 def makeCollaborationDistributionFile():
-    print 'Gathering data for Hub collaboration distribution over the time ...'
+    print 'Gathering data for collaboration distribution among the authors entire network  ...'
     directoryPath = globalvar.OUTPUT_STATISTICS_DIRECTORY + '/allyears/whole_net/tables' 
     if not os.path.exists(directoryPath):
             os.makedirs(directoryPath)
@@ -157,7 +158,7 @@ def makeCollaborationDistributionFile():
             continue
         MF.write(str(k) + ';' + str(X[k]) + '\n')
     MF.close()
-    print 'Finished gathering data for Hub collaboration distribution!!'
+    print 'Finished gathering data for collaboration distribution!!'
 
 def makeGeneralNetworkDataFile():
     
@@ -204,11 +205,77 @@ def makeGeneralNetworkDataFile():
     MF.close()
     print 'Finished gathering the general information !!'
     
-if __name__ == "__main__":
-    communities_directory = os.path.realpath(os.getcwd() + '/../../..')
-    setFilePaths(communities_directory)
-    makeGeneralNetworkDataFile()
-    makeCollaborationDistributionFile()
-    makeTemporalDataFilesForAbbasi()
+def makeAuthorDistributionAmongPapersFile():
+    print 'Gathering data for Author distribution among the papers in entire network ...'
+    directoryPath = globalvar.OUTPUT_STATISTICS_DIRECTORY + '/allyears/whole_net/tables' 
+    if not os.path.exists(directoryPath):
+            os.makedirs(directoryPath)
+            print('New directory made: ' + str(directoryPath))
+    print directoryPath
+    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_AuthorDistribution.csv'
+    Sfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_SignificantPapers.csv'
+    MF = open(Mfile, 'w')
+    SF = open(Sfile, 'w')
+    MF.write('No_of_Authors; Frequency_of_Papers; \n')
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(globalvar.INPUT_REDUCED_FILE_PATH)
+    X = N.getAuthorDistributionAmongPapers()
+    ind = -1
+    V = []
+    for k in X:
+        for e in X[k][1]:
+          V.append(k)
+          ind = ind + 1
+    #print ind
+    #print V
+    if(ind%2 == 0):
+        med = ind /2
+    else:
+        med = (ind + 1) /2
+        
+    V.sort() 
+    median = V[med]
+    print median
+    dev = []
+    for i in range(0,ind+1):
+        dev.append(abs(V[i]-median))
+        #print dev[i]
+    dev.sort()
+    devmedian = dev[med]
+    
+    print devmedian
+    
+    ratio = []
+    for i in range(0,ind+1):
+        ratio.append(float(dev[i])/float(devmedian))
+    Y = {}
+    for i in range(0, ind + 1):
+        Y[V[i]] = ratio[i]
+    for k in X:
+        #print k, X[k]
+        if(k ==0):
+            continue
+        MF.write(str(k) + ';' + str(X[k][0]))
+        MF.write(' ;' + str(Y[k]))
+        for e in X[k][1]:
+            MF.write('; ' + str(e))
+        if(Y[k]<=5.0):
+            for e in X[k][1]:
+                SF.write(str(e) + '\n')
+        MF.write('\n')
+        #print k, X[k]
+    MF.close()
+    SF.close()
+    print 'Finished gathering data for Author distribution!!'
 
+
+
+
+if __name__ == "__main__":
+    communities_directory = os.path.realpath(os.getcwd() + '/../..')
+    setFilePaths(communities_directory)
+    #makeGeneralNetworkDataFile()
+    makeCollaborationDistributionFile()
+    #makeTemporalDataFilesForAbbasi()
+    #makeAuthorDistributionAmongPapersFile()
     
