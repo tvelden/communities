@@ -80,7 +80,7 @@ then
 	#initialize array to accumulative
 	echo "Setting up slicing for accumulative"
 	let "window=${END_YEAR}-${START_YEAR}"
-	echo "window is $window"
+	#echo "window is $window"
 	let "numslices=$window/$SIZE"
 	let "firstendyear=$START_YEAR+$SIZE-1"
 	for ((i=${firstendyear}; i <=$END_YEAR; i+=${SIZE}))

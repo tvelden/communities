@@ -1,6 +1,11 @@
 library(igraph)
 library(ggplot2)
 
+#suppresses Rplot.pdf output
+options(device = function(...) {
+    .Call("R_GD_nullDevice", PACKAGE = "grDevices")
+})
+
 #parse arguments
 args=(commandArgs(trailingOnly=TRUE))
 if(length(args)==0){

@@ -253,8 +253,8 @@ echo $linebreak
 
 # Plot Graph of Large Component Size vs. Time
 #check if there are second largest component files for this run already, creates files if they don't exist
-lcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_size-vs-time"
-if [ -e  ${lcsizevtime}_actual_nodes.png ]
+lcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/${slicing}_lc_size-vs-time"
+if [ -e  ${lcsizevtime}_actual_nodes.png ] && [ -e ${lcsizevtime}_actual_edges.png ] && [ -e ${lcsizevtime}_percent_edges.png ] && [ -e ${lcsizevtime}_percent_nodes.png ]
 then
 	echo "Plot graph of Largest Component Size vs. Time has already been created at :"
 	echo $lcsizevtime
@@ -275,16 +275,16 @@ else
 	fi
 fi
 
-# Plot Graph of Large Component Size vs. Time
+# Plot Graph of  Second Largest COmponent vs. Time
 #check if there are second largest component files for this run already, creates files if they don't exist
-sndlcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/2ndlargest_component/images/lc_size-vs-time"
-if [ -e  ${sndlcsizevtime}_actual_nodes.png ]
+sndlcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/2ndlargest_component/images/${slicing}_sndlc_size-vs-time"
+if [ -e  ${sndlcsizevtime}_actual_nodes.png ] && [ -e ${sndlcsizevtime}_actual_edges.png ] && [ -e ${sndlcsizevtime}_percent_edges.png ] && [ -e ${sndlcsizevtime}_percent_nodes.png ]
 then
 	echo "Plot graph of Second Largest Component Size vs. Time has already been created at :"
 	echo $sndlcsizevtime
 	echo $linebreak
 else
-	args="--args net_type='sndlc' outpath='${sndlcsizevtime}' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' csv='${snd_stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+	args="--args net_type='sndlc' outpath='${sndlcsizevtime}' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' csv='${snd_stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}' csv2='${stat_csv}'"
 	#echo $linebreak
 	#echo $args
 	#echo $linebreak
@@ -300,7 +300,7 @@ else
 fi
 
 # Plot Graph of Largest Component Diameter vs. Time
-lcdiamvtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_diam-vs-time"
+lcdiamvtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/${slicing}_lc_diam-vs-time"
 
 if [ -e ${lcdiamvtime}_diam.png ]
 then
@@ -321,6 +321,28 @@ else
 	fi
 fi
 
-#echo $linebreak
-#echo "PROGRAM FINISHED"
-#echo $linebreak
+#plot graph of Largest Component Diameter vs. Size
+lcdiamvsize="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_diam-vs-size"
+
+if [ -e  ${lcdiamvsize}_actual_nodes.png ] && [ -e ${lcdiamvsize}_actual_edges.png ] && [ -e ${lcdiamvsize}_percent_edges.png ] && [ -e ${lcdiamvsize}_percent_nodes.png ]
+then
+	echo "Plot graph of Largest Component Diameter vs. Size has already been created at :"
+	echo $lcdiamvsize
+	echo $linebreak
+else
+	args="--args net_type='lc' outpath='${lcdiamvsize}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+	
+	echo "Creating Plot graph of Largest Component Diameter vs. Size"
+	echo $linebreak
+	R --slave "$args" < ../data-visualization/net_diamvssize.R
+		R_Check=$?
+	if [ ${R_Check} != 0 ]
+	then
+		echo "problem creating plot for Largest Component Diameter vs. Size"
+		exit 1
+	fi
+fi
+
+echo $linebreak
+echo "PROGRAM FINISHED"
+echo $linebreak
