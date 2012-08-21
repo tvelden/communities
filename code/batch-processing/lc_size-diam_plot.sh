@@ -218,38 +218,6 @@ fi
 
 echo $linebreak
 
-#network visualizations are out until a more memory efficient method is devised
-
-#check if large component visulization files for this run exist already,
-# creates files if they don't exist
-#if [ -d ${stat_time_slice}/images/visualizations/ ]
-#then
-#	echo "visualizations folder has already been created"
-#else
-#	mkdir ${stat_time_slice}/images/visualizations/
-#	echo "visualization folder was created"
-#fi
-
-#lcnet=(${net_time_slice}large_component/net/*.net)
-#count=`ls -1 ${stat_time_slice}images/visualizations/large_component/*.net  | wc -l`
-#echo "There are $count visualizations created for these parameter settings"
-#if [ $count == 0 ]
-#then
-#	echo "Largest Component Visualizations have already been made"
-#else
-#	for i in ${lcnet[*]}
-#	do
-#		args="--args filepath='$i' outpath='${dir[2]}/${time_slice}/large_component/images/' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' desc='Largest Component'"
-#		echo "Largest Component Visualization : $i"
-#		R --slave "$args" < ../data-visualization/lcvisualization.R
-#		R_Check=$?
-#		if [ ${R_Check} != 0 ]
-#		then
-#			echo "problem running visualizations for netvisualization.R for $i"
-#			exit 1
-#		fi
-#	done
-#fi
 
 # Plot Graph of Large Component Size vs. Time
 #check if there are second largest component files for this run already, creates files if they don't exist
@@ -342,6 +310,25 @@ else
 		exit 1
 	fi
 fi
+
+#create visualizations of the Largest Component
+i=0
+while [ $i -lt ${#years[@]} ]
+do
+	visoutpath="${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/allyears/large_component/images/${TYPE}_${years[$i]}_lc-vis.png"
+	echo $linebreak
+	echo "Creating Visualization for ${years[$i]}"
+	args="--args net_type='lc' filepath='${lc_pajek[$i]}/${basenames[$i]}_lc.net' outpath='${visoutpath}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${stat_csv}' years='${years[$i]}'"
+	R --slave "$args" < ../data-visualization/netvis.R
+	R_Check=$?
+	if [ ${R_Check} != 0 ]
+	then
+		echo "Problem creating visualization for ${years[$i]}"
+		echo $linebreak
+		exit 1
+	fi
+	i=$[i+1]
+done
 
 echo $linebreak
 echo "PROGRAM FINISHED"

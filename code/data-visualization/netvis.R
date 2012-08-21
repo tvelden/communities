@@ -2,6 +2,11 @@ library(sna)
 library(network)
 library(stringr)
 
+#suppresses Rplot.pdf output
+options(device = function(...) {
+    .Call("R_GD_nullDevice", PACKAGE = "grDevices")
+})
+
 #parse arguments
 args=(commandArgs(trailingOnly=TRUE))
 if(length(args)==0){
@@ -13,14 +18,13 @@ if(length(args)==0){
 }
 
 #extract start and end year of time slice from file name
-regexp <- "([0-9]{4})"
-stupidlist <- strsplit(filepath, "/")
-otherlist <- strsplit(stupidlist[[1]][[13]], "-")
-firstyear <- str_extract(otherlist[[1]][[1]], regexp)
-endyear <- str_extract(otherlist[[1]][[2]], regexp)
-outpath <- paste(outpath, field, run, type, firstyear, "-", endyear, "_", size, "years_vis.png", sep="")
-title <- paste(field, run, firstyear, "-", endyear, sep=" ")
-
+yearsplit <- strsplit(years, "-")
+start <- yearsplit[[1]][[1]]
+end <- yearsplit[[1]][[2]]
+#outpath <- paste(outpath, field, run, type, firstyear, "-", end, "_", size, "years_vis.png", sep="")
+title <- paste(field, run, start, "-", end, sep=" ")
+print(outpath)
+print(title)
 #visualization processing
 net_lcnet <- read.paj(file=filepath)
 png(outpath)

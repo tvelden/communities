@@ -88,6 +88,7 @@ then
 		echo $i
 		endyears[${#endyears[*]}]="${START_YEAR}-${i}"
 	done
+	endyears[${#endyears[*]}]="allyears"
 	#echo ${endyears[*]}
 	
 	for i in ${endyears[*]}
@@ -127,7 +128,7 @@ then
 		done
 	done
 
-	endyears[${#endyears[*]}]="allyears"
+
 	for i in ${endyears[*]}
 	do	
 		for h in ${subdir[*]}
