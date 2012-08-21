@@ -158,6 +158,7 @@ then
 		echo "$i - $k"
 		years[${#years[*]}]="${i}-${k}"
 	done
+	years[${#years[*]}]="allyears"
 	#echo ${endyears[*]}
 	
 	for i in ${years[*]}
@@ -196,7 +197,7 @@ then
 		done
 	done
 
-	years[${#years[*]}]="allyears"
+	
 	for i in ${years[*]}
 	do	
 		for h in ${subdir[*]}
@@ -226,6 +227,7 @@ then
 		echo "$i - $k"
 		years[${#years[*]}]="${i}-${k}"
 	done
+	years[${#years[*]}]="allyears"
 
 	for i in ${years[*]}
 	do	
@@ -263,7 +265,7 @@ then
 		done
 	done
 
-	years[${#years[*]}]="allyears"
+
 	for i in ${years[*]}
 	do	
 		for h in ${subdir[*]}

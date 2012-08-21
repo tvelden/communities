@@ -21,10 +21,11 @@ if(length(args)==0){
 yearsplit <- strsplit(years, "-")
 start <- yearsplit[[1]][[1]]
 end <- yearsplit[[1]][[2]]
-#outpath <- paste(outpath, field, run, type, firstyear, "-", end, "_", size, "years_vis.png", sep="")
+outpath <- paste(outpath, field, run, type, start, "-", end, "_", size, "years_vis.png", sep="")
 title <- paste(field, run, start, "-", end, sep=" ")
 print(outpath)
 print(title)
+
 #visualization processing
 net_lcnet <- read.paj(file=filepath)
 png(outpath)
