@@ -274,8 +274,8 @@ def makeAuthorDistributionAmongPapersFile():
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    #makeGeneralNetworkDataFile()
+    makeGeneralNetworkDataFile()
     makeCollaborationDistributionFile()
     #makeTemporalDataFilesForAbbasi()
-    #makeAuthorDistributionAmongPapersFile()
+    makeAuthorDistributionAmongPapersFile()
     
