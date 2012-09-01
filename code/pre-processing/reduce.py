@@ -163,7 +163,7 @@ def readAllPapers(p):
                 Productivity[s][0] = Productivity[s][0] + 1
                 Productivity[s][1].append(p.ID)
             else:
-                TotalAuthor = TotalAuthor + 1
+                TotalAuthors = TotalAuthors + 1
                 paperlist = []
                 paperlist.append(p.ID)
                 production = []
