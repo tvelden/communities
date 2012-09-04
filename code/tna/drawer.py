@@ -224,6 +224,21 @@ class GraphDrawer:
         fi.write("#Author Distribution ends\n\n\n")
         fi.close()
         
+    def densification(self, g, fs):
+        fi = open(fs, 'a')
+        fi.write("\n\n#Densification starts\n")
+        fi.write("M<- read.table('" + g.GeneralInfoFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("p<-ggplot(M)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_Densification.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Log10(Number of Authors)') + ylab('Log10(Number of Connections)') + geom_point(aes(M$Number_Of_Authors, M$Number_Of_Unweighted_Edges)) + geom_line(aes(M$Number_Of_Authors, M$Number_Of_Unweighted_Edges)) + coord_trans('log10','log10')\n")
+        fi.write("ggsave(pdffile)\n\n")
+
+        fi.write("#Densification ends\n\n\n")
+        fi.close()    
+        
     def makeIndividualGraphs(self, fs):
         for g in self.GList:
             self.addGeneralInfo(g,fs)
@@ -232,6 +247,7 @@ class GraphDrawer:
             self.addCentrality(g,fs)
             self.addDegreeDistribution(g,fs)
             self.addAuthorDistribution(g,fs)
+            self.densification(g,fs)
             
     def makeComparisonGraphs(self, fs):
         print 'No comparison graph'
