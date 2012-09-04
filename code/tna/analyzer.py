@@ -72,11 +72,11 @@ class Network:
         self.edges = []
         self.G = nx.Graph()
     
-    def removeHyperAuthorshipPapers(self):
-        fname = os.path.realpath(os.path.dirname(globalvar.INPUT_REDUCED_FILE_PATH)) + '/HyperAuthorshipLess.txt'
+    def removeHyperAuthorshipPapers(self, inf, outf):
+        fname = outf
         outFile = open(fname, 'w')
         
-        fname = os.path.realpath(os.path.dirname(globalvar.INPUT_REDUCED_FILE_PATH)) + '/SignificantPapers.txt'
+        fname = inf
         infile = open(fname, 'r')
         
         S = [] #list of significant papers

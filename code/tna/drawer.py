@@ -37,6 +37,8 @@ class Net:
         self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
         self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AuthorDistribution.csv'
         self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
+        if not os.path.exists(os.path.realpath(self.graphpath)):
+        	os.makedirs(os.path.realpath(self.graphpath))
 class GraphDrawer:
     def __init__(self):
         self.GList = []
@@ -232,7 +234,7 @@ class GraphDrawer:
             self.addAuthorDistribution(g,fs)
             
     def makeComparisonGraphs(self, fs):
-        print 'hello'
+        print 'No comparison graph'
         
     def makeR(self):
         fs = os.path.realpath('../network-stats/makegraphs.r')
@@ -244,6 +246,6 @@ class GraphDrawer:
         
 if __name__ == "__main__":
     G = GraphDrawer()
-    G.getData('/Users/Kallol/communities/parameters/parameters-global.txt')
+    G.getData('/Users/macbookadministrator/Academic/Research/Network/communities/parameters/parameters-global.txt')
     G.makeR()
     
