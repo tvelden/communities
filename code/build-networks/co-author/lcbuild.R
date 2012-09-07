@@ -33,7 +33,7 @@ lc_size_nodes <- vcount(lcnet)
 lc_size_edges <- ecount(lcnet)
 
 #get diameter of large component network
-lc_diam <- average.path.length(lcnet, directed=FALSE)
+lc_diam <- diameter(lcnet, directed=FALSE, unconnected=FALSE)
 
 #write csv
 data2 <- data.frame(START=start, END=end, TOTAL_SIZE_NODES=total_size_nodes, TOTAL_SIZE_EDGES=total_size_edges, LC_SIZE_NODES=lc_size_nodes, LC_SIZE_EDGES=lc_size_edges, LC_DIAM=lc_diam)

@@ -29,7 +29,7 @@ c1$csize[lc_index]=0
 sndlcnet <- induced.subgraph(wholenet, which(c1$membership == which.max(c1$csize)))
 sndlc_size_nodes <- vcount(sndlcnet)
 sndlc_size_edges <- ecount(sndlcnet)
-sndlc_diam <- average.path.length(sndlcnet, directed=FALSE)
+sndlc_diam <- diameter(sndlcnet, directed=FALSE, unconnected=FALSE)
 
 #write out csv
 data2 <- data.frame(START=start, END=end, SNDLC_SIZE_NODES=sndlc_size_nodes, SNDLC_SIZE_EDGES=sndlc_size_edges, SNDLC_DIAM=sndlc_diam)
