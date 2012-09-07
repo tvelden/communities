@@ -149,22 +149,22 @@ echo $linebreak
 
 #check if there are large component files for this run already, creates files if they don't exist
 #count the number of slices which have a large component network slice
-lc_count=0
-i=0
-while [ $i -lt ${#years[@]} ]
-do
-	if [ -e ${lc_pajek[$i]}/${basenames[$i]}_lc.net ]
-	then
-		lc_count=$[lc_count + 1]
-	fi
-	i=$[i+1]
-done
+#lc_count=0
+#i=0
+#while [ $i -lt ${#years[@]} ]
+#do
+#	if [ -e ${lc_pajek[$i]}/${basenames[$i]}_lc.net ]
+#	then
+#		lc_count=$[lc_count + 1]
+#	fi
+#	i=$[i+1]
+#done
 
-echo "There are ${lc_count} large component time slices created for these parameter settings"
-if [ ${lc_count} != 0 ]
-then
+#echo "There are ${lc_count} large component time slices created for these parameter settings"
+#if [ ${lc_count} != 0 ]
+#then
 	echo "Largest Component network files have already been generated"
-else
+#else
 	i=0
 	while [ $i -lt ${#years[@]} ]
 	do
@@ -179,7 +179,7 @@ else
 		fi
 	i=$[i+1]
 	done
-fi
+#fi
 
 echo $linebreak
 echo "Computing statistics for the Second Largest Component and processing subnetwork"
