@@ -356,7 +356,7 @@ class Network:
         for lines in inFile:
             string = str(lines)
             #print string
-            if(string =='\n' or string ==' \n'):
+            if(string =='\n' or string ==' \n' or(string[0]==' ' and string[1]==' ' and string[2]==' ' and string[3]==' ' and string[4]==' ')):
                 PaperFlag = 0
                 self.papers.append(p)
                 InitialNumberOfPapers = InitialNumberOfPapers +1
