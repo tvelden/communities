@@ -13,7 +13,7 @@ from globalfuncs import *
 from analyzer import *
 
 
-def makeHyperAuthorlessAuthorDistributionAmongPapersFile(threshold):
+def makeHyperAuthorlessAuthorDistributionAmongPapersFile():
     print 'Gathering data for Author distribution among the papers in entire network ...'
     directoryPath = globalvar.OUTPUT_STATISTICS_DIRECTORY + '/allyears/whole_net/tables' 
     if not os.path.exists(directoryPath):
@@ -28,6 +28,9 @@ def makeHyperAuthorlessAuthorDistributionAmongPapersFile(threshold):
     N = Network()
     N.makeCoauthorshipNetworkFromFile(globalvar.INPUT_REDUCED_FILE_PATH)
     X = N.getAuthorDistributionAmongPapers()
+    # for x in X:
+#     	print x,X[x][0]
+#     print '***********'
     ind = -1
     V = []
     for k in X:
@@ -42,29 +45,46 @@ def makeHyperAuthorlessAuthorDistributionAmongPapersFile(threshold):
         
     V.sort() 
     median = V[med]
-    print median
+    print('Median =  ' + str(median))
     dev = []
     for i in range(0,ind+1):
         dev.append(abs(V[i]-median))
         #print dev[i]
-    dev.sort()
-    devmedian = dev[med]
+        
+#     print '############'
+#     for i in range(0,ind+1):
+#     	print V[i], dev[i]
+#     print '############'
+#     
+    tdev = []
+    for e in dev:
+    	tdev.append(e)
+    tdev.sort()
+    devmedian = tdev[med]
     
-    print devmedian
     
+    print('Median deviation from the Median is: ' + str(devmedian))
+    print 'The frequency and deviation/median_deviation values are:'
     ratio = []
     for i in range(0,ind+1):
         ratio.append(float(dev[i])/float(devmedian))
     Y = {}
     for i in range(0, ind + 1):
         Y[V[i]] = ratio[i]
+    for y in Y:
+    	print y, X[y][0], Y[y]
+    threshold = input('Please input the Threshold value: ')
+    SP = []
     for k in X:
         #print k, X[k]
         if(k ==0):
             continue
         if(Y[k]<=threshold):
             for e in X[k][1]:
-                SF.write(str(e) + '\n')
+            	if e not in SP:
+            		SP.append(e)
+    for p in SP:
+        SF.write(str(p) + '\n')
     SF.close()
     print 'Finished gathering data for Author distribution!!'
 
@@ -91,5 +111,5 @@ def makeHyperAuthorshipLessNetwork():
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    makeHyperAuthorlessAuthorDistributionAmongPapersFile(sys.argv[1])
+    makeHyperAuthorlessAuthorDistributionAmongPapersFile()
     makeHyperAuthorshipLessNetwork()
