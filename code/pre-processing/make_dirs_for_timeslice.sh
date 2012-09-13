@@ -107,6 +107,7 @@ then
 		mkdir -p ${thisrun_net}/generic/$i/whole_net/hubs/
 		mkdir -p ${thisrun_net}/generic/$i/whole_net/images/
 		mkdir -p ${thisrun_net}/generic/$i/whole_net/pajek/
+		mkdir -p ${thisrun_net}/generic/$i/whole_net/gephi
 	done
 
 	
