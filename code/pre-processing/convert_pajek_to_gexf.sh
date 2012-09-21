@@ -137,6 +137,7 @@ fi
 for i in ${years[*]}
 do
 	fullnet[${#fullnet[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/pajek/${FIELD}${RUN}_${TYPE}${i}_${SIZE}years_wholenet.net
+	fullgephi[${#fullgephi[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/gephi/${FIELD}${RUN}_${TYPE}${i}_${SIZE}years_wholenet.gexf
 	lc_pajek[${#lc_pajek[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/large_component/pajek/
 	sndlc_pajek[${#sndlc_pajek[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/2ndlargest_component/pajek/
 	pajekpath[${#pajekpath[*]}]=${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/pajek/
@@ -209,7 +210,7 @@ else
 		R_Check=$?
 		if [ ${R_Check} != 0 ]
 		then
-			echo "problem running lcbuild.R for $i"
+			echo "problem running sndlcbuild.R for $i"
 			exit 1
 		fi
 	i=$[i+1]
@@ -217,99 +218,59 @@ else
 fi
 
 echo $linebreak
-
-
-# Plot Graph of Large Component Size vs. Time
-#check if there are second largest component files for this run already, creates files if they don't exist
-lcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/${slicing}_lc_size-vs-time"
-if [ -e  ${lcsizevtime}_actual_nodes.png ] && [ -e ${lcsizevtime}_actual_edges.png ] && [ -e ${lcsizevtime}_percent_edges.png ] && [ -e ${lcsizevtime}_percent_nodes.png ]
-then
-	echo "Plot graph of Largest Component Size vs. Time has already been created at :"
-	echo $lcsizevtime
-	echo $linebreak
-else
-	args="--args net_type='lc' outpath='${lcsizevtime}' field='${FIELD}' run='${RUN}' #size='${SIZE}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
-	#echo $linebreak
-	#echo $args
-	#echo $linebreak
-	echo "Creating Plot graph of Large Component vs. Time at ${lcsizevtime}"
-	echo $linebreak
-	R --slave "$args" < ../data-visualization/net_sizevstime.R
-	R_Check=$?
-	if [ ${R_Check} != 0 ]
+#check for gephi files
+gephicount=0
+i=0
+for i in ${years[*]}
+do
+	if [ `ls -1 ${FULL_RUN_PATH}${RUN}/output/networks/${slicing}/generic/${i}/whole_net/gephi/*.gexf | wc -l` -ne 0 ]
 	then
-		echo "problem creating plot for Large Component Size vs. Time"
-		exit 1
+		gephicount=$[gephicount+1]
 	fi
-fi
+done
 
-# Plot Graph of  Second Largest COmponent vs. Time
-#check if there are second largest component files for this run already, creates files if they don't exist
-sndlcsizevtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/2ndlargest_component/images/${slicing}_sndlc_size-vs-time"
-if [ -e  ${sndlcsizevtime}_actual_nodes.png ] && [ -e ${sndlcsizevtime}_actual_edges.png ] && [ -e ${sndlcsizevtime}_percent_edges.png ] && [ -e ${sndlcsizevtime}_percent_nodes.png ]
+echo $linebreak
+
+#check for gephi files in whole_net/gephi , run convert .net if they don't exist
+echo "There are $gephicount time slices created for these parameter settings"
+if [ $count != 0 ]
 then
-	echo "Plot graph of Second Largest Component Size vs. Time has already been created at :"
-	echo $sndlcsizevtime
-	echo $linebreak
+	echo "The whole network .gexf files for $time_slice have already been created"
+	networkbuildcheck=0
 else
-	args="--args net_type='sndlc' outpath='${sndlcsizevtime}' field='${FIELD}' run='${RUN}' size='${SIZE}' type='${TYPE}' csv='${snd_stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}' csv2='${stat_csv}'"
-	#echo $linebreak
-	#echo $args
-	#echo $linebreak
-	echo "Creating Plot graph of Second Largest Component vs. Time at ${lcsizevtime}"
-	echo $linebreak
-	R --slave "$args" < ../data-visualization/net_sizevstime.R
-	R_Check=$?
-	if [ ${R_Check} != 0 ]
-	then
-		echo "problem creating plot for Second Largest Component Size vs. Time"
-		exit 1
-	fi
-fi
-
-# Plot Graph of Largest Component Diameter vs. Time
-lcdiamvtime="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/${slicing}_lc_diam-vs-time"
-
-if [ -e ${lcdiamvtime}_diam.png ]
-then
-	echo "Plot graph of Largest Component Diamater vs. Time has already been created at :"
-	echo $lcdiamvtime
-	echo $linebreak
-else
-	args="--args net_type='lc' outpath='${lcdiamvtime}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
-
-	echo "Creating Plot graph of Largest Component Diameter vs. Time"
-	echo $linebreak
-	R --slave "$args" < ../data-visualization/net_diamvstime.R
-	R_Check=$?
-	if [ ${R_Check} != 0 ]
-	then
-		echo "problem creating plot for Largest Component Diameter vs. Time"
-		exit 1
-	fi
-fi
-
-#plot graph of Largest Component Diameter vs. Size
-lcdiamvsize="${FULL_RUN_PATH}${RUN}/output/statistics/${slicing}/generic/allyears/large_component/images/lc_diam-vs-size"
-
-if [ -e  ${lcdiamvsize}_actual_nodes.png ] && [ -e ${lcdiamvsize}_actual_edges.png ] && [ -e ${lcdiamvsize}_percent_edges.png ] && [ -e ${lcdiamvsize}_percent_nodes.png ]
-then
-	echo "Plot graph of Largest Component Diameter vs. Size has already been created at :"
-	echo $lcdiamvsize
-	echo $linebreak
-else
-	args="--args net_type='lc' outpath='${lcdiamvsize}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${stat_csv}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+	echo "The whole network .gexf files for $time_slice have not been processed yet"
+	echo "Running convert_pajek_to_gephi.py now on .net file to create $time_slice gexf files"
+	cd ../pre-processing
+	#pwd
+	i=0
+	while [ $i -lt ${#years[@]} ]
+	do
+		inFile="${fullnet[$i]}"
+		outFile="${fullgephi[$i]}"
+		echo "gephi file will be at ${fullgephi[$i]}"
+		echo "Converting .net to Gephi : ${years[$i]}"
+		python convert_pajek_to_gephi.py "$inFile" "$outFile"
+		PY_Check=$?
+		if [ ${PY_Check} != 0 ]
+		then
+			echo "problem running convert_pajek_to_gephi.py.R for $i"
+			exit 1
+		fi
+	i=$[i+1]
+	done
 	
-	echo "Creating Plot graph of Largest Component Diameter vs. Size"
-	echo $linebreak
-	R --slave "$args" < ../data-visualization/net_diamvssize.R
-		R_Check=$?
-	if [ ${R_Check} != 0 ]
+	pajektogexfcheck=$? #grab exit code from running python script
+	if [[ $pajektogexfcheck != 0 ]] #check exit code
 	then
-		echo "problem creating plot for Largest Component Diameter vs. Size"
-		exit 1
+		echo "convert_pajek_to_gephi.py did not finish correctly"
+		exit 1 # END SHELL SCRIPT WITH EXIT STATUS CODE 1
+	else
+		echo "convert_pajek_to_gephi.py has finished making time sliced .net files for ${time_slice}"
 	fi
+	cd -
+	pwd
 fi
+
 
 
 echo $linebreak
