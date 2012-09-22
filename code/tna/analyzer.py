@@ -714,7 +714,7 @@ class Comparer:
             for author in self.commonNodes:
             	if author in h:
                 	X.append(x[author])
-                	Y.append(self.current.degrees[author])
+                	Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -747,7 +747,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -780,7 +780,7 @@ class Comparer:
             for author in self.commonNodes:
             	if author in h:
                 	X.append(x[author])
-                	Y.append(self.current.degrees[author])
+                	Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -813,7 +813,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -846,7 +846,7 @@ class Comparer:
             for author in self.commonNodes:
             	if author in h:
                 	X.append(x[author])
-                	Y.append(self.current.degrees[author])
+                	Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
