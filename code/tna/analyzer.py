@@ -318,6 +318,7 @@ class Network:
                 if(author not in self.nodes):
                     self.nodes.append(author)
                     self.numberOfNodes = self.numberOfNodes + 1
+                    self.degrees[author] = 0
                 if(author not in self.differentDegrees):
                     list = []
                     list.append(0)
@@ -330,10 +331,11 @@ class Network:
                         self.edges.append((author,anotherAuthor))
                         if((author,anotherAuthor) not in self.differentEdges):
                             self.differentEdges[(author,anotherAuthor)] = 1
-                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1
+                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1 
                         else:
                             self.differentEdges[(author,anotherAuthor)] = self.differentEdges[(author,anotherAuthor)] + 1
-                            
+                        self.degrees[author] = self.degrees[author] + 1
+                        self.degrees[anotherAuthor] = self.degrees[anotherAuthor] + 1    
                         if(anotherAuthor not in self.differentDegrees[author][1]):
                             self.differentDegrees[author][0] = self.differentDegrees[author][0] + 1
                             self.differentDegrees[author][1].append(anotherAuthor)
@@ -663,6 +665,14 @@ class Comparer:
         self.previous.makeCoauthorshipGraph()
         self.dcVna = self.getNewAuthorLinks()
         self. dcVoa = self.getOldAuthorLinks()
+    
+    def gethubs(self):
+    	hubfilename = globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/allyears/whole_net/' + globalvar.FIELD + globalvar.RUN+ '_hublist.txt'
+    	hubfile = open(hubfilename, 'r')
+    	h = []
+    	for line in hubfile:
+    		h.append(line[0:len(line)-1])
+    	return h
         
     def getDataForDegreeCentralityVsLinkAssociations(self):
         x = self.previous.getDegreeCentrality()
@@ -685,6 +695,40 @@ class Comparer:
             for author in self.commonNodes:
                 X.append(x[author])
                 Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        
+    def getDataForDegreeCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getDegreeCentrality()
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.degrees[author])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
             corrDVOL = scipy.stats.spearmanr(X,Y)
         else:
             corrDVL = [0.0,0.0]
@@ -725,6 +769,41 @@ class Comparer:
         #pdb.set_trace()
         return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
     
+    def getDataForClosenessCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getClosenessCentrality()
+        
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.degrees[author])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+    
     def getDataForBetweennessCentralityVsLinkAssociations(self):
         x = self.previous.getBetweennessCentrality()
            
@@ -755,5 +834,39 @@ class Comparer:
             
         #pdb.set_trace()
         return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
-    
+        
+    def getDataForBetweennessCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getBetweennessCentrality()
+           
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.degrees[author])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
     

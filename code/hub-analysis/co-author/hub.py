@@ -12,7 +12,20 @@ from globalfuncs import *
 from analyzer import *
 
 
-def gethub(netfilename, allfilename, hubfilename):
+def makeHubGraphR(L, hubfilename):
+	V = {}
+	for e in L:
+		if(e[1] in V):
+			V[e[1]] = V[e[1]] + 1
+		else:
+			V[e[1]] = 1
+	hubmil = open(os.path.dirname(hubfilename) + '/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + 'hub_milojevich.txt', 'w')
+	hubmil.write('coauthor;frequency\n')
+	for e in V:
+		hubmil.write(str(e) + ';' + str(V[e]) + '\n')
+	hubmil.close()
+
+def gethub(netfilename, allfilename):
     #allfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.all.txt'
     #netfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.net'
     #hubfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.hub'
@@ -21,8 +34,9 @@ def gethub(netfilename, allfilename, hubfilename):
     
     netfile = open(netfilename, 'r')
     allfile = open(allfilename, 'r')
+    hubfilename = os.path.dirname(allfilename) + '/../../../allyears/whole_net/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + 'hublist.txt'
     hubfile = open(hubfilename, 'w')
-    print hubfilename
+    
 
     A = {}
     for line in netfile:
@@ -54,9 +68,16 @@ def gethub(netfilename, allfilename, hubfilename):
             number = int(s)
             L.append(number)
     
+    N = Network()
+    L1 = {}
+    N.makeCoauthorshipNetworkFromFile(globalvar.INPUT_REDUCED_FILE_PATH)
     for e in L:
-        hubfile.write( str(A[e])+ '\n')
-    
+    	L1[A[e][1:len(A[e])-1]] = N.differentDegrees[A[e][1:len(A[e])-1]][0]
+    L2 = sorted(L1.iteritems(), key = operator.itemgetter(1))
+    #print L2
+    for element in L2:
+    	hubfile.write(str(element[0]) + '\n')
+    makeHubGraphR(L2, hubfilename)
     allfile.close()
     netfile.close()
     hubfile.close()
@@ -64,4 +85,4 @@ def gethub(netfilename, allfilename, hubfilename):
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../../..')
     setFilePaths(communities_directory)
-    gethub(sys.argv[1], sys.argv[2], sys.argv[3])
+    gethub(sys.argv[1], sys.argv[2])
