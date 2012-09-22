@@ -638,7 +638,7 @@ class Comparer:
         dcVna = {}
         for author in self.commonNodes:
             count = 0
-            for edge in self.current.edges:
+            for edge in self.current.differentEdges:
                 if((edge[0]==author and edge[1] in self.newNodes) or (edge[1]==author and edge[0] in self.newNodes)):
                     count = count + 1
             dcVna[author] = count
@@ -648,14 +648,14 @@ class Comparer:
         dcVnl = {}
         #print self.newNodes
         for author in self.commonNodes:
-            dcVnl[author] = self.current.degrees[author]
+            dcVnl[author] = self.current.differentDegrees[author][0]
         return dcVnl
     
     def getOldAuthorLinks(self):
         dcVoa = {}
         for author in self.commonNodes:
             count = 0
-            for edge in self.current.edges:
+            for edge in self.current.differentEdges:
                 if((edge[0]==author and edge[1] in self.commonNodes) or (edge[1]==author and edge[0] in self.commonNodes)):
                     count = count + 1
             dcVoa[author] = count
@@ -682,7 +682,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
