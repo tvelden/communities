@@ -110,10 +110,29 @@ def makeTemporalDataFilesForAbbasi():
     Table6.close()
     print "Computation for Betweenness Centrality is completed"
 
+def makeCollaborationDistributionFile():
+    print 'Gathering data for collaboration distribution among the authors entire network  ...'
+    directoryPath = globalvar.OUTPUT_STATISTICS_DIRECTORY + '/allyears/whole_net/tables' 
+    if not os.path.exists(directoryPath):
+            os.makedirs(directoryPath)
+            print('New directory made: ' + str(directoryPath))
+    Mfile = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_CollaborationDistribution_hub.csv'
+    MF = open(Mfile, 'w')
+    MF.write('Collaborators; Frequency\n')
+    N = Network()
+    N.makeCoauthorshipNetworkFromFile(globalvar.INPUT_REDUCED_FILE_PATH)
+    X = N.getCollaborationDistributionForHubs()
+    for k in X:
+        if(k ==0):
+            continue
+        MF.write(str(k) + ';' + str(X[k]) + '\n')
+    MF.close()
+    print 'Finished gathering data for collaboration distribution!!'
+    
 
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../../..')
     setFilePaths(communities_directory)
     makeTemporalDataFilesForAbbasi()
-
+    makeCollaborationDistributionFile()
     

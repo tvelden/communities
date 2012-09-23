@@ -25,7 +25,11 @@ class Net:
         self.DegreeCentralityFile = ''
         self.ClosenessCentralityFile = ''
         self.BetweennessCentralityFile = ''
+        self.DegreeCentralityhubFile = ''
+        self.ClosenessCentralityhubFile = ''
+        self.BetweennessCentralityhubFile = ''
         self.CollaborationDistributionFile = ''
+        self.CollaborationDistributionhubFile = ''
         self.graphpath = ''
     def setPath(self):
         self.GeneralInfoFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_GeneralInfo.csv'
@@ -34,17 +38,25 @@ class Net:
         self.DegreeCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_DegreeCentrality.csv'
         self.ClosenessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_ClosenessCentrality.csv'
         self.BetweennessCentralityFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_BetweennessCentrality.csv'
+        
+        self.DegreeCentralityhubFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_DegreeCentrality_hub.csv'
+        self.ClosenessCentralityhubFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_ClosenessCentrality_hub.csv'
+        self.BetweennessCentralityhubFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_BetweennessCentrality_hub.csv'
+        
         self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
+        self.CollaborationDistributionhubFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution_hub.csv'
+        
         self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AuthorDistribution.csv'
         self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
         if not os.path.exists(os.path.realpath(self.graphpath)):
         	os.makedirs(os.path.realpath(self.graphpath))
 class GraphDrawer:
-    def __init__(self):
+    def __init__(self, cd):
         self.GList = []
         self.index = -1
+        self.communities_directory = os.path.realpath(cd)
     def getData(self, file):
-        communities_directory = os.path.realpath('../..')
+        #communities_directory = os.path.realpath('../..')
         f = open(file, 'r')
         G = Net()
         for line in f:
@@ -65,7 +77,7 @@ class GraphDrawer:
             elif(line[0:5] == 'SIZE='):
                 G.size = line[5:(l-1)]
             elif(line[0:9] == 'NET_PATH='):
-                G.outpath = os.path.realpath(communities_directory + '/' + line[9:(len(line)-1)])
+                G.outpath = os.path.realpath(self.communities_directory + '/' + line[9:(len(line)-1)])
                 G.setPath()
                 self.GList.append(G)
                 
@@ -209,6 +221,20 @@ class GraphDrawer:
         fi.write("#Degree Distribution ends\n\n\n")
         fi.close()
         
+    def addDegreeDistributionhub(self, g, fs):
+        fi = open(fs, 'a')
+        fi.write("\n\n#Degree Distribution starts\n")
+        fi.write("M<- read.table('" + g.CollaborationDistributionhubFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("p<-ggplot(M)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CollaborationDistribution_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10')\n")
+        fi.write("ggsave(pdffile)\n\n")
+
+        fi.write("#Degree Distribution ends\n\n\n")
+        fi.close()
     def addAuthorDistribution(self, g, fs):
         fi = open(fs, 'a')
         fi.write("\n\n#Author Distribution starts\n")
@@ -223,6 +249,38 @@ class GraphDrawer:
 
         fi.write("#Author Distribution ends\n\n\n")
         fi.close()
+        
+    def addCentralityhub(self, g, fs):
+        fi = open(fs, 'a')
+        fi.write("\n\n#Preferrential Attachment starts\n")
+        fi.write("DC1<- read.table('" + g.DegreeCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        fi.write("CC1<- read.table('" + g.ClosenessCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        fi.write("BC1<- read.table('" + g.BetweennessCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("\n\np<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("#Preferrential Attachment ends\n\n\n")
+        fi.close()
+
         
     def densification(self, g, fs):
         fi = open(fs, 'a')
@@ -249,17 +307,29 @@ class GraphDrawer:
             self.addDegreeDistribution(g,fs)
             self.addAuthorDistribution(g,fs)
             self.densification(g,fs)
+    
+    def makeIndividualhubGraphs(self, fs):
+        for g in self.GList:
+            self.addCentralityhub(g,fs)
+            self.addDegreeDistributionhub(g,fs)
             
     def makeComparisonGraphs(self, fs):
         print 'No comparison graph'
         
     def makeR(self):
-        fs = os.path.realpath('../network-stats/makegraphs.r')
+        fs = os.path.realpath(self.communities_directory +'/code/network-stats/makegraphs.r')
         f = open(fs,'w')
         f.close()
         self.printLib(fs)
         self.makeIndividualGraphs(fs)
         self.makeComparisonGraphs(fs)
+    
+    def makeRhub(self):
+        fs = os.path.realpath(self.communities_directory + '/code/hub-analysis/co-author/makegraphs.r')
+        f = open(fs,'w')
+        f.close()
+        self.printLib(fs)
+        self.makeIndividualhubGraphs(fs)
         
 if __name__ == "__main__":
     G = GraphDrawer()

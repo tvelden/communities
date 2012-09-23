@@ -15,6 +15,6 @@ from drawer import *
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    G = GraphDrawer()
+    G = GraphDrawer(communities_directory)
     G.getData(communities_directory + '/parameters/parameters-global.txt')
     G.makeR()

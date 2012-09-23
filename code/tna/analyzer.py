@@ -109,7 +109,13 @@ class Network:
         outFile.close()
         infile.close()
                 
-        
+    def gethubs(self):
+    	hubfilename = globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/allyears/whole_net/' + globalvar.FIELD + globalvar.RUN+ '_hublist.txt'
+    	hubfile = open(hubfilename, 'r')
+    	h = []
+    	for line in hubfile:
+    		h.append(line[0:len(line)-1])
+    	return h    
         
     def printNetworkComponents(self, field, run, type, size, directoryPath):
         
@@ -227,6 +233,26 @@ class Network:
                 del X[k]
         return X
         
+    def getCollaborationDistributionForHubs(self):
+    	h = self.gethubs()
+        max = 0
+        for author in self.differentDegrees:
+            if((author in h) and (self.differentDegrees[author][0] > max)):
+                max = self.differentDegrees[author][0]
+        print('max is:' + str(max))
+        X = {}
+        for i in range(0,max+1):
+            X[i] = 0
+        for author in self.differentDegrees:
+			if((author in h)):
+				X[self.differentDegrees[author][0]] = X[self.differentDegrees[author][0]] + 1
+
+        
+        for k in X.keys():
+            if(X[k] == 0):
+                del X[k]
+        return X
+            
     def makeCoauthorshipGraph(self):
         self.G.add_nodes_from(self.nodes)
         self.G.add_edges_from(self.edges)
