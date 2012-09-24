@@ -30,6 +30,8 @@ class Net:
         self.BetweennessCentralityhubFile = ''
         self.CollaborationDistributionFile = ''
         self.CollaborationDistributionhubFile = ''
+        self.LargestComponentFile = ''
+        self.graphpathforcomponents = ''
         self.graphpath = ''
     def setPath(self):
         self.GeneralInfoFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_GeneralInfo.csv'
@@ -46,8 +48,11 @@ class Net:
         self.CollaborationDistributionFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution.csv'
         self.CollaborationDistributionhubFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_CollaborationDistribution_hub.csv'
         
-        self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AuthorDistribution.csv'
+        self.LargestComponentFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/components/tables/' +  str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_Large-SecondLargeData.csv'
+        
+        self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_Large-SecondLargeData.csv'
         self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
+        self.graphpathforcomponents = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/components/images'
         if not os.path.exists(os.path.realpath(self.graphpath)):
         	os.makedirs(os.path.realpath(self.graphpath))
 class GraphDrawer:
@@ -312,6 +317,25 @@ class GraphDrawer:
         for g in self.GList:
             self.addCentralityhub(g,fs)
             self.addDegreeDistributionhub(g,fs)
+    
+    def addLargestComponentGraph(self, g, fs):
+    	fi = open(fs, 'a')
+        fi.write("\n\n#Largest Component starts\n")
+        fi.write("M<- read.table('" + g.LargestComponentFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("p<-ggplot(M)\n")
+        s = g.graphpathforcomponents + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_LargestComponent.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Percent in Largest Component') + geom_point(aes(M$End_year, M$Ever_Second_Percent, color = 'Second Ever')) + geom_line(aes(M$End_year, M$Ever_Second_Percent, color = 'Second Ever')) + geom_point(aes(M$End_year, M$Just_Previous_Percent, color = 'Previous Second')) + geom_line(aes(M$End_year, M$Just_Previous_Percent, color = 'Previous Second'))+ geom_point(aes(M$End_year, M$Percent_from_others, color = 'From Other Components')) + geom_line(aes(M$End_year, M$Percent_from_others, color = 'From Other Components')) + geom_point(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_line(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_point(aes(M$End_year, M$Percent_New, color = 'From New')) + geom_line(aes(M$End_year, M$Percent_New, color = 'From New')) \n")
+        fi.write("ggsave(pdffile)\n\n")
+
+        fi.write("#Largest Component ends\n\n\n")
+        fi.close() 
+    
+    def makeIndividualComponentGraphs(self, fs):
+    	for g in self.GList:
+    		self.addLargestComponentGraph(g,fs)
             
     def makeComparisonGraphs(self, fs):
         print 'No comparison graph'
@@ -330,6 +354,13 @@ class GraphDrawer:
         f.close()
         self.printLib(fs)
         self.makeIndividualhubGraphs(fs)
+        
+    def makeRcomponent(self):
+        fs = os.path.realpath(self.communities_directory + '/code/component-analysis/co-author/makegraphs.r')
+        f = open(fs,'w')
+        f.close()
+        self.printLib(fs)
+        self.makeIndividualComponentGraphs(fs)
         
 if __name__ == "__main__":
     G = GraphDrawer()

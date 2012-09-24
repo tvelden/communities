@@ -118,7 +118,6 @@ class Network:
     	return h    
         
     def printNetworkComponents(self, field, run, type, size, directoryPath):
-        
         color = {}
         component = {}
         for node in self.nodes:
@@ -175,8 +174,9 @@ class Network:
         #print out
         out.write('Number of Vertices:' + str(self.numberOfNodes) + '\n')
         out.write('Number of Components:' +str(index) + '\n')
-        out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
-        out.write('Size of the Second Largest Compnent:' +str(SL[1][1][0]) + '\n')
+        #out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
+        out.write('Size of the Largest Compnent:' +str(sortedComponentList[0][1][0]) + '\n')
+        out.write('Size of the Second Largest Compnent:' +str(sortedComponentList[1][1][0]) + '\n')
         out.write('Components:\n\n')
         i = 0
         for e in SL:
@@ -194,16 +194,36 @@ class Network:
         #print out
         out.write('*Size:' + str(SL[0][1][0]) + '\n')
         for x in SL[0][1][1]:
-            out.write(str(SL[0][1][1]) + '\n')
+            out.write(str(x) + '\n')
         out.close()
         
         fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_SecondLargestComponent.net'
         out = open(fs, 'w')
         #print 'writing files in:'
         #print out
+        val = SL[1][1][0]
+        vi = 1
+        v = 0
+        for i in range(1,len(SL)):
+        	if(SL[i][1][0] == val):
+        		vi = i
+        		v = v + SL[i][1][0]
+        out.write('*Size:' + str(v) + '\n')
+        
+        for i in range(1,len(SL)):
+        	if(SL[i][1][0] == val):
+        		for x in SL[i][1][1]:
+        			out.write(str(x) + '\n')
+        out.close()
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_OtherComponents.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
         out.write('*Size:' + str(SL[1][1][0]) + '\n')
-        for x in SL[1][1][1]:
-            out.write(str(SL[1][1][1]) + '\n')
+        for i in range(vi+1,len(SL)):
+        	for x in SL[i][1][1]:
+        		out.write(str(x) + '\n')
         out.close()
         
     def getGeneralInfo(self):
@@ -239,7 +259,7 @@ class Network:
         for author in self.differentDegrees:
             if((author in h) and (self.differentDegrees[author][0] > max)):
                 max = self.differentDegrees[author][0]
-        print('max is:' + str(max))
+        #print('max is:' + str(max))
         X = {}
         for i in range(0,max+1):
             X[i] = 0

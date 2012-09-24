@@ -24,6 +24,8 @@ def makeHubGraphR(L, hubfilename):
 	for e in V:
 		hubmil.write(str(e) + ';' + str(V[e]) + '\n')
 	hubmil.close()
+	
+	
 
 def gethub(netfilename, allfilename):
     #allfilename = OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/net_files/' + str(TYPE) + str(START_YEAR) + '-' + str(END_YEAR) + '_' + str(SIZE) + 'years' + 'CoauthorshipNetwork.all.txt'
