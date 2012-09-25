@@ -53,14 +53,10 @@ def analysis():
         	inp3 = open(fs3, 'r')
         	psec = []
         	for line in inp3:
-        		#print line[0:len(line)-1]
         		if(line[0] != '*'):
-        				psec.append(line[0:len(line)-1])
-        	#print len(psec)
+        			psec.append(line[0:len(line)-1])
         	inp3.close()
-        	#print 'here is prev:'
-        	#print(str(pstart) + '-' + str(pend))
-        	#print psec
+        	#print ls, len(psec)
             
         	fs4 = dir1 + '/'+ str(globalvar.FIELD) + str(globalvar.RUN)+ '_' + str(globalvar.TYPE) + str(pstart) + '-' + str(pend) + '_' + str(globalvar.SIZE) + 'years_' + 'SecondLargestComponent.net'
         	#print fs3
@@ -101,6 +97,7 @@ def analysis():
         		if((x not in S) and (x not in psec) and (x not in psec5)):
         			new = new + 1
         	inp2.close()
+        	#print count6
         else:
         	count = 0
         	count4 = 0

@@ -220,7 +220,11 @@ class Network:
         out = open(fs, 'w')
         #print 'writing files in:'
         #print out
-        out.write('*Size:' + str(SL[1][1][0]) + '\n')
+        val = 0
+        for i in range(vi+1,len(SL)):
+        	val = val + SL[i][1][0]
+        		
+        out.write('*Size:' + str(val) + '\n')
         for i in range(vi+1,len(SL)):
         	for x in SL[i][1][1]:
         		out.write(str(x) + '\n')
