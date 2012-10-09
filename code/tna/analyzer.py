@@ -752,7 +752,8 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
     def getDataForDegreeCentralityVsLinkAssociationsForHubs(self):
     	h = self.gethubs()
@@ -786,7 +787,7 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
         x = self.previous.getClosenessCentrality()
@@ -817,7 +818,8 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     
     def getDataForClosenessCentralityVsLinkAssociationsForHubs(self):
     	h = self.gethubs()
@@ -852,7 +854,8 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     
     def getDataForBetweennessCentralityVsLinkAssociations(self):
         x = self.previous.getBetweennessCentrality()
@@ -883,7 +886,8 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
     def getDataForBetweennessCentralityVsLinkAssociationsForHubs(self):
     	h = self.gethubs()
@@ -918,5 +922,6 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     
