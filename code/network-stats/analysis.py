@@ -41,7 +41,7 @@ def makeTemporalDataFilesForAbbasi():
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_Of_Links_Between_New_and_Old; Percent_Of_Links_Between_New_and_Old; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before ; Percent_of_Links_Among_Old_Authors_Connected_Before\n')
     Table4file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_DegreeCentrality.csv'
     Table4 = open(Table4file, 'w')
-    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree\n')
+    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; pCDND; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; pCDNAD; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree; pCDNOD\n')
     Table5file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE)  + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_ClosenessCentrality.csv'
     Table5 = open(Table5file, 'w')
     Table5.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Closeness_and_New_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree\n')
@@ -86,11 +86,21 @@ def makeTemporalDataFilesForAbbasi():
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
             C.getReadyForCentralityMeasures()
-            (column1, column2, column3, column4, column5) =  C.getDataForDegreeCentralityVsLinkAssociations()
-            print column1, column2, column3, column4, column5
-            Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+            (X, column1, column2, column3, p3, column4, p4, column5, p5) =  C.getDataForDegreeCentralityVsLinkAssociations()
+            print column1, column2, column3, p3, column4, p4, column5, p5
+            Table4.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(p3) +';'+str(column4) +';'+str(p4)+ ';' + str(column5)+';'+str(p5) + '\n')
+            fos = directoryPath + '/extra/'
+            if not os.path.exists(fos):
+            	os.makedirs(fos)
+            	print('New directory made: ' + str(fos))
+            fos = fos + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(y1-1) + '_' + str(globalvar.SIZE) + 'years_Degree_centrality_list.csv'
+            fo = open(fos, 'w')
+            fo.write('AuthorName; Centrality\n')
+            for e in X:
+            	fo.write(str(e) + ';' + str(X[e]) + '\n')
+            fo.close()
         else:
-            Table4.write('0; 0; 0; 0; 0\n')
+            Table4.write('0; 0; 0; 0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + globalvar.SIZE -1
     Table4.close()
@@ -108,11 +118,21 @@ def makeTemporalDataFilesForAbbasi():
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
             C.getReadyForCentralityMeasures()
-            (column1, column2, column3, column4, column5) =  C.getDataForClosenessCentralityVsLinkAssociations()
-            print column1, column2, column3, column4, column5
-            Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+            (X, column1, column2, column3, p3, column4, p4, column5, p5) =  C.getDataForClosenessCentralityVsLinkAssociations()
+            print column1, column2, column3, p3, column4, p4, column5, p5
+            Table5.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(p3) +';'+str(column4) +';'+str(p4)+ ';' + str(column5)+';'+str(p5) + '\n')
+            fos = directoryPath + '/extra/'
+            if not os.path.exists(fos):
+            	os.makedirs(fos)
+            	print('New directory made: ' + str(fos))
+            fos = fos + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(y1-1) + '_' + str(globalvar.SIZE) + 'years_Closeness_centrality_list.csv'
+            fo = open(fos, 'w')
+            fo.write('AuthorName; Centrality\n')
+            for e in X:
+            	fo.write(str(e) + ';' + str(X[e]) + '\n')
+            fo.close()
         else:
-            Table5.write('0; 0; 0; 0; 0\n')
+            Table5.write('0; 0; 0; 0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + globalvar.SIZE -1
     Table4.close()
@@ -131,11 +151,21 @@ def makeTemporalDataFilesForAbbasi():
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new)  
             C.getReadyForCentralityMeasures()
-            (column1, column2, column3, column4, column5) =  C.getDataForBetweennessCentralityVsLinkAssociations()
-            print column1, column2, column3, column4, column5
-            Table6.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(column4) +';'+str(column5) + '\n')
+            (X, column1, column2, column3, p3, column4, p4, column5, p5) =  C.getDataForBetweennessCentralityVsLinkAssociations()
+            print column1, column2, column3, p3, column4, p4, column5, p5
+            Table6.write(str(column1) +';'+str(column2) +';'+str(column3) +';'+str(p3) +';'+str(column4) +';'+str(p4)+ ';' + str(column5)+';'+str(p5) + '\n')
+            fos = directoryPath + '/extra/'
+            if not os.path.exists(fos):
+            	os.makedirs(fos)
+            	print('New directory made: ' + str(fos))
+            fos = fos + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(y1-1) + '_' + str(globalvar.SIZE) + 'years_Betweenness_centrality_list.csv'
+            fo = open(fos, 'w')
+            fo.write('AuthorName; Centrality\n')
+            for e in X:
+            	fo.write(str(e) + ';' + str(X[e]) + '\n')
+            fo.close()
         else:
-            Table6.write('0; 0; 0; 0; 0\n')
+            Table6.write('0; 0; 0; 0; 0; 0; 0; 0\n')
         y1 = y2 + 1
         y2 = y1 + globalvar.SIZE -1
     Table6.close()
@@ -235,8 +265,8 @@ def makeAuthorDistributionAmongPapersFile():
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    makeGeneralNetworkDataFile()
-    makeCollaborationDistributionFile()
-    #makeTemporalDataFilesForAbbasi()
-    makeAuthorDistributionAmongPapersFile()
+    #makeGeneralNetworkDataFile()
+    #makeCollaborationDistributionFile()
+    makeTemporalDataFilesForAbbasi()
+    #makeAuthorDistributionAmongPapersFile()
     
