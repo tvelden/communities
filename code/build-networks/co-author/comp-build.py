@@ -20,7 +20,7 @@ def makeComponents():
     if(globalvar.TYPE == 'discrete'):
         start = globalvar.START_YEAR
         end = start + globalvar.SIZE -1
-        while(end<=END_YEAR):
+        while(end<=globalvar.END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
             Partition.printNetworkComponents(globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS)
@@ -45,5 +45,6 @@ def makeComponents():
             end = end + 1
             
 if __name__ == "__main__":
-    setFilePaths()
+    communities_directory = os.path.realpath(os.getcwd() + '/../../..')
+    setFilePaths(communities_directory)
     makeComponents()

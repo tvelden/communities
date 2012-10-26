@@ -126,7 +126,7 @@ def readAllPapers(p):
     for lines in inFile:
         string = str(lines)
         #print string
-        if(string == '\n' or string == ' \n'):
+        if(string == '\n' or string == ' \n' or (string[0]==' ' and string[1]==' ' and string[2]==' ' and string[3]==' ' and string[4]==' ' and string[5]==' ' and string[6]==' ') ):
             PaperFlag = 0
             AllPapers[p.ID] = p
             InitialNumberOfPapers = InitialNumberOfPapers +1
@@ -163,7 +163,7 @@ def readAllPapers(p):
                 Productivity[s][0] = Productivity[s][0] + 1
                 Productivity[s][1].append(p.ID)
             else:
-                TotalAuthor = TotalAuthor + 1
+                TotalAuthors = TotalAuthors + 1
                 paperlist = []
                 paperlist.append(p.ID)
                 production = []
@@ -178,6 +178,7 @@ def readAllPapers(p):
                 Productivity[s][0] = Productivity[s][0] + 1
                 Productivity[s][1].append(p.ID)
             else:
+            	TotalAuthors = TotalAuthors + 1
                 paperlist = []
                 paperlist.append(p.ID)
                 production = []

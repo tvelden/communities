@@ -5,6 +5,7 @@ import numpy
 import scipy.stats
 from operator import itemgetter
 import pdb
+import globalvar
 import networkx as nx
 
 
@@ -71,8 +72,52 @@ class Network:
         self.edges = []
         self.G = nx.Graph()
     
-    def printNetworkComponents(self, field, run, type, size, directoryPath):
+    def removeHyperAuthorshipPapers(self, inf, outf):
+        fname = outf
+        outFile = open(fname, 'w')
         
+        fname = inf
+        infile = open(fname, 'r')
+        
+        S = [] #list of significant papers
+        for line in infile:
+            S.append(line[0:len(line)-1])
+        
+        for p in self.papers:
+            if(p.ID in S):
+                outFile.write('ID ' + str(p.ID) + '\n')
+                outFile.write('CI ' + str(p.CI) + '\n')
+                outFile.write('SO ' + str(p.SO) + '\n')
+                outFile.write('TI ' + str(p.TI) + '\n')
+                outFile.write('BI ' + str(p.BI) + '\n')
+                if(len(p.AU)>0 ):
+                    outFile.write('AU')
+                    for author in p.AU:
+                        outFile.write(' ' + str(author) + '\n')
+                for element in p.AF:
+                    outFile.write('AF ' + str(element) + '\n')
+                for element in p.CT:
+                    outFile.write('CT ' + str(element) + '\n')
+                for element in p.CO:
+                    outFile.write('CO ' + str(element) + '\n')
+                for element in p.RF:
+                    outFile.write('RF ' + str(element) + '\n')
+                for element in p.CA:
+                    outFile.write('CA ' + str(element) + '\n')
+                outFile.write('\n')
+        
+        outFile.close()
+        infile.close()
+                
+    def gethubs(self):
+    	hubfilename = globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/allyears/whole_net/' + globalvar.FIELD + globalvar.RUN+ '_hublist.txt'
+    	hubfile = open(hubfilename, 'r')
+    	h = []
+    	for line in hubfile:
+    		h.append(line[0:len(line)-1])
+    	return h    
+        
+    def printNetworkComponents(self, field, run, type, size, directoryPath):
         color = {}
         component = {}
         for node in self.nodes:
@@ -120,26 +165,71 @@ class Network:
         #print SL[0][1][0]
         
         #making the component file
-        fsd = directoryPath + '/' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years/components/pajek'
+        fsd = directoryPath + '/' + str(self.startYear) + '-' + str(self.endYear)  + '/components/pajek'
         if not os.path.exists(fsd):
             os.makedirs(fsd)
         fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_components.net'
         out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
         out.write('Number of Vertices:' + str(self.numberOfNodes) + '\n')
         out.write('Number of Components:' +str(index) + '\n')
-        out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
-        out.write('Size of the Second Largest Compnent:' +str(SL[1][1][0]) + '\n')
+        #out.write('Size of the Largest Compnent:' +str(SL[0][1][0]) + '\n')
+        out.write('Size of the Largest Compnent:' +str(sortedComponentList[0][1][0]) + '\n')
+        out.write('Size of the Second Largest Compnent:' +str(sortedComponentList[1][1][0]) + '\n')
         out.write('Components:\n\n')
         i = 0
         for e in SL:
             i = i + 1
             out.write('*Component ' + str(i) + '\n')
-            out.write('Size' + str(SL[i-1][1][0]) + '\n')
+            out.write('**Size' + str(SL[i-1][1][0]) + '\n')
             for x in SL[i-1][1][1]:
                 out.write(str(x) + '\n')
             out.write('\n')
         out.close()
-    
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_LargestComponent.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
+        out.write('*Size:' + str(SL[0][1][0]) + '\n')
+        for x in SL[0][1][1]:
+            out.write(str(x) + '\n')
+        out.close()
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_SecondLargestComponent.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
+        val = SL[1][1][0]
+        vi = 1
+        v = 0
+        for i in range(1,len(SL)):
+        	if(SL[i][1][0] == val):
+        		vi = i
+        		v = v + SL[i][1][0]
+        out.write('*Size:' + str(v) + '\n')
+        
+        for i in range(1,len(SL)):
+        	if(SL[i][1][0] == val):
+        		for x in SL[i][1][1]:
+        			out.write(str(x) + '\n')
+        out.close()
+        
+        fs = fsd + '/' + str(field) + str(run) + '_' + str(type) + str(self.startYear) + '-' + str(self.endYear) + '_' + str(size) + 'years_OtherComponents.net'
+        out = open(fs, 'w')
+        #print 'writing files in:'
+        #print out
+        val = 0
+        for i in range(vi+1,len(SL)):
+        	val = val + SL[i][1][0]
+        		
+        out.write('*Size:' + str(val) + '\n')
+        for i in range(vi+1,len(SL)):
+        	for x in SL[i][1][1]:
+        		out.write(str(x) + '\n')
+        out.close()
+        
     def getGeneralInfo(self):
         col1 = self.startYear
         col2 = self.endYear
@@ -167,6 +257,26 @@ class Network:
                 del X[k]
         return X
         
+    def getCollaborationDistributionForHubs(self):
+    	h = self.gethubs()
+        max = 0
+        for author in self.differentDegrees:
+            if((author in h) and (self.differentDegrees[author][0] > max)):
+                max = self.differentDegrees[author][0]
+        #print('max is:' + str(max))
+        X = {}
+        for i in range(0,max+1):
+            X[i] = 0
+        for author in self.differentDegrees:
+			if((author in h)):
+				X[self.differentDegrees[author][0]] = X[self.differentDegrees[author][0]] + 1
+
+        
+        for k in X.keys():
+            if(X[k] == 0):
+                del X[k]
+        return X
+            
     def makeCoauthorshipGraph(self):
         self.G.add_nodes_from(self.nodes)
         self.G.add_edges_from(self.edges)
@@ -185,6 +295,22 @@ class Network:
         x = nx.betweenness_centrality(self.G)
         #self.BetweennessCentrality = x
         return x
+    
+    def getAuthorDistributionAmongPapers(self):
+        D = {}
+        for p in self.papers:
+            n = len(p.AU)
+            if (n not in D):
+                l = []
+                alist = []
+                alist.append(p.ID)
+                l.append(1)
+                l.append(alist)
+                D[n] = l
+            else:
+                D[n][0] = D[n][0] + 1
+                D[n][1].append(p.ID)
+        return D
     
     def makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(self, Super, start_Year, end_Year):
         self.startYear = start_Year
@@ -242,6 +368,7 @@ class Network:
                 if(author not in self.nodes):
                     self.nodes.append(author)
                     self.numberOfNodes = self.numberOfNodes + 1
+                    self.degrees[author] = 0
                 if(author not in self.differentDegrees):
                     list = []
                     list.append(0)
@@ -254,10 +381,11 @@ class Network:
                         self.edges.append((author,anotherAuthor))
                         if((author,anotherAuthor) not in self.differentEdges):
                             self.differentEdges[(author,anotherAuthor)] = 1
-                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1
+                            self.numberOfDifferentEdges = self.numberOfDifferentEdges + 1 
                         else:
                             self.differentEdges[(author,anotherAuthor)] = self.differentEdges[(author,anotherAuthor)] + 1
-                            
+                        self.degrees[author] = self.degrees[author] + 1
+                        self.degrees[anotherAuthor] = self.degrees[anotherAuthor] + 1    
                         if(anotherAuthor not in self.differentDegrees[author][1]):
                             self.differentDegrees[author][0] = self.differentDegrees[author][0] + 1
                             self.differentDegrees[author][1].append(anotherAuthor)
@@ -280,7 +408,7 @@ class Network:
         for lines in inFile:
             string = str(lines)
             #print string
-            if(string =='\n' or string ==' \n'):
+            if(string =='\n' or string ==' \n' or(string[0]==' ' and string[1]==' ' and string[2]==' ' and string[3]==' ' and string[4]==' ')):
                 PaperFlag = 0
                 self.papers.append(p)
                 InitialNumberOfPapers = InitialNumberOfPapers +1
@@ -538,7 +666,7 @@ class Comparer:
             column14 = 0
         
         return (column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14 )
-        
+    
     def contentForAbbasiTable3(self):
         column1 = self.current.startYear
         column2 = self.current.endYear
@@ -560,7 +688,7 @@ class Comparer:
         dcVna = {}
         for author in self.commonNodes:
             count = 0
-            for edge in self.current.edges:
+            for edge in self.current.differentEdges:
                 if((edge[0]==author and edge[1] in self.newNodes) or (edge[1]==author and edge[0] in self.newNodes)):
                     count = count + 1
             dcVna[author] = count
@@ -570,14 +698,14 @@ class Comparer:
         dcVnl = {}
         #print self.newNodes
         for author in self.commonNodes:
-            dcVnl[author] = self.current.degrees[author]
+            dcVnl[author] = self.current.differentDegrees[author][0]
         return dcVnl
     
     def getOldAuthorLinks(self):
         dcVoa = {}
         for author in self.commonNodes:
             count = 0
-            for edge in self.current.edges:
+            for edge in self.current.differentEdges:
                 if((edge[0]==author and edge[1] in self.commonNodes) or (edge[1]==author and edge[0] in self.commonNodes)):
                     count = count + 1
             dcVoa[author] = count
@@ -587,6 +715,14 @@ class Comparer:
         self.previous.makeCoauthorshipGraph()
         self.dcVna = self.getNewAuthorLinks()
         self. dcVoa = self.getOldAuthorLinks()
+    
+    def gethubs(self):
+    	hubfilename = globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK + '/allyears/whole_net/' + globalvar.FIELD + globalvar.RUN+ '_hublist.txt'
+    	hubfile = open(hubfilename, 'r')
+    	h = []
+    	for line in hubfile:
+    		h.append(line[0:len(line)-1])
+    	return h
         
     def getDataForDegreeCentralityVsLinkAssociations(self):
         x = self.previous.getDegreeCentrality()
@@ -596,7 +732,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -616,7 +752,42 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
+        
+    def getDataForDegreeCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getDegreeCentrality()
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.differentDegrees[author][0])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
     def getDataForClosenessCentralityVsLinkAssociations(self):
         x = self.previous.getClosenessCentrality()
@@ -627,7 +798,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -647,7 +818,44 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
+    
+    def getDataForClosenessCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getClosenessCentrality()
+        
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.differentDegrees[author][0])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     
     def getDataForBetweennessCentralityVsLinkAssociations(self):
         x = self.previous.getBetweennessCentrality()
@@ -658,7 +866,7 @@ class Comparer:
             Y = []
             for author in self.commonNodes:
                 X.append(x[author])
-                Y.append(self.current.degrees[author])
+                Y.append(self.current.differentDegrees[author][0])
             corrDVL = scipy.stats.spearmanr(X,Y)
             X = []
             Y = []
@@ -678,6 +886,42 @@ class Comparer:
             corrDVOL = [0.0,0.0]
             
         #pdb.set_trace()
-        return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
-    
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
+        
+    def getDataForBetweennessCentralityVsLinkAssociationsForHubs(self):
+    	h = self.gethubs()
+        x = self.previous.getBetweennessCentrality()
+           
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.differentDegrees[author][0])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     

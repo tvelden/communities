@@ -22,6 +22,8 @@ def makeCoauthorshipNetworkFilesForPajek():
         while(end<=globalvar.END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            print 'printing network ...'
+            print start, end, globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
             Partition.printNetworkForPajek(globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             start = end + 1
             end = end + globalvar.SIZE
@@ -31,6 +33,8 @@ def makeCoauthorshipNetworkFilesForPajek():
         while(end<=globalvar.END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            print 'printing network ...'
+            print start, end, globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE
             Partition.printNetworkForPajek(globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             end = end + globalvar.SIZE
     elif(globalvar.TYPE == 'sliding'):
@@ -39,6 +43,8 @@ def makeCoauthorshipNetworkFilesForPajek():
         while(end<=globalvar.END_YEAR):
             Partition = Network()
             Partition.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, start, end)
+            print 'printing network ...'
+            print start, end, globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE
             Partition.printNetworkForPajek(globalvar.FIELD, globalvar.RUN, globalvar.TYPE, globalvar.SIZE, globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
             start = start + 1
             end = end + 1

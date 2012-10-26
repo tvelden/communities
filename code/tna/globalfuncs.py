@@ -9,9 +9,10 @@ import networkx as nx
 import globalvar
 
 def setFilePaths(communities_directory):
-    #communities_directory = os.path.realpath('../..')  
+    communities_directory =  os.path.realpath(communities_directory)
     print communities_directory
     globalvar.RELATIVE_INPUT_PARAMETER_FILE = os.path.realpath(communities_directory +'/parameters/parameters-global.txt')
+    print globalvar.RELATIVE_INPUT_PARAMETER_FILE
     parameterfile = open(globalvar.RELATIVE_INPUT_PARAMETER_FILE, 'r')
     for line in parameterfile:
         l = len(line)
@@ -35,18 +36,17 @@ def setFilePaths(communities_directory):
             globalvar.SIZE = int(line[5:(l-1)])
             print globalvar.SIZE
         elif(line[0:9] == 'NET_PATH='):
-            globalvar.OUTPUT_PARENT_DIRECTORY_PATH = os.path.realpath(communities_directory + '/' + line[9:(len(line)-1)])
+            globalvar.OUTPUT_PARENT_DIRECTORY_PATH = str(os.path.realpath(communities_directory + '/' + line[9:(len(line)-1)]))
             print globalvar.OUTPUT_PARENT_DIRECTORY_PATH
         elif(line[0:10] == 'DATA_PATH='):
-            globalvar.INPUT_REDUCED_FILE_PATH = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'data/' + line[10:(len(line)-1)]))
+            globalvar.INPUT_REDUCED_FILE_PATH = os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/data/' + line[10:(len(line)-1)])
             print globalvar.INPUT_REDUCED_FILE_PATH
-
+        
     globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
     if not os.path.exists(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK):
         print globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK
         os.makedirs(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK)
         print('New directory made: ' + str(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK))
-    
     
     globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) +str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
     if not os.path.exists(globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_COMPONENTS):
@@ -57,5 +57,10 @@ def setFilePaths(communities_directory):
     if not os.path.exists(globalvar.OUTPUT_STATISTICS_DIRECTORY):
         os.makedirs(globalvar.OUTPUT_STATISTICS_DIRECTORY)
         print('New directory made: ' + str(globalvar.OUTPUT_STATISTICS_DIRECTORY))
+    
+    globalvar.OUTPUT_STATISTICS_DIRECTORY_FOR_COMPONENTS = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/statistics/' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))
+    if not os.path.exists(globalvar.OUTPUT_STATISTICS_DIRECTORY_FOR_COMPONENTS):
+        os.makedirs(globalvar.OUTPUT_STATISTICS_DIRECTORY_FOR_COMPONENTS)
+        print('New directory made: ' + str(globalvar.OUTPUT_STATISTICS_DIRECTORY_FOR_COMPONENTS))
         
         
