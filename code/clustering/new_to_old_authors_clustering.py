@@ -6,6 +6,7 @@ who have attached to new authors as separate clusters.
 
 import networkx as nx
 import sys
+import collections
 
 # Arguments
 # 1. FileA -> Discrete 1 year slice of entire network of current year
@@ -18,6 +19,17 @@ FileB = sys.argv[2]
 FileC = sys.argv[3]
 
 outFile = sys.argv[4]
+csvFile = sys.argv[5]
+year = sys.argv[6]
+
+Old_count = 0
+New_count = 0
+in_LC = 0
+out_LC = 0
+OLDIN = 0
+NEWIN = 0
+OLDOUT = 0
+NEWOUT = 0
 lineBreak = "<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>"
 
 print lineBreak
@@ -39,11 +51,11 @@ def intersection(Anet, Bnet, attType, attVal1, attVal2):
 		for b in Bnet:
 			if (a == b):
 				Anet.node[a][attType] = attVal1
-				print `a` + "has been set to " + `attVal1`
+	#			print `a` + "has been set to " + `attVal1`
 				val1count = val1count + 1
 				break
 		if(Anet.node[a][attType] == attVal2):
-			print `a` + "has been set to " + `attVal2`
+	#		print `a` + "has been set to " + `attVal2`
 			val2count = val2count + 1
 	print "Total Count is " + `totalcount` + "\n"
 	print "# of " + `attVal1` + " is " + `val1count`
@@ -52,12 +64,33 @@ def intersection(Anet, Bnet, attType, attVal1, attVal2):
 	val2perc = (val2count/totalcount) * 100.0
 	print "percent of " + `attVal1` + " is " + `val1perc`
 	print "percent of " + `attVal2` + " is " + `val2perc`
+	counts = collections.namedtuple('count', ['val1count', 'val2count'])
+	return counts(val1count, val2count)
 
-def interinter(Anet, attType1, attType2, attTypeNew):
+def interinter(Anet, attType1, attVal11, attVal12, attType2, attVal21, attVal22, attTypeNew):
 	"""takes the combinations of the values of attributes, attType1 and attType2
 	and combines them to make new groupings by attribute attTypeNew"""
+	OLDIN = 0
+	NEWIN = 0
+	OLDOUT = 0
+	NEWOUT = 0
 	for a in Anet:
-		Anet.node[a][attTypeNew] = `Anet.node[a][attType1]` + "," + `Anet.node[a][attType2]`
+		Anet.node[a][attTypeNew] = Anet.node[a][attType1] + "," + `Anet.node[a][attType2]`
+		if (Anet.node[a][attType1] == attVal11):
+			if (Anet.node[a][attType2] == attVal21):
+				OLDIN = OLDIN + 1 
+#				print "OLDIN is now " + `OLDIN`
+			else :
+				OLDOUT = OLDOUT + 1
+#				print "OLDOUT is now " + `OLDOUT`
+		else:
+			if (Anet.node[a][attType2] == attVal21):
+				NEWIN = NEWIN + 1
+#				print "NEWIN is now " + `NEWIN`
+			else :
+				NEWOUT = NEWOUT + 1
+#				print "NEWOUT is now " + `NEWOUT`
+	return OLDIN, NEWIN, OLDOUT, NEWOUT
 
 def cleanPaj(paj):
 	""" The networkx module is not great at converting pajek files directly into gephi files.
@@ -80,12 +113,27 @@ netB = cleanPaj(Bpaj)
 netC = cleanPaj(Cpaj)
 
 #get intersection between A and B
-intersection(netA, netB, 'OLDNEW', 'OLD', 'NEW')
-intersection(netA, netC, 'inLC', True, False)
-interinter(netA, 'OLDNEW', 'inLC', 'OLDNEWinLC')
+oldnew_counts = intersection(netA, netB, 'OLDNEW', 'OLD', 'NEW')
+lc_counts = intersection(netA, netC, 'LC', 'IN', 'OUT')
+
+Old_count = oldnew_counts.val1count
+#print "Old_count is now " + `Old_count`
+New_count = oldnew_counts.val2count
+#print "New_count is now " + `New_count`
+in_LC = lc_counts.val1count
+#print "in_LC is now " + `in_LC`
+out_LC = lc_counts.val2count
+#print "out_LC is now " + `out_LC`
+
+OLDIN, NEWIN, OLDOUT, NEWOUT = interinter(netA, 'OLDNEW', 'OLD', 'NEW', 'LC', 'IN', 'OUT', 'OLDNEW_LC')
+
 nx.write_gexf(netA, outFile)
 
-
+#write to csvFile
+csv = open(csvFile, 'a')
+csv_out = year + ", " + `len(netA)` + ", " + `Old_count` + ", " + `New_count` + ", " + `in_LC` + ", " + `out_LC` + ", " + `OLDIN` + ", " + `OLDOUT` + ", " + `NEWIN` + ", " + `NEWOUT` + "\n"
+print "csv_out is " + csv_out
+csv.write(csv_out)
 
 #G = nx.read_pajek(inFile)
 #dict = nx.to_dict_of_dicts(G)
