@@ -151,14 +151,14 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent of New Authors') + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent of New Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(AB1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_OldAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent of old Authors') + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_point(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$Start_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent of old Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         
@@ -174,7 +174,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewLinkDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent New Links') + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_point(aes(ABT1$Start_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_line(aes(ABT1$Start_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent New Links') + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
           
         fi.write("#Abbasi Table 3 ends\n\n\n")
@@ -191,25 +191,58 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#Preferrential Attachment ends\n\n\n")
         fi.close()
+        
+    def addpValuesCentrality(self, g, fs):
+    
+    	fi = open(fs, 'a')
+        fi.write("\n\n#p-Values for Preferrential Attachment starts\n")
+        fi.write("DC1<- read.table('" + g.DegreeCentralityFile + "', header = TRUE, sep =';')\n" )
+        fi.write("CC1<- read.table('" + g.ClosenessCentralityFile + "', header = TRUE, sep =';')\n" )
+        fi.write("BC1<- read.table('" + g.BetweennessCentralityFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("\n\np<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinks.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithNewAuthors.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithOldAuthors.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("#p-Values of Preferrential Attachment ends\n\n\n")
+        fi.close()
+
         
     def addDegreeDistribution(self, g, fs):
         fi = open(fs, 'a')
@@ -266,21 +299,21 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$Start_Year,DC1$Correlation_Betwwen_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$Start_Year,CC1$Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$Start_Year,BC1$Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#Preferrential Attachment ends\n\n\n")
@@ -309,6 +342,7 @@ class GraphDrawer:
             self.addAbbasi2(g,fs)
             self.addAbbasi3(g,fs)
             self.addCentrality(g,fs)
+            self.addpValuesCentrality(g, fs)
             self.addDegreeDistribution(g,fs)
             self.addAuthorDistribution(g,fs)
             self.densification(g,fs)
