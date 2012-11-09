@@ -15,10 +15,10 @@ from analyzer import *
 #--Global Variables--
 
 #SWITCHES: Change the values to "False" if you dont want them
-I_WANT_ABBASI_TABLE_2_3 = True
+I_WANT_ABBASI_TABLE_2_3 = False
 I_WANT_DEGREE_CENTRALITY = True
 I_WANT_CLOSENESS_CENTRALITY = True 
-I_WANT_BETWEENNESS_CENTRALITY = True
+I_WANT_BETWEENNESS_CENTRALITY = False
     
 #--Global Functions--
               
@@ -41,13 +41,13 @@ def makeTemporalDataFilesForAbbasi():
     Table3.write('Start_Year; End_Year; Cumulative_Number_of_Links; Number_of_New_Links; Number_of_New_Links_Among_New_Authors; Percent_of_New_Links_Among_New_Authors; Number_Of_Links_Between_New_and_Old; Percent_Of_Links_Between_New_and_Old; Number_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before; Number_of_Links_Among_Old_Authors_Connected_Before ; Percent_of_Links_Among_Old_Authors_Connected_Before\n')
     Table4file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_DegreeCentrality.csv'
     Table4 = open(Table4file, 'w')
-    Table4.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Degree_and_New_Degree; pCDND; Correlation_Betwwen_Prev_Degree_and_New_Authors_Degree; pCDNAD; Correlation_Betwwen_Prev_Degree_and_New_Old_Degree; pCDNOD\n')
+    Table4.write('Start_Year; End_Year; Correlation_Between_Prev_Degree_and_New_Degree; pCDND; Correlation_Between_Prev_Degree_and_New_Authors_Degree; pCDNAD; Correlation_Between_Prev_Degree_and_New_Old_Degree; pCDNOD\n')
     Table5file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE)  + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_ClosenessCentrality.csv'
     Table5 = open(Table5file, 'w')
-    Table5.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Closeness_and_New_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Closeness_and_New_Old_Degree\n')
+    Table5.write('Start_Year; End_Year; Correlation_Between_Prev_Closeness_and_New_Degree; pCDND; Correlation_Between_Prev_Closeness_and_New_Authors_Degree; pCDNAD; Correlation_Between_Prev_Closeness_and_New_Old_Degree; pCDNOD\n')
     Table6file = directoryPath + '/'+ str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) + 'years_wholenet_BetweennessCentrality.csv'
     Table6 = open(Table6file, 'w')
-    Table6.write('Start_Year; End_Year; Correlation_Betwwen_Prev_Betweenness_and_New_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Authors_Degree; Correlation_Betwwen_Prev_Betweenness_and_New_Old_Degree\n')
+    Table6.write('Start_Year; End_Year; Correlation_Between_Prev_Betweenness_and_New_Degree; pCDND; Correlation_Between_Prev_Betweenness_and_New_Authors_Degree; pCDNAD; Correlation_Between_Prev_Betweenness_and_New_Old_Degree; pCDNOD\n')
     
     print 'Making Table2 and Table3 ...'
     y1 = globalvar.START_YEAR
@@ -55,7 +55,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_ABBASI_TABLE_2_3 == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new)
@@ -68,8 +68,14 @@ def makeTemporalDataFilesForAbbasi():
         else:
             Table2.write('0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0\n')
             Table3.write('0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0\n')
-        y1 = y2 + 1
-        y2 = y1 + globalvar.SIZE -1
+        if(globalvar.TYPE =='discrete'):
+        	y1 = y2+1
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'accumulative'):
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'sliding'):
+        	y1 = y1 + 1
+        	y2 = y2 + 1
     Table2.close()
     Table3.close()
     print 'Finished making Table2 and Table 3!!'
@@ -81,7 +87,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_DEGREE_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
@@ -101,8 +107,15 @@ def makeTemporalDataFilesForAbbasi():
             fo.close()
         else:
             Table4.write('0; 0; 0; 0; 0; 0; 0; 0\n')
-        y1 = y2 + 1
-        y2 = y1 + globalvar.SIZE -1
+        if(globalvar.TYPE =='discrete'):
+        	y1 = y2+1
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'accumulative'):
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'sliding'):
+        	y1 = y1 + 1
+        	y2 = y2 + 1
+        
     Table4.close()
     print "Computation for Degree Centrality is completed"
     
@@ -113,7 +126,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_CLOSENESS_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
@@ -133,8 +146,14 @@ def makeTemporalDataFilesForAbbasi():
             fo.close()
         else:
             Table5.write('0; 0; 0; 0; 0; 0; 0; 0\n')
-        y1 = y2 + 1
-        y2 = y1 + globalvar.SIZE -1
+        if(globalvar.TYPE =='discrete'):
+        	y1 = y2+1
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'accumulative'):
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'sliding'):
+        	y1 = y1 + 1
+        	y2 = y2 + 1
     Table4.close()
     Table5.close()
     print "Computation for Closeness Centrality is completed"
@@ -146,7 +165,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_BETWEENNESS_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new)  
@@ -166,8 +185,14 @@ def makeTemporalDataFilesForAbbasi():
             fo.close()
         else:
             Table6.write('0; 0; 0; 0; 0; 0; 0; 0\n')
-        y1 = y2 + 1
-        y2 = y1 + globalvar.SIZE -1
+        if(globalvar.TYPE =='discrete'):
+        	y1 = y2+1
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'accumulative'):
+        	y2 = y2 + globalvar.SIZE
+        elif(globalvar.TYPE == 'sliding'):
+        	y1 = y1 + 1
+        	y2 = y2 + 1
     Table6.close()
     print "Computation for Betweenness Centrality is completed"
     
