@@ -1,6 +1,7 @@
 import sys
 
 def convert(infile):
+	max = 10
 	f = open(infile, 'r')
 	
 	num = 0
@@ -45,20 +46,44 @@ def convert(infile):
 	of = infile[0:pos] + '_ring_cluster.net'
 	print of
 	fo = open(of, 'w')
-	fo.write('*Vertices ' + str(index-1) + '\n')
+	ct = 0
+	for e in CL:
+		if(e>max):
+			break
+		ct = ct + len(CL[e])
+	fo.write('*Vertices ' + str(ct) + '\n')
 	for e in Nodes:
-		fo.write(str(Nodes[e]) + ' "' + str(e) + '"\n')
+		if(NC[e]<=max):
+			fo.write(str(Nodes[e]) + ' "' + str(e) + '"\n')
 	fo.write('*Edges\n')
 	for e in CL:
+		if(e>max):
+			break
 		l = len(CL[e])
-		for i in range(0,l-1):
+		for i in range(1,l):
+			x = CL[e][0]
+			y = CL[e][i]
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 1000\n')
+		for i in range(0,l-3):
 			x = CL[e][i]
 			y = CL[e][i+1]
-			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 1\n')
-		if(len(CL[e])>2):
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
+			x = CL[e][i]
+			y = CL[e][i+2]
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
+			x = CL[e][i]
+			y = CL[e][i+3]
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
+		if(len(CL[e])>4):
 			x = CL[e][0]
 			y = CL[e][l-1]
-			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 1\n')
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
+			x = CL[e][0]
+			y = CL[e][l-2]
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
+			x = CL[e][0]
+			y = CL[e][l-3]
+			fo.write(str(Nodes[x]) + ' ' + str(Nodes[y]) + ' 100\n')
 	fo.close()
 if __name__ == "__main__":
 	convert(sys.argv[1])
