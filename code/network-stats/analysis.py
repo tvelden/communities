@@ -55,7 +55,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_ABBASI_TABLE_2_3 == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new)
@@ -72,6 +72,7 @@ def makeTemporalDataFilesForAbbasi():
         	y1 = y2+1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'accumulative'):
+        	y1 = y2 +1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'sliding'):
         	y1 = y1 + 1
@@ -87,7 +88,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_DEGREE_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
@@ -111,6 +112,7 @@ def makeTemporalDataFilesForAbbasi():
         	y1 = y2+1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'accumulative'):
+        	y1 = y2 + 1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'sliding'):
         	y1 = y1 + 1
@@ -126,7 +128,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_CLOSENESS_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new) 
@@ -150,6 +152,7 @@ def makeTemporalDataFilesForAbbasi():
         	y1 = y2+1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'accumulative'):
+        	y1 = y2 + 1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'sliding'):
         	y1 = y1 + 1
@@ -165,7 +168,7 @@ def makeTemporalDataFilesForAbbasi():
     while(y2<=globalvar.END_YEAR):
         if(I_WANT_BETWEENNESS_CENTRALITY == True):
             old = Network()
-            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y2-globalvar.SIZE)
+            old.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, globalvar.START_YEAR, y1-1)
             new = Network()
             new.makeSubCoauthorshipNetworkFromSuperCoauthorshipNetwork(N, y1, y2)
             C = Comparer(old, new)  
@@ -290,8 +293,8 @@ def makeAuthorDistributionAmongPapersFile():
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    #makeGeneralNetworkDataFile()
-    #makeCollaborationDistributionFile()
+    makeGeneralNetworkDataFile()
+    makeCollaborationDistributionFile()
     makeTemporalDataFilesForAbbasi()
-    #makeAuthorDistributionAmongPapersFile()
+    makeAuthorDistributionAmongPapersFile()
     
