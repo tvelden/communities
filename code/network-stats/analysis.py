@@ -15,9 +15,9 @@ from analyzer import *
 #--Global Variables--
 
 #SWITCHES: Change the values to "False" if you dont want them
-I_WANT_ABBASI_TABLE_2_3 = True
-I_WANT_DEGREE_CENTRALITY = True
-I_WANT_CLOSENESS_CENTRALITY = True 
+I_WANT_ABBASI_TABLE_2_3 = False
+I_WANT_DEGREE_CENTRALITY = False
+I_WANT_CLOSENESS_CENTRALITY = False 
 I_WANT_BETWEENNESS_CENTRALITY = True
     
 #--Global Functions--
@@ -157,7 +157,6 @@ def makeTemporalDataFilesForAbbasi():
         elif(globalvar.TYPE == 'sliding'):
         	y1 = y1 + 1
         	y2 = y2 + 1
-    Table4.close()
     Table5.close()
     print "Computation for Closeness Centrality is completed"
     
@@ -192,6 +191,7 @@ def makeTemporalDataFilesForAbbasi():
         	y1 = y2+1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'accumulative'):
+        	y1 = y2 + 1
         	y2 = y2 + globalvar.SIZE
         elif(globalvar.TYPE == 'sliding'):
         	y1 = y1 + 1
@@ -293,8 +293,8 @@ def makeAuthorDistributionAmongPapersFile():
 if __name__ == "__main__":
     communities_directory = os.path.realpath(os.getcwd() + '/../..')
     setFilePaths(communities_directory)
-    makeGeneralNetworkDataFile()
-    makeCollaborationDistributionFile()
+    #makeGeneralNetworkDataFile()
+    #makeCollaborationDistributionFile()
     makeTemporalDataFilesForAbbasi()
-    makeAuthorDistributionAmongPapersFile()
+    #makeAuthorDistributionAmongPapersFile()
     
