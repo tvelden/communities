@@ -1,2 +1,3 @@
 *.pyc
 parameters/parameters-global.txt
+*.o
