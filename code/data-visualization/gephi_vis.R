@@ -51,13 +51,12 @@ mixed <- data.frame(data.df$YEAR, data.df$oldFromMixed, data.df$totalNodes)
 mixed$TYPE <- rep("mixed", nrow(mixed))
 names(mixed) <- c("YEAR", "nodes", "totalNodes", "TYPE")
 newFromPureMixed <- rbind(pure, mixed)
-
 #create plot from csv data
 p <- ggplot(newFromPureMixed, aes(x=YEAR, y=(nodes/totalNodes)*100, group=TYPE, shape=TYPE, colour=TYPE)) + geom_line() + geom_point()
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
-p <- p + xlab("Year") + ylab("% OLD nodes from total network")
+p <- p + xlab("Year") + ylab("% OLD nodes in total network")
 p <- p + ylim(0,100) + xlim(as.integer(start_year), as.integer(end_year))
 summary(p)
 ggsave(p, file=nodes.outpath, dpi=72)
@@ -156,9 +155,13 @@ ggsave(p, file=nodes.outpath, dpi=72)
 
 # 6. % of nodes in a given year that are new
 nodes.outpath <- paste(outpath, field, run, "NEW_NODES_plot.png", sep="")
-nodes.title <- paste("Proportion of New Nodes To Active Nodes Per Year", field, run, sep=" ")
+nodes.title <- paste("Proportion of New Nodes Among Active Nodes Per Year", field, run, sep=" ")
+line.title <- paste(field,run, sep="")
+newNodes <- data.frame(data.df$YEAR, (data.df$totalNew*100/data.df$totalNodes))
+newNodes$Data <- rep(line.title, nrow(data.df))
+names(newNodes) <- c("YEAR", "percent", "Data")
 #create plot from csv data
-p <- ggplot(data.df, aes(YEAR)) + geom_line(aes(y=(totalNew/totalNodes * 100), colour="New Nodes"))
+p <- ggplot(newNodes, aes(x=YEAR, y=percent, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
@@ -170,8 +173,12 @@ ggsave(p, file=nodes.outpath, dpi=72)
 # 7. Number of active authors in a given year
 nodes.outpath <- paste(outpath, field, run, "ACTIVE_NODES_plot.png", sep="")
 nodes.title <- paste("Number Of Active Nodes", field, run, sep=" ")
+line.title <- paste(field,run, sep="")
+activeNodes <- data.frame(data.df$YEAR, data.df$totalNodes)
+activeNodes$Data <- rep("Active Nodes", nrow(data.df))
+names(activeNodes) <- c("YEAR", "number", "Data")
 #create plot from csv data
-p <- ggplot(data.df, aes(YEAR)) + geom_line(aes(y=totalNodes, colour="Total Nodes"))
+p <- ggplot(data.df, aes(x=Year, y=number, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
@@ -183,8 +190,12 @@ ggsave(p, file=nodes.outpath, dpi=72)
 # 8. Number of active authors in a given year normalized by maximum active authors
 nodes.outpath <- paste(outpath, field, run, "ACTIVE_NODES_NORMALIZED_plot.png", sep="")
 nodes.title <- paste("Number Of Active Nodes (Normalized)", field, run, sep=" ")
+# make data frame
+activeNodesNorm <- data.frame(data.df$YEAR, (data.df$totalNodes / max(data.df$totalNodes)))
+activeNodesNorm$Data <- rep("Active Nodes (Normalized)", nrow(data.df))
+names(activeNodesNorm) <- c("YEAR", "number", "Data")
 #create plot from csv data
-p <- ggplot(data.df, aes(YEAR)) + geom_line(aes(y=(totalNodes / max(data.df$totalNodes)*100), colour="Total Nodes"))
+p <- ggplot(data.df, aes(x=YEAR, y=number, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
@@ -192,4 +203,4 @@ p <- p + xlab("Year") + ylab(" % of total active nodes")
 p <- p + ylim(0, 100) + xlim(as.integer(start_year), as.integer(end_year))
 summary(p)
 ggsave(p, file=nodes.outpath, dpi=72)
-q()
+q()	

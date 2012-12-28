@@ -44,21 +44,9 @@ then
 	exit 1
 fi
 
+echo linebreak1
 
-# run R Script
-#echo "Plotting number of mixed, pure old, pure new components graph"
-#args="--args outpath='${hubnew_png}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${csvLoc}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
-
-#R --slave "$args" < ../data-visualization/puremixedcomp_vis.R
-#R_Check=$?
-#if [ ${R_Check} != 0 ]
-#then
-#	echo "problem creating plot for Pure New/Old and Mixed Components"
-#	exit 1
-#fi
-
-
-echo "Plotting Percent of new nodes from Mixed Components Vs. Pure Components"
+echo "Making plots..."
 args="--args outpath='${hubnew_png}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${csvLoc}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
 echo "Args for plotting : " ${args}
 R --slave "$args" < ../data-visualization/gephi_vis.R
