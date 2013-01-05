@@ -295,6 +295,6 @@ if __name__ == "__main__":
     setFilePaths(communities_directory)
     makeGeneralNetworkDataFile()
     makeCollaborationDistributionFile()
-    #makeTemporalDataFilesForAbbasi()
-	#makeAuthorDistributionAmongPapersFile()
+    makeTemporalDataFilesForAbbasi()
+	makeAuthorDistributionAmongPapersFile()
     
