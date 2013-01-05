@@ -36,7 +36,10 @@ def gethub(netfilename, allfilename):
     
     netfile = open(netfilename, 'r')
     allfile = open(allfilename, 'r')
-    hubfilename = os.path.dirname(allfilename) + '/../../../allyears/whole_net/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + 'hublist.txt'
+    hubfilename = os.path.dirname(allfilename) + '/../../../allyears/whole_net' 
+    if not os.path.exists(hubfilename):
+        os.makedirs(hubfilename)
+    hubfilename = hubfilename + '/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + 'hublist.txt'
     hubfile = open(hubfilename, 'w')
 
 
