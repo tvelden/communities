@@ -789,6 +789,64 @@ class Comparer:
         #pdb.set_trace()
         return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
+        
+
+    def getCentralityFromExtra(self, f):
+		file = open(f,'r')
+		D = {}
+		for line in file:
+			if(line =='AuthorName; Centrality\n'):
+				continue
+			i = 0
+			a = ''
+			while(line[i]!=';'):
+				a = a + str(line[i])
+				i = i + 1
+			i = i + 1
+			c = ''
+			while(line[i]!='\n'):
+				c = c + str(line[i])
+				i = i + 1
+			#print c
+			cen = float(c)
+			D[a] = cen
+		return D
+
+    	
+    def getDataForDegreeCentralityVsLinkAssociationsForHubsFromExtra(self, f):
+    	h = self.gethubs()
+        x = self.getCentralityFromExtra(f)
+        #pdb.set_trace()    
+        if(len(x) > 0):
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.current.differentDegrees[author][0])
+            corrDVL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVna[author])
+            corrDVNL = scipy.stats.spearmanr(X,Y)
+            X = []
+            Y = []
+            for author in self.commonNodes:
+            	if author in h:
+                	X.append(x[author])
+                	Y.append(self.dcVoa[author])
+            corrDVOL = scipy.stats.spearmanr(X,Y)
+        else:
+            corrDVL = [0.0,0.0]
+            corrDVNL = [0.0,0.0]
+            corrDVOL = [0.0,0.0]
+            
+        #pdb.set_trace()
+        return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
+        
     def getDataForClosenessCentralityVsLinkAssociations(self):
         x = self.previous.getClosenessCentrality()
         
@@ -821,9 +879,9 @@ class Comparer:
         #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
         return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
     
-    def getDataForClosenessCentralityVsLinkAssociationsForHubs(self):
+    def getDataForClosenessCentralityVsLinkAssociationsForHubsFromExtra(self, f):
     	h = self.gethubs()
-        x = self.previous.getClosenessCentrality()
+        x = self.getCentralityFromExtra(f)
         
         #pdb.set_trace()    
         if(len(x) > 0):
@@ -889,9 +947,9 @@ class Comparer:
         #return (self.current.startYear, self.current.endYear, corrDVL[0],corrDVNL[0],corrDVOL[0])
         return (x, self.current.startYear, self.current.endYear,  corrDVL[0], corrDVL[1], corrDVNL[0], corrDVNL[1], corrDVOL[0], corrDVOL[1])
         
-    def getDataForBetweennessCentralityVsLinkAssociationsForHubs(self):
+    def getDataForBetweennessCentralityVsLinkAssociationsForHubsFromExtra(self,f):
     	h = self.gethubs()
-        x = self.previous.getBetweennessCentrality()
+        x = self.getCentralityFromExtra(f)
            
         #pdb.set_trace()    
         if(len(x) > 0):
