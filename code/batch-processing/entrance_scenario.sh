@@ -22,44 +22,35 @@ FULL_RUN_PATH=${ROOT_PATH}${NET_PATH}/nwa-${FIELD}/runs/
 slicing=${TYPE}${START_YEAR}-${END_YEAR}_${SIZE}years
 discrete_slice=discrete${START_YEAR}-${END_YEAR}_${SIZE}years
 accumul_slice=accumulative${START_YEAR}-${END_YEAR}_${SIZE}years
-hubnew_png="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/allyears/whole_net/images/"
+png_path="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/allyears/whole_net/images/"
+csvLoc="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/allyears/whole_net/tables/${FIELD}${RUN}"
 
 
 linebreak1="/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/"
-csvLoc="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/allyears/whole_net/tables/gephiProcess_Stats.csv"
-hubFileLoc="../${FULL_RUN_PATH}${RUN}/output/networks/${accumul_slice}/generic/${START_YEAR}-${END_YEAR}/whole_net/hubs/${FIELD}${RUN}_accumulative${START_YEAR}-${END_YEAR}_${SIZE}years_wholenet.hub"
 
-echo "Hub File Location : " ${hubFileLoc}
 echo $linebreak1
-echo "Running netbuild-gephi.py to create .gexf files..."
-cd ../build-networks/co-author
-python ./netbuild-gephi.py $hubFileLoc "../${csvLoc}"
+echo "Running entrance_scenario.py"
+cd ../community-analysis
+python ./entrance_scenario.py
 pyCheck=$?
 cd -
 if [ ${pyCheck} != 0 ]
 then
-	if [ ${pyCheck} == 2 ]
-	then
-		echo $linebreak1
-		echo "Conversion to Gephi .gexf files completed for both accumulative and discrete networks"
-		exit 0
-	fi
 	echo $linebreak1
-	echo "problem creating gexf file"
+	echo "problem running /community-analysis/entrance_scenario.py"
 	echo $linebreak1
 	exit 1
 fi
 
-echo linebreak1
+echo $linebreak1
 
 echo "Making plots..."
-args="--args outpath='${hubnew_png}' field='${FIELD}' run='${RUN}' type='${TYPE}' csv='${csvLoc}' start_year='${START_YEAR}' end_year='${END_YEAR}'"
+args="--args outpath='${png_path}' field='${FIELD}' run='${RUN}' type='${TYPE}' catCsv='${csvLoc}_Category.csv' scenCsv='${csvLoc}_Scenario.csv' catPercCsv='${csvLoc}_CategoryPercent.csv' scenPercCsv='${csvLoc}_ScenarioPercent.csv' start_year='${START_YEAR}' end_year='${END_YEAR}'"
 echo "Args for plotting : " ${args}
-R --slave "$args" < ../data-visualization/gephi_vis.R
+R --slave "$args" < ../data-visualization/Category_And_Scenario_Vis.R
 R_Check=$?
 if [ ${R_Check} != 0 ]
 then
-	echo "problem creating plot for new nodes from Mixed Components vs. Pure Components"
+	echo "problem creating plot of Category and Scenario Metrics"
 	exit 1
 fi
-

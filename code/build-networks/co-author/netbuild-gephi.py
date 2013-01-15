@@ -23,6 +23,7 @@ years = [] # years of network, just for indexing
 nodeSizeByPub = dict() # keeps track of a node's most recent number of publications
 nodeSizeByActiveYears = dict() # keeps track of a node's most recent number of active years
 nodeGroup = dict() # keeps track of a node's group
+nodeFirstYear = dict() #keeps track of a node's first year in the network
 
 #hubLoc = "../../../../TEST_dirs/nwa-field1/runs/run1norm-dis-hfree-red/output/networks/accumulative1991-2010_1years/generic/1991-2010/whole_net/hubs/field1run1norm-dis-hfree-red_accumulative1991-2010_1years_wholenet.hub"
 # Only temporary until batch script is created
@@ -162,6 +163,7 @@ if _convertOnly:
 	for i in range(0, len(accumNets)):
 		print "Writing out to :"
 		print `accumGephNetLocs[i]`
+		nl.fix_nx_edge_weight_bug(accumNets[i], 'publications')
 		nx.write_gexf(accumNets[i], accumGephNetLocs[i])
 		print linebreak2
 	# Write out discrete gephi networks
@@ -169,7 +171,7 @@ if _convertOnly:
 		print "Writing out to :"
 		print `discGephNetLocs[i]`
 		nx.write_gexf(discNets[i], discGephNetLocs[i])
-	sys.exit(0)
+	sys.exit(2)
 
 # add attributes
 # 1. add OLDNEW attributes
@@ -180,6 +182,10 @@ for n in discNets[0]:
 	discNets[0].node[n]['OLDNEW'] = 'NEW'
 	discNets[0].node[n]['toHub'] = 'no'
 	discNets[0].node[n]['SIZEBYACTIVEYEARS'] = 1
+	discNets[0].node[n]['FirstYearPub'] = _STARTYEAR
+	discNets[0].node[n]['YearsSinceFirstPub'] = 0
+	nodeFirstYear[n] = _STARTYEAR
+	print `n`
 	nodeSizeByActiveYears[n] = 1
 netMetrics[years[0]]['totalNew'] = len(discNets[0])
 netMetrics[years[0]]['totalNodes'] = len(discNets[0])
@@ -208,6 +214,17 @@ for i in range(1, len(discNets)):
 	netMetrics[years[i]]['toOldHubs'] = 0 # initializing toOldHubs key and value
 	netMetrics[years[i]]['toNoHubs'] = 0
 	print "\t" + str(years[i])
+	for n in discNets[i]:
+		if discNets[i].node[n]['OLDNEW'] == 'NEW':
+			discNets[i].node[n]['FirstYearPub'] = years[i]
+			nodeFirstYear[n] = years[i]
+			discNets[i].node[n]['YearsSinceFirstPub'] = 0
+		else:
+			print `n`
+			print `discNets[i].node[n]`
+			discNets[i].node[n]['FirstYearPub'] = nodeFirstYear[n]
+			yearsSinceFirstPub = years[i] - int(discNets[i].node[n]['FirstYearPub'])
+			discNets[i].node[n]['YearsSinceFirstPub'] = yearsSinceFirstPub
 print linebreak1
 
 # 2. size nodes according to publication
@@ -250,8 +267,8 @@ for i in range(0, len(discNets)):
 		else:
 			discNets[i].node[n]['HUB'] = "nonHub"
 
-	print "\t" + "Hubs : " + str(hubsThisYear)
-	print "\t" + "total active nodes : " + str(len(discNets[i]))
+	#print "\t" + "Hubs : " + str(hubsThisYear)
+	#print "\t" + "total active nodes : " + str(len(discNets[i]))
 
 	# loop through all nodes again to determine type of hub connections if any
 	for n in discNets[i]:

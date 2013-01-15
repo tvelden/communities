@@ -163,6 +163,17 @@ def open_paj_as_nx(pajLoc):
 	pajNet = cleanPaj(pajNet)
 	return pajNet
 
+def fix_nx_edge_weight_bug(accumNet, attName):
+	""" takes in an accumulative networkx network file and fixes a bug that occurs when networkx
+		imports pajek networks with edge weights.  The bug parses the weight attribute data to
+		a key in the edge attribute dictionary labeled as '0'.  The data is held as another dictionary.
+		This method parses the data from this place to the correct part of the dictionary with the
+		correct name.
+	"""
+	for e in accumNet.edges():
+		attVal = float(accumNet.get_edge_data(e[0],e[1])[0]['weight'])
+		accumNet[e[0]][e[1]][attName] = attVal
+		
 def attOldNew(discNet, accNet):
 	""" Takes in a discrete network slice for a year n, and an accumulative network slice
 	for a year n - 1 to determine which nodes were formerly in the network (Old) and which nodes

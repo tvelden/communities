@@ -178,7 +178,7 @@ activeNodes <- data.frame(data.df$YEAR, data.df$totalNodes)
 activeNodes$Data <- rep("Active Nodes", nrow(data.df))
 names(activeNodes) <- c("YEAR", "number", "Data")
 #create plot from csv data
-p <- ggplot(data.df, aes(x=Year, y=number, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
+p <- ggplot(activeNodes, aes(x=YEAR, y=number, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
@@ -191,11 +191,14 @@ ggsave(p, file=nodes.outpath, dpi=72)
 nodes.outpath <- paste(outpath, field, run, "ACTIVE_NODES_NORMALIZED_plot.png", sep="")
 nodes.title <- paste("Number Of Active Nodes (Normalized)", field, run, sep=" ")
 # make data frame
-activeNodesNorm <- data.frame(data.df$YEAR, (data.df$totalNodes / max(data.df$totalNodes)))
+activeNodesNorm <- data.frame(data.df$YEAR, data.df$totalNodes/max(data.df$totalNodes)*100)
 activeNodesNorm$Data <- rep("Active Nodes (Normalized)", nrow(data.df))
 names(activeNodesNorm) <- c("YEAR", "number", "Data")
 #create plot from csv data
-p <- ggplot(data.df, aes(x=YEAR, y=number, colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
+
+print(activeNodesNorm)
+print(c("Max : ", max(data.df$totalNodes)))
+p <- ggplot(activeNodesNorm, aes(x=YEAR, y=(number), colour=Data)) + geom_line() + geom_point() + scale_linetype_discrete(name="Data")
 #add annotation and save
 p <- p  + opts(title = nodes.title)
 p <- p + opts(axis.text.x = theme_text(face="bold", size="14"), axis.text.y = theme_text(face="bold", size="14"))
