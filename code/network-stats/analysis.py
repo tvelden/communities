@@ -15,7 +15,7 @@ from analyzer import *
 #--Global Variables--
 
 #SWITCHES: Change the values to "False" if you dont want them
-I_WANT_ABBASI_TABLE_2_3 = False
+I_WANT_ABBASI_TABLE_2_3 = True
 I_WANT_DEGREE_CENTRALITY = True
 I_WANT_CLOSENESS_CENTRALITY = True 
 I_WANT_BETWEENNESS_CENTRALITY = True
@@ -295,6 +295,6 @@ if __name__ == "__main__":
     setFilePaths(communities_directory)
     makeGeneralNetworkDataFile()
     makeCollaborationDistributionFile()
-    makeTemporalDataFilesForAbbasi()
-	makeAuthorDistributionAmongPapersFile()
+    #makeTemporalDataFilesForAbbasi()
+    makeAuthorDistributionAmongPapersFile()
     

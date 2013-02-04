@@ -33,6 +33,8 @@ class Net:
         self.LargestComponentFile = ''
         self.graphpathforcomponents = ''
         self.graphpath = ''
+        
+        
     def setPath(self):
         self.GeneralInfoFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_GeneralInfo.csv'
         self.AbbasiTable2File = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AbbasiTable2.csv'
@@ -50,7 +52,7 @@ class Net:
         
         self.LargestComponentFile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/components/tables/' +  str(self.field) + str(self.run) + '_' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_Large-SecondLargeData.csv'
         
-        self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_Large-SecondLargeData.csv'
+        self.Authordistributionfile = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/tables/' + str(self.field) + str(self.run) + '_' + str(self.type)  + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) + 'years_wholenet_AuthorDistribution.csv'
         self.graphpath = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/whole_net/images'
         self.graphpathforcomponents = self.outpath  + '/nwa-' + str(self.field) + '/' + 'runs/' + str(self.run) + '/output/statistics/' + str(self.type) + str(self.start_year) + '-' + str(self.end_year) + '_' + str(self.size) +'years' + '/generic/allyears/components/images'
         if not os.path.exists(os.path.realpath(self.graphpath)):
@@ -60,6 +62,7 @@ class GraphDrawer:
         self.GList = []
         self.index = -1
         self.communities_directory = os.path.realpath(cd)
+        
     def getData(self, file):
         #communities_directory = os.path.realpath('../..')
         f = open(file, 'r')
@@ -101,7 +104,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type)  + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfPapers.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Number of Papers Published') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
+        fi.write("p + xlab('Year') + ylab('Number of Papers Published') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers,  shape = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers,  shape = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
         fi.write("ggsave(pdffile)\n\n")
         
         #number of authors
@@ -109,7 +112,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run)+ '_' + str(g.type)  + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Number of Authors') + geom_point(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) + geom_line(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
+        fi.write("p + xlab('Year') + ylab('Number of Authors') + geom_point(aes(GI$End_Year,GI$Number_Of_Authors, shape = 'Authors')) + geom_line(aes(GI$End_Year,GI$Number_Of_Authors, shape = 'Authors')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
         fi.write("ggsave(pdffile)\n\n")
         
         #number of edges
@@ -117,7 +120,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Number of Links') + geom_point(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) + geom_line(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
+        fi.write("p + xlab('Year') + ylab('Number of Links') + geom_point(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, shape = 'Links')) + geom_line(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, shape = 'Links')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
         fi.write("ggsave(pdffile)\n\n")
         
         #number of Links
@@ -125,7 +128,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NumberOfEdges.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Number of Edges') + geom_point(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) + geom_line(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
+        fi.write("p + xlab('Year') + ylab('Number of Edges') + geom_point(aes(GI$End_Year,GI$Number_Of_Edges, shape = 'Edges')) + geom_line(aes(GI$End_Year,GI$Number_Of_Edges, shape = 'Edges')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
         fi.write("ggsave(pdffile)\n\n")
         
         #summary
@@ -133,10 +136,10 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_Summary.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Number') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, color = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
-        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) + geom_line(aes(GI$End_Year,GI$Number_Of_Authors, color = 'Authors')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
-        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) + geom_line(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, color = 'Links')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
-        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) + geom_line(aes(GI$End_Year,GI$Number_Of_Edges, color = 'Edges')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
+        fi.write("p + xlab('Year') + ylab('Number') + geom_point(aes(GI$End_Year,GI$Number_Of_Papers, shape = 'Papers')) + geom_line(aes(GI$End_Year,GI$Number_Of_Papers, shape = 'Papers')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
+        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Authors, shape = 'Authors')) + geom_line(aes(GI$End_Year,GI$Number_Of_Authors, shape = 'Authors')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
+        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, shape = 'Links')) + geom_line(aes(GI$End_Year,GI$Number_Of_Unweighted_Edges, shape = 'Links')) +  opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')")
+        fi.write("+ geom_point(aes(GI$End_Year,GI$Number_Of_Edges, shape = 'Edges')) + geom_line(aes(GI$End_Year,GI$Number_Of_Edges, shape = 'Edges'))  + scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())+ opts(title = '" + g.field +"')\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#General Info ends\n\n\n")
@@ -151,14 +154,14 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent of New Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent of New Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, shape = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, shape = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_new_author, shape = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_New_Authors_Connected_to_atleast_one_old_author, shape = 'With Old'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(AB1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_OldAuthorAttachmentDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent of old Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, color = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, color = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, color = 'With Any')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent of old Authors') + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, shape = 'With New')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, shape = 'With Old')) + geom_point(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, shape = 'With Any')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_new_author, shape = 'With New')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_old_author, shape = 'With Old')) + geom_line(aes(AB1$End_Year,AB1$Percent_Of_Old_Authors_Connected_to_atleast_one_any_author, shape = 'With Any'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         
@@ -174,7 +177,7 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_NewLinkDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent New Links') + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, color = 'New-New')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, color = 'New-Old')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, color = 'Old-Old-1st')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, color = 'Old-Old-Again')) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
+        fi.write("p + xlab('Year') + ylab('Percent New Links') + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, shape = 'New-New')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, shape = 'New-Old')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, shape = 'Old-Old-1st')) + geom_point(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, shape = 'Old-Old-Again')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Among_New_Authors, shape = 'New-New')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_Of_Links_Between_New_and_Old, shape = 'New-Old')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_New_Links_Between_Two_Old_Authors_Not_Connected_Before, shape = 'Old-Old-1st')) + geom_line(aes(ABT1$End_Year,ABT1$Percent_of_Links_Among_Old_Authors_Connected_Before, shape = 'Old-Old-Again'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + scale_y_continuous(limits = c(0, 100))\n")
         fi.write("ggsave(pdffile)\n\n")
           
         fi.write("#Abbasi Table 3 ends\n\n\n")
@@ -191,26 +194,57 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Spearman Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Spearman correlation (Collaborations with New Authors)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("p + xlab('Year') + ylab('Spearman correlation (New Collaborations between Existing Authors)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#Preferrential Attachment ends\n\n\n")
         fi.close()
         
+    def addCentralityhub(self, g, fs):
+        fi = open(fs, 'a')
+        fi.write("\n\n#Preferrential Attachment starts\n")
+        fi.write("DC1<- read.table('" + g.DegreeCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        fi.write("CC1<- read.table('" + g.ClosenessCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        fi.write("BC1<- read.table('" + g.BetweennessCentralityhubFile + "', header = TRUE, sep =';')\n" )
+        
+        fi.write("\n\np<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Spearman Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Spearman correlation (Collaborations with New Authors)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("p<-ggplot(DC1)\n")
+        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors_hub.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('Spearman correlation (New Collaborations between Existing Authors)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
+        fi.write("ggsave(pdffile)\n\n")
+        
+        fi.write("#Preferrential Attachment ends\n\n\n")
+        fi.close()
+
     def addpValuesCentrality(self, g, fs):
         fi = open(fs, 'a')
         fi.write("\n\n#p-Values for Preferrential Attachment starts\n")
@@ -222,21 +256,21 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinks.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$pCDND, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDND, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDND, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDND, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDND, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDND, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithNewAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman correlation (Collaborations with New Authors)') + geom_point(aes(DC1$End_Year,DC1$pCDNAD, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNAD, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNAD, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNAD, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNAD, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNAD, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithOldAuthors.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman correlation (New Collaborations between Existing Authors)') + geom_point(aes(DC1$End_Year,DC1$pCDNOD, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNOD, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNOD, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNOD, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNOD, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNOD, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#p-Values of Preferrential Attachment ends\n\n\n")
@@ -256,21 +290,21 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinks_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDND, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDND, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDND, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$pCDND, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDND, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDND, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDND, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDND, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDND, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithNewAuthors_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNAD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNAD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNAD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman correlation (Collaborations with New Authors)') + geom_point(aes(DC1$End_Year,DC1$pCDNAD, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNAD, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNAD, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNAD, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNAD, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNAD, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("p<-ggplot(DC1)\n")
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_pCentralityVnewLinkswithOldAuthors_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('p-Values of Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNOD, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNOD, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNOD, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank())\n")
+        fi.write("p + xlab('Year') + ylab('p-Values of the Spearman correlation (New Collaborations between Existing Authors)')+ geom_point(aes(DC1$End_Year,DC1$pCDNOD, shape = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$pCDNOD, shape = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$pCDNOD, shape = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$pCDNOD, shape = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$pCDNOD, shape = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$pCDNOD, shape = 'Betweenness Centrality'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) + opts(legend.title=theme_blank())\n")
         fi.write("ggsave(pdffile)\n\n")
         
         fi.write("#p-Values of Preferrential Attachment ends\n\n\n")
@@ -286,7 +320,9 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CollaborationDistribution.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10')\n")
+        fi.write("N<-c()\n")
+        fi.write("for (i in 0:10) { N[i+1]<-10^i}\n")
+        fi.write("p + xlab('Number of Authors') + ylab('Number of Collaborators (per author)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10') + scale_x_continuous(breaks=N) + scale_y_continuous(breaks=N)\n")
         fi.write("ggsave(pdffile)\n\n")
 
         fi.write("#Degree Distribution ends\n\n\n")
@@ -301,7 +337,9 @@ class GraphDrawer:
         s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CollaborationDistribution_hub.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Log10(Collaborators)') + ylab('Log10(Number of Authors)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10')\n")
+        fi.write("N<-c()\n")
+        fi.write("for (i in 0:10) { N[i+1]<-10^i}\n")
+        fi.write("p + xlab('Number of Authors') + ylab('Number of Collaborators (per author)') + geom_point(aes(M$Collaborators, M$Frequency)) + geom_line(aes(M$Collaborators, M$Frequency)) + coord_trans('log10','log10') + scale_x_continuous(breaks=N) + scale_y_continuous(breaks=N)\n")
         fi.write("ggsave(pdffile)\n\n")
 
         fi.write("#Degree Distribution ends\n\n\n")
@@ -321,36 +359,6 @@ class GraphDrawer:
         fi.write("#Author Distribution ends\n\n\n")
         fi.close()
         
-    def addCentralityhub(self, g, fs):
-        fi = open(fs, 'a')
-        fi.write("\n\n#Preferrential Attachment starts\n")
-        fi.write("DC1<- read.table('" + g.DegreeCentralityhubFile + "', header = TRUE, sep =';')\n" )
-        fi.write("CC1<- read.table('" + g.ClosenessCentralityhubFile + "', header = TRUE, sep =';')\n" )
-        fi.write("BC1<- read.table('" + g.BetweennessCentralityhubFile + "', header = TRUE, sep =';')\n" )
-        
-        fi.write("\n\np<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinks_hub.pdf'
-        fi.write("pdffile <-c('" +s +"')\n")
-        fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links (Any Type)') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
-        fi.write("ggsave(pdffile)\n\n")
-        
-        fi.write("p<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithNewAuthors_hub.pdf'
-        fi.write("pdffile <-c('" +s +"')\n")
-        fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with New Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Authors_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Authors_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Authors_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
-        fi.write("ggsave(pdffile)\n\n")
-        
-        fi.write("p<-ggplot(DC1)\n")
-        s = g.graphpath + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_CentralityVnewLinkswithOldAuthors_hub.pdf'
-        fi.write("pdffile <-c('" +s +"')\n")
-        fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Correlation with Number of New Links with Old Authors') + geom_point(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_point(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_point(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + geom_line(aes(DC1$End_Year,DC1$Correlation_Between_Prev_Degree_and_New_Old_Degree, color = 'Degree Centrality')) + geom_line(aes(CC1$End_Year,CC1$Correlation_Between_Prev_Closeness_and_New_Old_Degree, color = 'Closeness Centrality')) + geom_line(aes(BC1$End_Year,BC1$Correlation_Between_Prev_Betweenness_and_New_Old_Degree, color = 'Betweenness Centrality')) + opts(legend.title=theme_blank()) + coord_cartesian(ylim=c(-0.5, 1.0))\n")
-        fi.write("ggsave(pdffile)\n\n")
-        
-        fi.write("#Preferrential Attachment ends\n\n\n")
-        fi.close()
 
         
     def densification(self, g, fs):
@@ -396,10 +404,22 @@ class GraphDrawer:
         s = g.graphpathforcomponents + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_LargestComponent.pdf'
         fi.write("pdffile <-c('" +s +"')\n")
         fi.write("pdf(pdffile)\n")
-        fi.write("p + xlab('Year') + ylab('Percent in Largest Component') + geom_point(aes(M$End_year, M$Ever_Second_Percent, color = 'Second Ever')) + geom_line(aes(M$End_year, M$Ever_Second_Percent, color = 'Second Ever')) + geom_point(aes(M$End_year, M$Just_Previous_Percent, color = 'Previous Second')) + geom_line(aes(M$End_year, M$Just_Previous_Percent, color = 'Previous Second'))+ geom_point(aes(M$End_year, M$Percent_from_others, color = 'From Other Components')) + geom_line(aes(M$End_year, M$Percent_from_others, color = 'From Other Components')) + geom_point(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_line(aes(M$End_year, M$Percent_Previous_Largest, color = 'From Previous Largest')) + geom_point(aes(M$End_year, M$Percent_New, color = 'From New')) + geom_line(aes(M$End_year, M$Percent_New, color = 'From New')) \n")
+        fi.write("p + xlab('Year') + ylab('% of authors newly joining largest component') + geom_point(aes(M$End_year, M$Ever_Second_Percent, shape = 'Second Ever')) + geom_line(aes(M$End_year, M$Ever_Second_Percent, shape = 'Second Ever')) + geom_point(aes(M$End_year, M$Just_Previous_Percent, shape = 'Previous Second')) + geom_line(aes(M$End_year, M$Just_Previous_Percent, shape = 'Previous Second'))+ geom_point(aes(M$End_year, M$Percent_from_others, shape = 'From Other Components')) + geom_line(aes(M$End_year, M$Percent_from_others, shape = 'From Other Components')) + geom_point(aes(M$End_year, M$Percent_Previous_Largest,  shape = 'From Previous Largest')) + geom_line(aes(M$End_year, M$Percent_Previous_Largest,  shape = 'From Previous Largest')) + geom_point(aes(M$End_year, M$Percent_New,   shape = 'From New')) + geom_line(aes(M$End_year, M$Percent_New,  shape = 'From New'))+ scale_shape_manual(values=c(2,4,16,7,15,5)) \n")
         fi.write("ggsave(pdffile)\n\n")
 
         fi.write("#Largest Component ends\n\n\n")
+        
+        fi.write("\n\n#Largest Component 2 starts\n")
+        fi.write("p<-ggplot(M)\n")
+        s = g.graphpathforcomponents + '/' + str(g.field) + str(g.run) + '_' + str(g.type) + str(g.start_year) + '-' + str(g.end_year) + '_' + str(g.size) + 'years_LargestComponent2.pdf'
+        fi.write("pdffile <-c('" +s +"')\n")
+        fi.write("pdf(pdffile)\n")
+        fi.write("p + xlab('Year') + ylab('% of authors newly joining largest component') + geom_point(aes(M$End_year, (M$Number_from_Just_Previous_Second/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00,  shape = '2nd component'))+ geom_line(aes(M$End_year, (M$Number_from_Just_Previous_Second/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00))+ geom_point(aes(M$End_year, (M$Number_from_Others/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00,  shape = 'other component')) + geom_line(aes(M$End_year, (M$Number_from_Others/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00)) + geom_point(aes(M$End_year, (M$New/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00,  shape = 'new author')) + geom_line(aes(M$End_year, (M$New/(M$Number_from_Just_Previous_Second + M$Number_from_Others + M$New))*100.00)) + scale_shape_manual(nam = 'Source', values=c(2,4,16,7,15,5)) + coord_cartesian(ylim=c(0, 100)) + \n")
+        fi.write("ggsave(pdffile)\n\n")
+
+        fi.write("#Largest Component 2 ends\n\n\n")
+        
+        
         fi.close() 
     
     def makeIndividualComponentGraphs(self, fs):

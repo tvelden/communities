@@ -34,6 +34,7 @@ def makeComponents():
             for e in Partition.nodes:
             	if e not in acc:
             		acc.append(e)
+            
             for e in tot:
             	if e not in acc:
             		rest.append(e)

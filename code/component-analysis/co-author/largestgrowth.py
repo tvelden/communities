@@ -197,7 +197,7 @@ if __name__ == "__main__":
 	
 	for i in range(1,10):
 		setFilePaths2(communities_directory, i)
-		makeComponents2(i)
+		#makeComponents2(i)
 	
 	
 	gm = open('largestgraph.r', 'w')
@@ -229,7 +229,11 @@ if __name__ == "__main__":
 	
 	for i in range(1,10):
 		gm.write("\n\np" + str(i) + "<-ggplot(AB" + str(i) + ")\n")
-		s = str(os.getcwd()) + '/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(i) + 'years_LargestGraph' + str(i) + '.pdf'
+		setFilePaths2(communities_directory, i)
+		s = globalvar.OUTPUT_STATISTICS_DIRECTORY_FOR_COMPONENTS + '/' + 'allyears/components/images'
+		if not os.path.exists(s):
+			os.makedirs(s)
+		s = s + '/' + str(globalvar.FIELD) + str(globalvar.RUN) + '_' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(i) + 'years_LargestGraph' + '.pdf'
 		gm.write("pdffile <-c('" +s +"')\n")
 		gm.write("pdf(pdffile)\n")
 		gm.write("p" + str(i) + " + xlab('Year') + ylab('Percent')")
