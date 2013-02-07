@@ -39,7 +39,7 @@ def setFilePaths(communities_directory):
             globalvar.OUTPUT_PARENT_DIRECTORY_PATH = str(os.path.realpath(communities_directory + '/' + line[9:(len(line)-1)]))
             print globalvar.OUTPUT_PARENT_DIRECTORY_PATH
         elif(line[0:10] == 'DATA_PATH='):
-            globalvar.INPUT_REDUCED_FILE_PATH = os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/data/' + line[10:(len(line))])
+            globalvar.INPUT_REDUCED_FILE_PATH = os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/data/' + line[10:(len(line)-1)])
             print globalvar.INPUT_REDUCED_FILE_PATH
         
     globalvar.OUTPUT_NETWORK_DIRECTORY_FOR_PAJEK = str(os.path.realpath(globalvar.OUTPUT_PARENT_DIRECTORY_PATH + '/nwa-' + str(globalvar.FIELD) + '/' + 'runs/' + str(globalvar.RUN) + '/output/networks/' + str(globalvar.TYPE) + str(globalvar.START_YEAR) + '-' + str(globalvar.END_YEAR) + '_' + str(globalvar.SIZE) +'years' + '/generic'))

@@ -1,3 +1,11 @@
-The files under this folder are the statitics of the network mentioned in the file names.
-The statistics that are incorporated are:
-1. The data for Abbasi's 2nd table
+Run analysis.py for: 
+1. the Abbasi's tables
+2. general information table
+3. Collaboration Distribution table
+4. Author distribution per paper table
+
+Run graph-generator.py for:
+1. Updating the makegraphs.r file
+
+Run makegraphs.r for:
+1. generating the relevant graphs
