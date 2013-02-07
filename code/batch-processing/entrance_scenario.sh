@@ -47,7 +47,12 @@ echo $linebreak1
 echo "Making plots..."
 args="--args outpath='${png_path}' field='${FIELD}' run='${RUN}' type='${TYPE}' catCsv='${csvLoc}_Category.csv' scenCsv='${csvLoc}_Scenario.csv' catPercCsv='${csvLoc}_CategoryPercent.csv' scenPercCsv='${csvLoc}_ScenarioPercent.csv' start_year='${START_YEAR}' end_year='${END_YEAR}'"
 echo "Args for plotting : " ${args}
+
+# If publishing, comment out the line using ../data-visualization/Category_And_Scenario_Vis.R and use the
+# ../data-visualization/Category_And_Scenario_Pub_Vis.R line instead
+
 R --slave "$args" < ../data-visualization/Category_And_Scenario_Vis.R
+# R --slave "$args" < ../data-visualization/Category_And_Scenario_Pub_Vis.R
 R_Check=$?
 if [ ${R_Check} != 0 ]
 then
