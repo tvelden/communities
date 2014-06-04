@@ -1,0 +1,8 @@
+x2 = scan("/Users/shiyansiadmin/Dropbox/Files/Results/Citation Portion From Cluster2 To Cluster1")
+x3 = scan("/Users/shiyansiadmin/Dropbox/Files/Results/Citation Portion From Cluster3 To Cluster1")
+x4 = scan("/Users/shiyansiadmin/Dropbox/Files/Results/Citation Portion From Cluster4 To Cluster1")
+year = c(1991:2010)
+plot (x2~year, xlab="year" , ylab="portion of citation", type = "o" ,col="red", pch=21, lty=1)
+lines(x3~year, type="o", col="green",pch=22, lty=2)
+lines(x4~year, type="o", col="blue", pch=23, lty=3)
+legend("topleft", legend=c("c2--c1","c3--c1","c4--c1"), col=c("red","green","blue"),pch=21:23,lty=1:3)

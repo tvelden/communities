@@ -1,0 +1,395 @@
+Begin Building Citation Network
+InputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/in.txt
+OutputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetwork.net
+node-10000 Complete
+node-20000 Complete
+node-30000 Complete
+node-40000 Complete
+node-50000 Complete
+Building Citation Network Complete
+Begin Finding Giant Component
+InputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetwork.net
+OutputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.net
+There are 46401 nodes in the giant component
+Finding Giant Component Complete
+Begin First Round Clustering
+InputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.net
+OutputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.clu
+Reading network /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.net...done! (found 46401 nodes and 311949 links, aggregated 267 link(s) defined more than once, ignoring 6 self link(s).
+Now partition the network:
+Attempt 1/10
+Iteration 1, moving 46401 nodes, looping 18 6 3 2 1 times between mergings to code length 10.6173 in 1490 modules.
+Iteration 2, moving 46401 nodes, looping 7 3 1 times between mergings to code length 10.566 in 1440 modules.
+Iteration 3, moving 4623 modules, looping 4 2 1 times between mergings to code length 10.556 in 1479 modules.
+Iteration 4, moving 46401 nodes, looping 7 2 1 times between mergings to code length 10.545 in 1467 modules.
+Iteration 5, moving 4644 modules, looping 3 1 times between mergings to code length 10.5436 in 1478 modules.
+Iteration 6, moving 46401 nodes, looping 6 2 1 times between mergings to code length 10.5417 in 1477 modules.
+Iteration 7, moving 4643 modules, looping 3 2 1 times between mergings to code length 10.5416 in 1482 modules.
+Iteration 8, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5413 in 1481 modules.
+Iteration 9, moving 4638 modules, looping 3 1 times between mergings to code length 10.5412 in 1481 modules.
+Iteration 10, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5409 in 1481 modules.
+Iteration 11, moving 4647 modules, looping 2 1 times between mergings to code length 10.5408 in 1482 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5408 in 1482 modules.
+Iteration 13, moving 4605 modules, looping 1 times between mergings to code length 10.5408 in 1482 modules.
+Attempt 2/10
+Iteration 1, moving 46401 nodes, looping 19 8 6 2 1 times between mergings to code length 10.614 in 1517 modules.
+Iteration 2, moving 46401 nodes, looping 8 3 1 times between mergings to code length 10.5634 in 1454 modules.
+Iteration 3, moving 4672 modules, looping 5 2 1 times between mergings to code length 10.5531 in 1480 modules.
+Iteration 4, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5457 in 1472 modules.
+Iteration 5, moving 4661 modules, looping 4 2 1 times between mergings to code length 10.5442 in 1478 modules.
+Iteration 6, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5422 in 1476 modules.
+Iteration 7, moving 4632 modules, looping 3 1 times between mergings to code length 10.5417 in 1476 modules.
+Iteration 8, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5416 in 1476 modules.
+Iteration 9, moving 4654 modules, looping 3 1 times between mergings to code length 10.5415 in 1477 modules.
+Iteration 10, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5415 in 1477 modules.
+Iteration 11, moving 4633 modules, looping 2 1 times between mergings to code length 10.5415 in 1478 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5415 in 1478 modules.
+Iteration 13, moving 4646 modules, looping 2 1 times between mergings to code length 10.5414 in 1479 modules.
+Iteration 14, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5414 in 1479 modules.
+Iteration 15, moving 4664 modules, looping 2 1 times between mergings to code length 10.5413 in 1479 modules.
+Iteration 16, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5413 in 1479 modules.
+Iteration 17, moving 4654 modules, looping 2 1 times between mergings to code length 10.5411 in 1479 modules.
+Iteration 18, moving 46401 nodes, looping 2 1 times between mergings to code length 10.541 in 1479 modules.
+Iteration 19, moving 4622 modules, looping 3 2 1 times between mergings to code length 10.5407 in 1477 modules.
+Iteration 20, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5402 in 1476 modules.
+Iteration 21, moving 4653 modules, looping 2 1 times between mergings to code length 10.5401 in 1478 modules.
+Iteration 22, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5401 in 1478 modules.
+Iteration 23, moving 4640 modules, looping 4 1 times between mergings to code length 10.54 in 1479 modules.
+Iteration 24, moving 46401 nodes, looping 3 1 times between mergings to code length 10.54 in 1479 modules.
+Iteration 25, moving 4630 modules, looping 2 1 times between mergings to code length 10.5398 in 1480 modules.
+Iteration 26, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5398 in 1480 modules.
+Iteration 27, moving 4652 modules, looping 3 1 times between mergings to code length 10.5398 in 1480 modules.
+Iteration 28, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5398 in 1480 modules.
+Iteration 29, moving 4633 modules, looping 2 1 times between mergings to code length 10.5398 in 1481 modules.
+Iteration 30, moving 46401 nodes, looping 1 times between mergings to code length 10.5398 in 1481 modules.
+Attempt 3/10
+Iteration 1, moving 46401 nodes, looping 17 7 5 2 1 times between mergings to code length 10.6132 in 1495 modules.
+Iteration 2, moving 46401 nodes, looping 9 3 1 times between mergings to code length 10.5646 in 1443 modules.
+Iteration 3, moving 4669 modules, looping 4 2 1 times between mergings to code length 10.5499 in 1472 modules.
+Iteration 4, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5445 in 1465 modules.
+Iteration 5, moving 4657 modules, looping 3 1 times between mergings to code length 10.5441 in 1471 modules.
+Iteration 6, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5438 in 1471 modules.
+Iteration 7, moving 4643 modules, looping 3 1 times between mergings to code length 10.5436 in 1472 modules.
+Iteration 8, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5434 in 1472 modules.
+Iteration 9, moving 4658 modules, looping 2 1 times between mergings to code length 10.5432 in 1474 modules.
+Iteration 10, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5431 in 1474 modules.
+Iteration 11, moving 4667 modules, looping 3 1 times between mergings to code length 10.543 in 1477 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5429 in 1477 modules.
+Iteration 13, moving 4644 modules, looping 2 1 times between mergings to code length 10.5429 in 1477 modules.
+Iteration 14, moving 46401 nodes, looping 1 times between mergings to code length 10.5429 in 1477 modules.
+Attempt 4/10
+Iteration 1, moving 46401 nodes, looping 23 7 4 1 times between mergings to code length 10.6091 in 1497 modules.
+Iteration 2, moving 46401 nodes, looping 7 2 1 times between mergings to code length 10.5508 in 1450 modules.
+Iteration 3, moving 4687 modules, looping 5 2 1 times between mergings to code length 10.5446 in 1479 modules.
+Iteration 4, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5417 in 1471 modules.
+Iteration 5, moving 4666 modules, looping 3 2 1 times between mergings to code length 10.5409 in 1476 modules.
+Iteration 6, moving 46401 nodes, looping 6 2 1 times between mergings to code length 10.5404 in 1475 modules.
+Iteration 7, moving 4615 modules, looping 3 1 times between mergings to code length 10.5401 in 1478 modules.
+Iteration 8, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5398 in 1478 modules.
+Iteration 9, moving 4639 modules, looping 2 1 times between mergings to code length 10.5397 in 1480 modules.
+Iteration 10, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5396 in 1480 modules.
+Iteration 11, moving 4637 modules, looping 2 1 times between mergings to code length 10.5396 in 1481 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5396 in 1481 modules.
+Iteration 13, moving 4695 modules, looping 2 1 times between mergings to code length 10.5395 in 1481 modules.
+Iteration 14, moving 46401 nodes, looping 1 times between mergings to code length 10.5395 in 1481 modules.
+Attempt 5/10
+Iteration 1, moving 46401 nodes, looping 18 8 5 3 1 times between mergings to code length 10.6428 in 1500 modules.
+Iteration 2, moving 46401 nodes, looping 8 3 1 times between mergings to code length 10.59 in 1447 modules.
+Iteration 3, moving 4655 modules, looping 5 2 1 times between mergings to code length 10.5593 in 1483 modules.
+Iteration 4, moving 46401 nodes, looping 7 2 1 times between mergings to code length 10.5475 in 1474 modules.
+Iteration 5, moving 4683 modules, looping 3 1 times between mergings to code length 10.5464 in 1480 modules.
+Iteration 6, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5457 in 1480 modules.
+Iteration 7, moving 4648 modules, looping 3 1 times between mergings to code length 10.5448 in 1481 modules.
+Iteration 8, moving 46401 nodes, looping 3 2 1 times between mergings to code length 10.5441 in 1477 modules.
+Iteration 9, moving 4658 modules, looping 3 1 times between mergings to code length 10.5439 in 1478 modules.
+Iteration 10, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5425 in 1478 modules.
+Iteration 11, moving 4646 modules, looping 3 1 times between mergings to code length 10.5424 in 1478 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5423 in 1478 modules.
+Iteration 13, moving 4650 modules, looping 2 1 times between mergings to code length 10.5422 in 1479 modules.
+Iteration 14, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5422 in 1479 modules.
+Iteration 15, moving 4639 modules, looping 2 1 times between mergings to code length 10.5422 in 1479 modules.
+Iteration 16, moving 46401 nodes, looping 1 times between mergings to code length 10.5422 in 1479 modules.
+Attempt 6/10
+Iteration 1, moving 46401 nodes, looping 19 7 4 2 1 times between mergings to code length 10.6066 in 1502 modules.
+Iteration 2, moving 46401 nodes, looping 13 2 1 times between mergings to code length 10.5637 in 1458 modules.
+Iteration 3, moving 4667 modules, looping 4 2 1 times between mergings to code length 10.5547 in 1496 modules.
+Iteration 4, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5503 in 1488 modules.
+Iteration 5, moving 4651 modules, looping 3 2 1 times between mergings to code length 10.5494 in 1492 modules.
+Iteration 6, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5482 in 1491 modules.
+Iteration 7, moving 4678 modules, looping 3 1 times between mergings to code length 10.5478 in 1495 modules.
+Iteration 8, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.547 in 1493 modules.
+Iteration 9, moving 4650 modules, looping 3 2 1 times between mergings to code length 10.5468 in 1493 modules.
+Iteration 10, moving 46401 nodes, looping 2 2 1 times between mergings to code length 10.5467 in 1490 modules.
+Iteration 11, moving 4674 modules, looping 2 1 times between mergings to code length 10.5466 in 1491 modules.
+Iteration 12, moving 46401 nodes, looping 3 2 1 times between mergings to code length 10.5464 in 1490 modules.
+Iteration 13, moving 4659 modules, looping 2 1 times between mergings to code length 10.5463 in 1492 modules.
+Iteration 14, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5462 in 1492 modules.
+Iteration 15, moving 4664 modules, looping 3 1 times between mergings to code length 10.5461 in 1493 modules.
+Iteration 16, moving 46401 nodes, looping 2 1 times between mergings to code length 10.546 in 1493 modules.
+Iteration 17, moving 4650 modules, looping 3 1 times between mergings to code length 10.5458 in 1494 modules.
+Iteration 18, moving 46401 nodes, looping 5 1 times between mergings to code length 10.5456 in 1494 modules.
+Iteration 19, moving 4653 modules, looping 2 1 times between mergings to code length 10.5456 in 1496 modules.
+Iteration 20, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5456 in 1496 modules.
+Iteration 21, moving 4658 modules, looping 1 times between mergings to code length 10.5456 in 1496 modules.
+Attempt 7/10
+Iteration 1, moving 46401 nodes, looping 15 7 3 2 1 times between mergings to code length 10.6153 in 1498 modules.
+Iteration 2, moving 46401 nodes, looping 10 3 1 times between mergings to code length 10.56 in 1448 modules.
+Iteration 3, moving 4699 modules, looping 4 3 1 times between mergings to code length 10.5508 in 1470 modules.
+Iteration 4, moving 46401 nodes, looping 7 3 1 times between mergings to code length 10.5463 in 1465 modules.
+Iteration 5, moving 4653 modules, looping 4 3 1 times between mergings to code length 10.545 in 1469 modules.
+Iteration 6, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5441 in 1468 modules.
+Iteration 7, moving 4656 modules, looping 3 1 times between mergings to code length 10.5438 in 1472 modules.
+Iteration 8, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5437 in 1472 modules.
+Iteration 9, moving 4670 modules, looping 3 2 1 times between mergings to code length 10.5435 in 1473 modules.
+Iteration 10, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5434 in 1473 modules.
+Iteration 11, moving 4686 modules, looping 3 1 times between mergings to code length 10.5433 in 1474 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5432 in 1474 modules.
+Iteration 13, moving 4669 modules, looping 2 1 times between mergings to code length 10.5428 in 1476 modules.
+Iteration 14, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5428 in 1476 modules.
+Iteration 15, moving 4657 modules, looping 2 1 times between mergings to code length 10.5428 in 1476 modules.
+Iteration 16, moving 46401 nodes, looping 1 times between mergings to code length 10.5428 in 1476 modules.
+Attempt 8/10
+Iteration 1, moving 46401 nodes, looping 20 9 4 2 1 times between mergings to code length 10.618 in 1505 modules.
+Iteration 2, moving 46401 nodes, looping 8 2 1 times between mergings to code length 10.572 in 1463 modules.
+Iteration 3, moving 4653 modules, looping 6 2 1 times between mergings to code length 10.5527 in 1492 modules.
+Iteration 4, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5469 in 1482 modules.
+Iteration 5, moving 4660 modules, looping 4 2 1 times between mergings to code length 10.5455 in 1485 modules.
+Iteration 6, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5445 in 1482 modules.
+Iteration 7, moving 4665 modules, looping 2 1 times between mergings to code length 10.5444 in 1485 modules.
+Iteration 8, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5444 in 1485 modules.
+Iteration 9, moving 4698 modules, looping 3 1 times between mergings to code length 10.5443 in 1486 modules.
+Iteration 10, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5442 in 1486 modules.
+Iteration 11, moving 4678 modules, looping 2 1 times between mergings to code length 10.5442 in 1486 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5442 in 1486 modules.
+Iteration 13, moving 4627 modules, looping 3 1 times between mergings to code length 10.5441 in 1488 modules.
+Iteration 14, moving 46401 nodes, looping 1 times between mergings to code length 10.5441 in 1488 modules.
+Attempt 9/10
+Iteration 1, moving 46401 nodes, looping 15 6 5 2 1 times between mergings to code length 10.609 in 1514 modules.
+Iteration 2, moving 46401 nodes, looping 5 3 1 times between mergings to code length 10.5625 in 1457 modules.
+Iteration 3, moving 4694 modules, looping 4 2 1 times between mergings to code length 10.5504 in 1476 modules.
+Iteration 4, moving 46401 nodes, looping 5 3 1 times between mergings to code length 10.5443 in 1466 modules.
+Iteration 5, moving 4642 modules, looping 3 1 times between mergings to code length 10.5434 in 1477 modules.
+Iteration 6, moving 46401 nodes, looping 4 2 1 times between mergings to code length 10.5419 in 1474 modules.
+Iteration 7, moving 4619 modules, looping 3 1 times between mergings to code length 10.5416 in 1476 modules.
+Iteration 8, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5415 in 1476 modules.
+Iteration 9, moving 4632 modules, looping 3 1 times between mergings to code length 10.5413 in 1480 modules.
+Iteration 10, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5411 in 1480 modules.
+Iteration 11, moving 4659 modules, looping 2 1 times between mergings to code length 10.5411 in 1482 modules.
+Iteration 12, moving 46401 nodes, looping 2 1 times between mergings to code length 10.541 in 1482 modules.
+Iteration 13, moving 4635 modules, looping 2 1 times between mergings to code length 10.541 in 1483 modules.
+Iteration 14, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5409 in 1483 modules.
+Iteration 15, moving 4660 modules, looping 2 2 1 times between mergings to code length 10.5408 in 1482 modules.
+Iteration 16, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5407 in 1482 modules.
+Iteration 17, moving 4622 modules, looping 2 1 times between mergings to code length 10.5406 in 1484 modules.
+Iteration 18, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5406 in 1484 modules.
+Iteration 19, moving 4637 modules, looping 1 times between mergings to code length 10.5406 in 1484 modules.
+Attempt 10/10
+Iteration 1, moving 46401 nodes, looping 20 8 4 2 1 times between mergings to code length 10.6126 in 1488 modules.
+Iteration 2, moving 46401 nodes, looping 7 2 1 times between mergings to code length 10.566 in 1451 modules.
+Iteration 3, moving 4705 modules, looping 5 3 1 times between mergings to code length 10.5547 in 1472 modules.
+Iteration 4, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5459 in 1465 modules.
+Iteration 5, moving 4636 modules, looping 4 2 1 times between mergings to code length 10.5449 in 1473 modules.
+Iteration 6, moving 46401 nodes, looping 5 2 1 times between mergings to code length 10.5441 in 1467 modules.
+Iteration 7, moving 4632 modules, looping 4 2 1 times between mergings to code length 10.5436 in 1468 modules.
+Iteration 8, moving 46401 nodes, looping 3 2 1 times between mergings to code length 10.5433 in 1467 modules.
+Iteration 9, moving 4627 modules, looping 3 1 times between mergings to code length 10.5432 in 1469 modules.
+Iteration 10, moving 46401 nodes, looping 3 1 times between mergings to code length 10.5428 in 1469 modules.
+Iteration 11, moving 4656 modules, looping 2 1 times between mergings to code length 10.5427 in 1470 modules.
+Iteration 12, moving 46401 nodes, looping 3 2 1 times between mergings to code length 10.5423 in 1468 modules.
+Iteration 13, moving 4656 modules, looping 3 1 times between mergings to code length 10.5419 in 1473 modules.
+Iteration 14, moving 46401 nodes, looping 4 1 times between mergings to code length 10.5415 in 1473 modules.
+Iteration 15, moving 4643 modules, looping 2 1 times between mergings to code length 10.5412 in 1474 modules.
+Iteration 16, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5412 in 1474 modules.
+Iteration 17, moving 4653 modules, looping 3 1 times between mergings to code length 10.5411 in 1472 modules.
+Iteration 18, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5411 in 1472 modules.
+Iteration 19, moving 4647 modules, looping 2 1 times between mergings to code length 10.541 in 1474 modules.
+Iteration 20, moving 46401 nodes, looping 2 1 times between mergings to code length 10.541 in 1474 modules.
+Iteration 21, moving 4669 modules, looping 2 1 times between mergings to code length 10.541 in 1474 modules.
+Iteration 22, moving 46401 nodes, looping 2 1 times between mergings to code length 10.541 in 1474 modules.
+Iteration 23, moving 4642 modules, looping 4 1 times between mergings to code length 10.5409 in 1474 modules.
+Iteration 24, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5408 in 1474 modules.
+Iteration 25, moving 4684 modules, looping 3 2 1 times between mergings to code length 10.5408 in 1473 modules.
+Iteration 26, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5408 in 1473 modules.
+Iteration 27, moving 4664 modules, looping 2 1 times between mergings to code length 10.5408 in 1475 modules.
+Iteration 28, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5407 in 1475 modules.
+Iteration 29, moving 4667 modules, looping 2 1 times between mergings to code length 10.5405 in 1475 modules.
+Iteration 30, moving 46401 nodes, looping 2 1 times between mergings to code length 10.5404 in 1475 modules.
+Iteration 31, moving 4682 modules, looping 1 times between mergings to code length 10.5404 in 1475 modules.
+Done! Code length 10.5395 in 1481 modules.
+Compressed by 28.3575 percent.
+First Round Clustering Complete
+Begin Shrinking
+InputPath1 = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.net
+InputPath2 = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.clu
+OutputPath = /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Shrunk.net
+There are 1481 nodes in the shrunk network
+Shrinking Complete
+Begin Second Round Clustering
+InputPath= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Shrunk.net
+OutputPath= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Shrunk.clu
+Reading network /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Shrunk.net...done! (found 1481 nodes and 17581 links, aggregated 4359 link(s) defined more than once, ignoring 1481 self link(s).
+Now partition the network:
+Attempt 1/10
+Iteration 1, moving 1481 nodes, looping 8 3 2 1 times between mergings to code length 7.04117 in 29 modules.
+Iteration 2, moving 1481 nodes, looping 5 2 1 times between mergings to code length 7.01778 in 27 modules.
+Iteration 3, moving 52 modules, looping 2 1 times between mergings to code length 7.01764 in 29 modules.
+Iteration 4, moving 1481 nodes, looping 5 1 times between mergings to code length 7.01739 in 29 modules.
+Iteration 5, moving 52 modules, looping 1 times between mergings to code length 7.01739 in 29 modules.
+Attempt 2/10
+Iteration 1, moving 1481 nodes, looping 8 3 2 1 times between mergings to code length 7.02339 in 30 modules.
+Iteration 2, moving 1481 nodes, looping 3 1 times between mergings to code length 7.00917 in 30 modules.
+Iteration 3, moving 54 modules, looping 2 1 times between mergings to code length 7.00889 in 31 modules.
+Iteration 4, moving 1481 nodes, looping 4 1 times between mergings to code length 7.00873 in 31 modules.
+Iteration 5, moving 55 modules, looping 1 times between mergings to code length 7.00873 in 31 modules.
+Attempt 3/10
+Iteration 1, moving 1481 nodes, looping 7 3 2 1 times between mergings to code length 7.01647 in 31 modules.
+Iteration 2, moving 1481 nodes, looping 4 1 times between mergings to code length 7.01001 in 31 modules.
+Iteration 3, moving 61 modules, looping 2 1 times between mergings to code length 7.00992 in 31 modules.
+Iteration 4, moving 1481 nodes, looping 3 1 times between mergings to code length 7.00975 in 31 modules.
+Iteration 5, moving 52 modules, looping 1 times between mergings to code length 7.00975 in 31 modules.
+Attempt 4/10
+Iteration 1, moving 1481 nodes, looping 7 4 2 1 times between mergings to code length 7.05332 in 30 modules.
+Iteration 2, moving 1481 nodes, looping 3 1 times between mergings to code length 7.04149 in 30 modules.
+Iteration 3, moving 59 modules, looping 2 1 times between mergings to code length 7.02104 in 30 modules.
+Iteration 4, moving 1481 nodes, looping 3 2 1 times between mergings to code length 7.01811 in 29 modules.
+Iteration 5, moving 54 modules, looping 1 times between mergings to code length 7.01811 in 29 modules.
+Attempt 5/10
+Iteration 1, moving 1481 nodes, looping 6 3 1 times between mergings to code length 7.03913 in 32 modules.
+Iteration 2, moving 1481 nodes, looping 4 2 1 times between mergings to code length 7.02582 in 31 modules.
+Iteration 3, moving 54 modules, looping 2 1 times between mergings to code length 7.02571 in 33 modules.
+Iteration 4, moving 1481 nodes, looping 4 1 times between mergings to code length 7.02561 in 33 modules.
+Iteration 5, moving 56 modules, looping 3 1 times between mergings to code length 7.01375 in 31 modules.
+Iteration 6, moving 1481 nodes, looping 3 2 1 times between mergings to code length 7.00969 in 30 modules.
+Iteration 7, moving 52 modules, looping 1 times between mergings to code length 7.00969 in 30 modules.
+Attempt 6/10
+Iteration 1, moving 1481 nodes, looping 10 5 1 times between mergings to code length 7.0442 in 30 modules.
+Iteration 2, moving 1481 nodes, looping 4 1 times between mergings to code length 7.01541 in 30 modules.
+Iteration 3, moving 57 modules, looping 1 times between mergings to code length 7.01541 in 30 modules.
+Attempt 7/10
+Iteration 1, moving 1481 nodes, looping 9 3 1 times between mergings to code length 7.05436 in 32 modules.
+Iteration 2, moving 1481 nodes, looping 4 2 1 times between mergings to code length 7.03938 in 30 modules.
+Iteration 3, moving 56 modules, looping 2 1 times between mergings to code length 7.03024 in 31 modules.
+Iteration 4, moving 1481 nodes, looping 3 2 1 times between mergings to code length 7.02395 in 30 modules.
+Iteration 5, moving 57 modules, looping 3 1 times between mergings to code length 7.01197 in 33 modules.
+Iteration 6, moving 1481 nodes, looping 3 2 1 times between mergings to code length 7.0099 in 32 modules.
+Iteration 7, moving 60 modules, looping 1 times between mergings to code length 7.0099 in 32 modules.
+Attempt 8/10
+Iteration 1, moving 1481 nodes, looping 9 3 1 times between mergings to code length 7.02397 in 29 modules.
+Iteration 2, moving 1481 nodes, looping 5 1 times between mergings to code length 7.00999 in 29 modules.
+Iteration 3, moving 56 modules, looping 2 1 times between mergings to code length 7.00988 in 30 modules.
+Iteration 4, moving 1481 nodes, looping 3 1 times between mergings to code length 7.00972 in 30 modules.
+Iteration 5, moving 54 modules, looping 1 times between mergings to code length 7.00972 in 30 modules.
+Attempt 9/10
+Iteration 1, moving 1481 nodes, looping 7 3 2 1 times between mergings to code length 7.03968 in 28 modules.
+Iteration 2, moving 1481 nodes, looping 6 2 1 times between mergings to code length 7.02327 in 26 modules.
+Iteration 3, moving 57 modules, looping 3 1 times between mergings to code length 7.01174 in 29 modules.
+Iteration 4, moving 1481 nodes, looping 5 1 times between mergings to code length 7.00805 in 29 modules.
+Iteration 5, moving 56 modules, looping 1 times between mergings to code length 7.00805 in 29 modules.
+Attempt 10/10
+Iteration 1, moving 1481 nodes, looping 8 3 2 1 times between mergings to code length 7.05273 in 29 modules.
+Iteration 2, moving 1481 nodes, looping 6 2 1 times between mergings to code length 7.01758 in 27 modules.
+Iteration 3, moving 53 modules, looping 2 1 times between mergings to code length 7.01743 in 28 modules.
+Iteration 4, moving 1481 nodes, looping 2 1 times between mergings to code length 7.01742 in 28 modules.
+Iteration 5, moving 53 modules, looping 1 times between mergings to code length 7.01742 in 28 modules.
+Done! Code length 7.00805 in 29 modules.
+Compressed by 11.2119 percent.
+Second Round Clustering Complete
+Begin Two Round Partition File Mapping
+InputPath1= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent.clu
+InputPath2= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Shrunk.clu
+OutputPath= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Synthe.clu
+the size of the clusters (ordered by sizes)
+Cluster ID	Size
+1	9429
+3	7156
+2	5129
+4	5082
+10	3571
+8	3188
+7	2632
+5	2511
+9	1798
+6	1541
+11	896
+12	529
+14	501
+13	378
+15	335
+18	325
+16	269
+19	232
+20	224
+21	187
+22	148
+17	146
+24	43
+25	36
+23	28
+28	23
+29	23
+26	21
+27	20
+Two Round Cluster Mapping Complete
+Begin Partition File Mapping according to sizes
+InputPath= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Synthe.clu
+OutputPath= /Users/shiyansiadmin/Dropbox/Files/OldField2Data4/DirectCitationNetworkGiantComponent_Synthe2.clu
+Mapping Table
+1 <-- 1
+
+2 <-- 3
+
+3 <-- 2
+
+4 <-- 4
+
+5 <-- 10
+
+6 <-- 8
+
+7 <-- 7
+
+8 <-- 5
+
+9 <-- 9
+
+10 <-- 6
+
+11 <-- 11
+
+12 <-- 12
+
+13 <-- 14
+
+14 <-- 13
+
+15 <-- 15
+
+16 <-- 18
+
+17 <-- 16
+
+18 <-- 19
+
+19 <-- 20
+
+20 <-- 21
+
+21 <-- 22
+
+22 <-- 17
+
+23 <-- 24
+
+24 <-- 25
+
+25 <-- 23
+
+26 <-- 28
+
+27 <-- 29
+
+28 <-- 26
+
+29 <-- 27
+
+Partition File Mapping according to sizes Complete
