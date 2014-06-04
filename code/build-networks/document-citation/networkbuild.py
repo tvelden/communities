@@ -9,6 +9,11 @@ import pdb
 import math
 import networkx as nx
 
+source = sys.argv[1]
+target = sys.argv[2]
+start = sys.argv[3]
+end = sys.argv[4]
+
 class Paper:
     #ID
     #CI
@@ -77,8 +82,12 @@ class Network:
             #print string
             if(string =='\n' or string ==' \n'):
                 PaperFlag = 0
-                self.papers.append(p)
-                InitialNumberOfPapers = InitialNumberOfPapers +1
+
+                if (p.YR>int(end)) or (p.YR<int(start)):
+                    kk = 0
+                else:
+                    self.papers.append(p)
+                    InitialNumberOfPapers = InitialNumberOfPapers +1
                 p = Paper()
                 continue
             if(string[0] == 'I' and string[1]=='D'):
@@ -147,6 +156,7 @@ class Network:
 
     def makeDirectCitationNetworkFromfile(self, file):
         self.readPapersFromFile(file)
+        print start,end,len(self.papers)
         self.makeDirectCitationNetworkFromPapers()
         #self.makeGraph()
 
@@ -154,29 +164,36 @@ class Network:
         self.nodes = []
         self.numberOfNodes = len(self.papers)
         self.degrees = []
-        for i in range(self.numberOfNodes):
+        idMaps = {}
+        i = 0
+        for paper in self.papers:
+            i += 1
+            idMaps[paper.ID] = i
+        for i in range(self.numberOfNodes+1):
         	self.degrees.append(0)
-        self.endYear = 2011
-        self.startYear = 1990
-        for i in range(len(self.papers)):
-            self.nodes.append(self.papers[i].ID)
-            if (i % 100 == 0):
+        i = 0
+        for paper in self.papers:
+            self.nodes.append(paper.ID)
+            i +=1
+            if (i % 10000 == 0):
                 print 'node-' + str(i) + ' Complete'
-            for j in range(len(self.papers)):  #direct citation network so there may be conditions that node i do not link to node but not vice versa
-                flag = 0  # if paper1 related to paper2
-                p1 = self.papers[i]
-                p2 = self.papers[j]
-                for s1 in p1.RF:
-                    if (s1==p2.ID):
-                        flag = 1
-                        break
-                if (flag == 0):
-                    continue
-                self.edges.append([i,j,1])
-                self.numberOfEdges = self.numberOfEdges + 1
-                self.degrees[i] = self.degrees[i] + 1
+            # for j in range(len(self.papers)):  #direct citation network so there may be conditions that node i do not link to node but not vice versa
+            #     flag = 0  # if paper1 related to paper2
+            #     p1 = self.papers[i]
+            #     p2 = self.papers[j]
+            #     for s1 in p1.RF:
+            #         if (s1==p2.ID):
+            #             flag = 1
+            #             break
+            #     if (flag == 0):
+            #         continue
+            for j in paper.RF:
+                if j in idMaps:
+                    self.edges.append([idMaps[paper.ID],idMaps[j],1])
+                    self.numberOfEdges = self.numberOfEdges + 1
+                    self.degrees[i] = self.degrees[i] + 1
                 #print self.numberOfEdges
-        print "Building Complete"
+        #print "Building Complete"
 
     def printNetworkForPajek(self,File):
         outFile = open(str(File), 'w')
@@ -189,14 +206,12 @@ class Network:
         #outFile.write('\n')
         outFile.write('*Arcs' + '\n')
         for edge in self.edges:
-            outFile.write(str(edge[0] + 1) + ' ' + str(edge[1] + 1) + ' ' + str(edge[2]) + '\n')
+            outFile.write(str(edge[0]) + ' ' + str(edge[1]) + ' ' + str(edge[2]) + '\n')
         outFile.close()
-        print "Printing Complete"
+        #print "Printing Complete"
 
 if __name__ == "__main__":
     N= Network()
-    default = '../../../nwa-ACMSIGMOD/data/re_output_mod.txt'
-    N.makeDirectCitationNetworkFromfile(sys.argv[1])
-    default2 = '../../../results/DirectCitationNetwork_Modified.net'
-    N.printNetworkForPajek(default2)
+    N.makeDirectCitationNetworkFromfile(source)
+    N.printNetworkForPajek(target)
 

@@ -1,3 +1,19 @@
+----------------------------------------------------------------
+Last Modified by Shiyan Yan on 6/4/14
+There are four new shell scripts in batch-processing.
+They all need parameters PATHI which indicates the folder all the results will be in, STYR and EDYR which indicate the time period codes will process.
+cluster-analysis-dynamic.sh: The code needs the inputfile named as in.txt in the target folder. And it will generate the direct citation network, find the giant component and run the two round clustering algorithms to generate .clu files.
+
+AffinityNetworkGenerateStep1.sh: The code will generate the affinity network for the accumulative network. The .gexf files will be saved in the PATHI/affinity/
+
+After running the AffinityNetworkGenerateStep1.sh, users should use gephi to tune the layout of .gexf files. The layout will be used in the process of generating dynamic affinity netowork. Users should tune the layout of AccumulativeNetworkAuthor.gexf and save it as AccumulativeNetworkAuthorChanged.gexf in the same folder, tune the layout of AccumulativeNetworkCitation.gexf and save it as AccumulativeNetworkCitationChanged.gexf in the same folder.
+
+AffinityNetworkGenerateStep2.sh: The code will generate dynamic affinity network with 5 years time winodw. All the files will be saved in affinity2/
+
+clusterInformationGenerate.sh: The code will generate some important information for the cluster analysis including: keyInformation files in the folder keyinfo/, JournalFrequency.txt and variation of clustersize for top 11 clusters.
+
+----------------------------------------------------------------
+
 Last modified by Scott Cambo on 8/21/12
 
 Before running any of the batch-processing scripts, you must have a

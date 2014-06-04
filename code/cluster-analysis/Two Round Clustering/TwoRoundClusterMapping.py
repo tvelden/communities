@@ -3,9 +3,14 @@ import os
 import sys
 import operator
 import numpy
+
+source = "/Users/shiyansiadmin/Dropbox/Files/OldField2Data3/DirectCitationNetwork"
+source1 = sys.argv[1]
+source2 = sys.argv[2]
+target = sys.argv[3]
 if __name__ == "__main__":
-	fs1 = str(sys.argv[1])
-	fs2 = str(sys.argv[2])
+	fs1 = str(source1)
+	fs2 = str(source2)
 	inFile1 = open(fs1,'r')
 	inFile2 = open(fs2,'r')
 	map1 = {}
@@ -38,7 +43,7 @@ if __name__ == "__main__":
 
 	size = {}
 
-	fs3 = str(sys.argv[3])
+	fs3 = str(target)
 	outFile = open(fs3,'w')
 	outFile.write( line1 )
 	for k in range(1,tot+1):
@@ -51,6 +56,8 @@ if __name__ == "__main__":
 	outFile.close()
 
 	#count the size of clusters of the second round
+	print "the size of the clusters (ordered by sizes)"
+	print "Cluster ID" + "	" + "Size"
 	for t in sorted(size, key = size.get, reverse=True ):
 		if (size[t] >= 1):
 			print str(t) + '	' + str(size[t])

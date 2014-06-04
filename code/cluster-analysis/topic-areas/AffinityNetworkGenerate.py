@@ -9,6 +9,15 @@ import pdb
 import math
 import networkx as nx
 
+source2 = sys.argv[1]  #input file
+soc = sys.argv[2] # output
+ids = sys.argv[3] # Giantcomponent 
+labels = sys.argv[4] # partition file
+top = 11 # top X area
+window = int(sys.argv[5])
+startyeart = int(sys.argv[6])
+endyeart = int(sys.argv[7])
+
 class Paper:
     #ID
     #CI
@@ -44,9 +53,10 @@ class cluster:
         self.listOfPapers = [] #list of papers in this cluster
         self.journalFre = {} #the frequency of names of journals in this cluster
         self.numOfAuthors = 0 #number of authors in this cluster
-        self.listOfAuthors = [] #list of authors in this cluster
+        self.listOfAuthors = [] #list of authors in this cluster   (not instances)
         self.yearListOfPapers = {} #list of papers each year
-        self.yearListOfAuthors = {} #List of authors each year
+        self.yearListOfAuthors = {} #List of authors each year (instances)
+        self.yearListOfAuthorsDisjoin = {} # List of authors each year (not instances)
 
 class clustersNetwork:
     def __init__(self):
@@ -166,11 +176,13 @@ class clustersNetwork:
             if (paper.label == 0): continue
             self.clusters[paper.label].listOfPapers.append(paper)
             self.clusters[paper.label].numberOfPapers += 1
+#-------Journal Frequency Part-------
             if (paper.SO != ''):
                 if paper.SO in self.clusters[paper.label].journalFre:
                     self.clusters[paper.label].journalFre[paper.SO] +=1
                 else:
                     self.clusters[paper.label].journalFre[paper.SO] = 1
+#-------Journal Frequency Part-------
 
             for author in paper.AU:
                 if author in self.clusters[paper.label].listOfAuthors:
@@ -182,19 +194,31 @@ class clustersNetwork:
                     continue
                 self.clusters[paper.label].yearListOfPapers[paper.YR].append(paper)
             else:
-            	self.clusters[paper.label].yearListOfPapers[paper.YR] = []
-            	self.clusters[paper.label].yearListOfPapers[paper.YR].append(paper)
+                self.clusters[paper.label].yearListOfPapers[paper.YR] = []
+                self.clusters[paper.label].yearListOfPapers[paper.YR].append(paper)
+
             if paper.YR in self.clusters[paper.label].yearListOfAuthors:
-            	for au in paper.AU:
+                for au in paper.AU:
                     # if au in self.clusters[paper.label].yearListOfAuthors[paper.YR]:
                     #     continue
                     # in order to calculate the number of authors name according to the number of papers
                     # they published, so could the times
                     self.clusters[paper.label].yearListOfAuthors[paper.YR].append(au)
             else:
-            	self.clusters[paper.label].yearListOfAuthors[paper.YR] = []
-            	for au in paper.AU:
+                self.clusters[paper.label].yearListOfAuthors[paper.YR] = []
+                for au in paper.AU:
                     self.clusters[paper.label].yearListOfAuthors[paper.YR].append(au)
+
+            if paper.YR in self.clusters[paper.label].yearListOfAuthorsDisjoin:
+                for au in paper.AU:
+                    if au in self.clusters[paper.label].yearListOfAuthorsDisjoin[paper.YR]:
+                        continue
+                    self.clusters[paper.label].yearListOfAuthorsDisjoin[paper.YR].append(au)
+            else:
+                self.clusters[paper.label].yearListOfAuthorsDisjoin[paper.YR] = []
+                for au in paper.AU:
+                    self.clusters[paper.label].yearListOfAuthorsDisjoin[paper.YR].append(au)
+
         self.numberOfClusters = len(self.clusters)
         for i in range(self.numberOfClusters):
             i += 1
@@ -204,9 +228,8 @@ class clustersNetwork:
         print 'Build Complete'
 
     def AffinityBuild(self):
-    	soc="../../../../../Dropbox/Files/Affinity/"
-        for startyear in range(1991,1992):
-            endyear = startyear + 19
+        for startyear in range(startyeart,endyeart - window +2):
+            endyear = startyear + window -1 
             outFile1 = open( soc + "Citation " + str(startyear) + "-" + str(endyear)+".net",'w')
             outFile2 = open( soc + "Authors " + str(startyear) + "-" + str(endyear)+".net",'w')
             outFile3 = open( soc + "NumberOfPapers" + str(startyear) + "-" +str(endyear),'w')
@@ -216,17 +239,21 @@ class clustersNetwork:
             outFile7 = open( soc + "ResidualMatrixAuthors" + str(startyear) + "-" +str(endyear),'w')
             outFile8 = open( soc + "ResidualMatrixCitation" + str(startyear) + "-" +str(endyear),'w')
 
-            outFile1.write("*Vertices 12\n")
-            for i in range(1,13):
+            outFile9 = open( soc + "NumberOfAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
+            outFile10 = open( soc + "NumberOfSharedAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
+
+            outFile1.write("*Vertices " + str(top) + "\n")
+            for i in range(1,top + 1):
                 outFile1.write(str(i) + " "+ '"Area' + str(i) + '"\n')
             outFile1.write("*Arcs\n")
-            outFile2.write("*Vertices 12\n")
-            for i in range(1,13):
+            outFile2.write("*Vertices " + str(top) + "\n")
+            for i in range(1,top + 1):
                 outFile2.write(str(i) + " "+ '"Area' + str(i) + '"\n')
             outFile2.write("*Arcs\n")
-            paperList = {} # the paper list of every cluster in this five years
+            paperList = {} # the paper list of every cluster in this window
             paperListID = {} # paperListID list
-            authorList = {} # the author list of every cluster in the five years
+            authorList = {} # the author list of every cluster in the window
+            authorListDisJoin = {}
             totalNumberOfPapers = 0
             totalNumberOfAuthors = 0
 
@@ -236,10 +263,11 @@ class clustersNetwork:
             AuthorNumberList.append(0)
             PaperNumberList.append(0)
 
-            for i in range(1,self.numberOfClusters+1):   #top 12 areas
+            for i in range(1,self.numberOfClusters+1):   #top areas
                 clu = self.clusters[i]
                 paperList[i] = []
                 authorList[i] = []
+                authorListDisJoin[i] = []
                 paperListID[i] = []
                 for year in range(startyear,endyear+1):
                     if (year in clu.yearListOfPapers):
@@ -250,8 +278,15 @@ class clustersNetwork:
                         for author in clu.yearListOfAuthors[year]:
                             authorList[i].append(author)    #weighted version of authorlist count the number of papers an author publish 
                         #authorList[i] = list(set(authorList[i]) | set(clu.yearListOfAuthors[year]))
+                    if (year in clu.yearListOfAuthorsDisjoin):
+                        for author in clu.yearListOfAuthorsDisjoin[year]:
+                            if author in authorListDisJoin[i]:
+                                continue
+                            authorListDisJoin[i].append(author)
+
                 outFile3.write(str(len(paperList[i]))+"\n")
                 outFile4.write(str(len(authorList[i]))+"\n")
+                outFile9.write(str(len(authorListDisJoin[i]))+"\n")
 
                 AuthorNumberList.append(len(authorList[i]))
                 PaperNumberList.append(len(paperList[i]))
@@ -264,29 +299,39 @@ class clustersNetwork:
             print totalNumberOfPapers,totalNumberOfAuthors
 
             # calculate the CitationMatrix and AuthorMatrix
-            CitationMatrix = [[0 for x in xrange(30)] for x in xrange(30)] 
-            AuthorMatrix = [[0 for x in xrange(30)] for x in xrange(30)] 
+            CitationMatrix = [[0 for x in xrange(300)] for x in xrange(300)] 
+            AuthorMatrix = [[0 for x in xrange(300)] for x in xrange(300)] 
+            AuthorMatrixDisjoin = [[0 for x in xrange(300)] for x in xrange(300)]
+
             print startyear           
             for i in range(1,self.numberOfClusters+1):
+                flagAuthorList = {}
+                ther = 5
+                for au in authorList[i]:
+                    if (au in flagAuthorList):
+                        flagAuthorList[au] += 1
+                    else:
+                        flagAuthorList[au] = 1
+
                 for paper in paperList[i]:
                     for ref in paper.RF:
-                    	for j in range(1,self.numberOfClusters+1):
-                    		if (i==j): continue
-                    		if (ref in paperListID[j]):
-                    			CitationMatrix[i][j] +=1
+                        for j in range(1,self.numberOfClusters+1):
+                            if (i==j): continue
+                            if (ref in paperListID[j]):
+                                CitationMatrix[i][j] +=1
                 for j in range(1,self.numberOfClusters+1):
                     if (i==j): continue
                     # for the weighted schema
                     # AuthorMatrix[i][j] = len(list(set(authorList[i]) & set(authorList[j])))
                     for au in authorList[j]:
-                        if au in authorList[i]:
+                        if (au in authorList[i]) and (flagAuthorList[au]>=ther):
                             AuthorMatrix[i][j] +=1
+                    for au in authorListDisJoin[j]:
+                        if au in authorListDisJoin[i]:
+                            AuthorMatrixDisjoin[i][j] +=1
 
-            # output session only the cluster 1-10 and cluster 12
             # need a map between the number of clusters in the clustering algorithm to the rank of the size
             # print out the table of residual also
-            #mapClusterNumber = { 1:1,2:3,3:2,4:5,5:8,6:6,7:4,8:7,9:9,10:11,12:10,11:12}
-            top = 11
      
             for i in range(1, top+1):
                 totCitation = 0
@@ -296,6 +341,7 @@ class clustersNetwork:
                     outFile5.write("\n")
                     outFile7.write("\n")
                     outFile8.write("\n")
+                    outFile10.write("\n")
                 for j in range(1,top+1):
                     if (i==j): continue
                     totCitation += CitationMatrix[i][j]
@@ -304,13 +350,25 @@ class clustersNetwork:
                     if (i==j):
                         outFile6.write("0	") 
                         outFile5.write("0	")
-                        outFile7.write("0   ")
-                        outFile8.write("0   ")
+                        outFile7.write("0	")
+                        outFile8.write("0	")
+                        outFile10.write("0	")
                         continue
                     # Citation Based
                     ExpectedRate = float(PaperNumberList[j]) / float(totalNumberOfPapers-PaperNumberList[j])
-                    ActualRate = float(CitationMatrix[i][j]) / float(totCitation)
-                    Residual = (ActualRate - ExpectedRate) / ExpectedRate
+                    if totCitation==0:
+                        ActualRate = 0
+                    else:
+                        ActualRate = float(CitationMatrix[i][j]) / float(totCitation)
+                    #Residual = (ActualRate - ExpectedRate) / ExpectedRate
+
+                    ExpectedNumber = float(totCitation) * ExpectedRate
+                    ActualNumber = float(CitationMatrix[i][j])
+                    if ExpectedNumber==0:
+                        Residual = 0
+                    else:
+                        Residual = (ActualNumber - ExpectedNumber) / math.sqrt(ExpectedNumber)
+
                     if (j!=top):
                         outFile6.write(str(CitationMatrix[i][j])+"	")
                         outFile8.write(str(Residual)+"	")
@@ -318,16 +376,30 @@ class clustersNetwork:
                         outFile6.write(str(CitationMatrix[i][j]))
                         outFile8.write(str(Residual)+"	")
                     if (Residual>0):
+                        #print str(i),str(j),str(Residual)
                         outFile1.write(str(i) + ' ' + str(j) + ' ' + str(Residual) + '\n')
                     # Author Based
                     ExpectedRate2 = float(AuthorNumberList[j]) / float(totalNumberOfAuthors-AuthorNumberList[j])
-                    ActualRate2 = float(AuthorMatrix[i][j]) / float(totSharedAuthors)
-                    Residual2 = (ActualRate2 - ExpectedRate2) / ExpectedRate2
+                    if totSharedAuthors==0:
+                        ActualRate2 = 0
+                    else:
+                        ActualRate2 = float(AuthorMatrix[i][j]) / float(totSharedAuthors)
+                    #Residual2 = (ActualRate2 - ExpectedRate2) / ExpectedRate2
+                    ExpectedNumber2 = float(totSharedAuthors) * ExpectedRate2
+                    ActualNumber2 = float(AuthorMatrix[i][j])
+                    if ExpectedNumber2==0:
+                        Residual2 = 0
+                    else:
+                        Residual2 = (ActualNumber2 - ExpectedNumber2) / math.sqrt(ExpectedNumber2)
+
+
                     if (j!=top):
                         outFile5.write(str(AuthorMatrix[i][j])+"	")
+                        outFile10.write(str(AuthorMatrixDisjoin[i][j])+"	")
                         outFile7.write(str(Residual2)+"	")
                     else:
                         outFile5.write(str(AuthorMatrix[i][j]))
+                        outFile10.write(str(AuthorMatrixDisjoin[i][j]))
                         outFile7.write(str(Residual2)+"	")
                     if (Residual2>0):
                         outFile2.write(str(i) + ' ' + str(j) + ' ' + str(Residual2) + '\n')
@@ -339,14 +411,14 @@ class clustersNetwork:
             outFile6.close()
             outFile7.close()
             outFile8.close()
+            outFile9.close()
+            outFile10.close()
 
 
 if __name__ == "__main__":
     C = clustersNetwork()
-    ids ='../../../../../Dropbox/Files/Synthe/DirectCitationNetwork_Modified_GC.net' 
-    labels ='../../../../../Dropbox/Files/Synthe/Synthe2.clu'
+
     C.readIDmatchLabel(ids,labels)
-    source = '../../../../../Dropbox/Network Build/in-norm-dis-hfree-red.txt'
-    C.readPapersFromFile(source)
+    C.readPapersFromFile(source2)
     C.buildClusters()
     C.AffinityBuild()
