@@ -11,28 +11,40 @@ ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/file
 
 There are five shell scripts for the citation network and affinity network analysis.
 1. /pre-processing/make_dir_cit_aff.sh
-The codes will generate the data and output directory for the field using FIELD and RUN. And the users need to put the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
+The codes will generate the data and output directory for the field using FIELD and RUN. And the users need to put 
+the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
 
 2. /batch-processing/cluster_analysis_dynamic.sh
-The codes will generate the citation network, extract the giant component and run clustering over the network. All the results will be stored in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   the Pajek .net file DirectCitationNetworkGiantComponent.net and .clu file DirectCitationNetworkGiantComponent_Synthe2.clu will be used in the following steps
+The codes will generate the citation network, extract the giant component and run clustering over the network. All 
+the results will be stored in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   
+the Pajek .net file DirectCitationNetworkGiantComponent.net and .clu file DirectCitationNetworkGiantComponent_Synthe2.clu 
+will be used in the following steps
 
 3. /batch-processing/AffinityNetworkGenerateStep1.sh
 The codes are used to build the accumulative affinity network (both citation based and shared-author based) 
-all the network files (.net and .gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/
-all the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
+all the network files (.net and .gexf) will be saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/
+all the statistics information (number of papers, residual matrix, number of shared authors, etc.) 
+will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
 
 4. /batch-processing/AffinityNetworkGenerateStep2.sh
 The codes are used to build the dynamic affinity network (both citation based and shared-author based ).
-Before running the codes, users need to open the two gephi files with the suffix of .gexf in  ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/, changed the layout and save them as {Original names}Changed.gexf in the same directory.
+Before running the codes, users need to open the two gephi files with the suffix of .gexf in  
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/, 
+changed the layout and save them as {Original names}Changed.gexf in the same directory.
 
-All the network results (e.g. AuthorsDynamicAffinityNetwork.gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/dynamic${START_YEAR}-${END_YEAR}_${WINDOW}years/affinity/
+All the network results (e.g. AuthorsDynamicAffinityNetwork.gexf) will be saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/dynamic${START_YEAR}-${END_YEAR}_${WINDOW}years/affinity/
 All the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved 
 in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
 
 5. /batch-processing/clusterInformationGenerate.sh
-The codes will generate the key information for every cluster in citation network, the journal frequency for every cluster and cluster sizes. They should be run after the citation network is generated.
+The codes will generate the key information for every cluster in citation network, the journal frequency for every cluster
+and cluster sizes. They should be run after the citation network is generated.
 
-All the statistics are saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/citation/
+All the statistics are saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/citation/
 
 
 The final directory will be like this:
