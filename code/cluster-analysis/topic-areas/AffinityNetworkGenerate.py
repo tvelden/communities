@@ -10,13 +10,21 @@ import math
 import networkx as nx
 
 source2 = sys.argv[1]  #input file
-soc = sys.argv[2] # output
-ids = sys.argv[3] # Giantcomponent 
-labels = sys.argv[4] # partition file
+netout = sys.argv[2] # network output file directory
+#print netout
+statsout = sys.argv[3] # statistics output file directory
+#print statsout
+
+ids = sys.argv[4] # Giantcomponent 
+labels = sys.argv[5] # partition file
+
+#print ids
+#print labels
+
 top = 11 # top X area
-window = int(sys.argv[5])
-startyeart = int(sys.argv[6])
-endyeart = int(sys.argv[7])
+window = int(sys.argv[6])
+startyeart = int(sys.argv[7])
+endyeart = int(sys.argv[8])
 
 class Paper:
     #ID
@@ -228,19 +236,20 @@ class clustersNetwork:
         print 'Build Complete'
 
     def AffinityBuild(self):
+        print "Begin Affinity Build"
         for startyear in range(startyeart,endyeart - window +2):
             endyear = startyear + window -1 
-            outFile1 = open( soc + "Citation " + str(startyear) + "-" + str(endyear)+".net",'w')
-            outFile2 = open( soc + "Authors " + str(startyear) + "-" + str(endyear)+".net",'w')
-            outFile3 = open( soc + "NumberOfPapers" + str(startyear) + "-" +str(endyear),'w')
-            outFile4 = open( soc + "NumberOfAuthors" + str(startyear) + "-" +str(endyear),'w')
-            outFile5 = open( soc + "NumberOfSharedAuthors" + str(startyear) + "-" +str(endyear),'w')
-            outFile6 = open( soc + "NumberOfCitatoin" + str(startyear) + "-" +str(endyear),'w')
-            outFile7 = open( soc + "ResidualMatrixAuthors" + str(startyear) + "-" +str(endyear),'w')
-            outFile8 = open( soc + "ResidualMatrixCitation" + str(startyear) + "-" +str(endyear),'w')
+            outFile1 = open( netout + "Citation " + str(startyear) + "-" + str(endyear)+".net",'w')
+            outFile2 = open( netout + "Authors " + str(startyear) + "-" + str(endyear)+".net",'w')
+            outFile3 = open( statsout + "NumberOfPapers" + str(startyear) + "-" +str(endyear),'w')
+            outFile4 = open( statsout + "NumberOfAuthors" + str(startyear) + "-" +str(endyear),'w')
+            outFile5 = open( statsout + "NumberOfSharedAuthors" + str(startyear) + "-" +str(endyear),'w')
+            outFile6 = open( statsout + "NumberOfCitatoin" + str(startyear) + "-" +str(endyear),'w')
+            outFile7 = open( statsout + "ResidualMatrixAuthors" + str(startyear) + "-" +str(endyear),'w')
+            outFile8 = open( statsout + "ResidualMatrixCitation" + str(startyear) + "-" +str(endyear),'w')
 
-            outFile9 = open( soc + "NumberOfAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
-            outFile10 = open( soc + "NumberOfSharedAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
+            outFile9 = open( statsout + "NumberOfAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
+            outFile10 = open( statsout + "NumberOfSharedAuthorsDisJoin" + str(startyear) + "-" +str(endyear),'w')
 
             outFile1.write("*Vertices " + str(top) + "\n")
             for i in range(1,top + 1):

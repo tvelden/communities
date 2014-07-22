@@ -1,4 +1,141 @@
 ----------------------------------------------------------------
+Last Modified by Shiyan Yan on 7/22/14
+Changed all the directories of shell scripts on 6/4/14.
+
+The parameters needed now are:
+FIELD: the field of the data e.g. field1, field2
+RUN: used as the mark of each run of the codes e.g. run1
+START_YEAR, END_YEAR: the time span of the literature analyzed e.g. 1991,2012
+SIZE: the window size for the time slices of affinity network
+ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/files/
+
+There are five shell scripts for the citation network and affinity network analysis.
+1. /pre-processing/make_dir_cit_aff.sh
+The codes will generate the data and output directory for the field using FIELD and RUN. And the users need to put the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
+
+2. /batch-processing/cluster_analysis_dynamic.sh
+The codes will generate the citation network, extract the giant component and run clustering over the network. All the results will be stored in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   the Pajek .net file DirectCitationNetworkGiantComponent.net and .clu file DirectCitationNetworkGiantComponent_Synthe2.clu will be used in the following steps
+
+3. /batch-processing/AffinityNetworkGenerateStep1.sh
+The codes are used to build the accumulative affinity network (both citation based and shared-author based) 
+all the network files (.net and .gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/
+all the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
+
+4. /batch-processing/AffinityNetworkGenerateStep2.sh
+The codes are used to build the dynamic affinity network (both citation based and shared-author based ).
+Before running the codes, users need to open the two gephi files with the suffix of .gexf in  ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/, changed the layout and save them as {Original names}Changed.gexf in the same directory.
+
+All the network results (e.g. AuthorsDynamicAffinityNetwork.gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/dynamic${START_YEAR}-${END_YEAR}_${WINDOW}years/affinity/
+All the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved 
+in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
+
+5. /batch-processing/clusterInformationGenerate.sh
+The codes will generate the key information for every cluster in citation network, the journal frequency for every cluster and cluster sizes. They should be run after the citation network is generated.
+
+All the statistics are saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/citation/
+
+
+The final directory will be like this:
+
+. (ROOT_PATH)
+├── data
+│   └── data1
+│       ├── raw
+│       └── reduced
+│           └── in-norm-dis-hfree-red.txt
+└── runs
+    └── run1
+        └── output
+            ├── network
+            │   ├── accumulative1991-2012
+            │   │   ├── affinity
+            │   │   │   ├── AccumulativeNetworkAuthor.gexf
+            │   │   │   ├── AccumulativeNetworkAuthorChanged.gexf
+            │   │   │   ├── AccumulativeNetworkCitation.gexf
+            │   │   │   ├── AccumulativeNetworkCitationChanged.gexf
+            │   │   │   ├── Authors\ 1991-2012.net
+            │   │   │   ├── Citation\ 1991-2012.net
+            │   │   │   ├── positionAuthor
+            │   │   │   └── positionCitation
+            │   │   └── citation
+            │   │       ├── DirectCitationNetwork.net
+            │   │       ├── DirectCitationNetworkGiantComponent.clu
+            │   │       ├── DirectCitationNetworkGiantComponent.map
+            │   │       ├── DirectCitationNetworkGiantComponent.net
+            │   │       ├── DirectCitationNetworkGiantComponent.tree
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk.clu
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk.map
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk.net
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk.tree
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk_map.net
+            │   │       ├── DirectCitationNetworkGiantComponent_Shrunk_map.vec
+            │   │       ├── DirectCitationNetworkGiantComponent_Synthe.clu
+            │   │       ├── DirectCitationNetworkGiantComponent_Synthe2.clu
+            │   │       ├── DirectCitationNetworkGiantComponent_map.net
+            │   │       └── DirectCitationNetworkGiantComponent_map.vec
+            │   └── dynamic1991-2012_5years
+            │       └── affinity
+            │           ├── Authors\ 1991-1995.net
+            │           ├── Authors\ 1992-1996.net
+            │           ├── ...
+            │           ├── AuthorsDynamicAffinityNetwork.gexf
+            │           ├── AuthorsDynamicAffinityNetworkNotFix.gexf
+            │           ├── Citation\ 1991-1995.net
+            │           ├── Citation\ 1992-1996.net
+            │           ├── ...
+            │           ├── CitationDynamicAffinityNetwork.gexf
+            │           ├── CitationDynamicAffinityNetworkNotFix.gexf
+            │           ├── layoutAuthor
+            │           └── layoutCitation
+            └── statistics
+                ├── accumulative1991-2012
+                │   ├── affinity
+                │   │   ├── NumberOfAuthors1991-2012
+                │   │   ├── NumberOfAuthorsDisJoin1991-2012
+                │   │   ├── NumberOfCitatoin1991-2012
+                │   │   ├── NumberOfPapers1991-2012
+                │   │   ├── NumberOfSharedAuthors1991-2012
+                │   │   ├── NumberOfSharedAuthorsDisJoin1991-2012
+                │   │   ├── ResidualMatrixAuthors1991-2012
+                │   │   └── ResidualMatrixCitation1991-2012
+                │   └── citation
+                │       ├── JournalFreq
+                │       │   └── JournalFrequency.txt
+                │       ├── clustersize
+                │       │   └── clustersize.txt
+                │       └── keyinfo
+                │           ├── ArticleID-ClusterID
+                │           ├── cluster0
+                │           ├── cluster1
+                │           ├── cluster2
+                │           └── ...
+                └── dynamic1991-2012_5years
+                    └── affinity
+                        ├── NumberOfAuthors1991-1995
+                        ├── NumberOfAuthors1992-1996
+                        ├── ...
+                        ├── NumberOfAuthorsDisJoin1991-1995
+                        ├── NumberOfAuthorsDisJoin1992-1996
+                        ├── ...
+                        ├── NumberOfCitatoin1991-1995
+                        ├── NumberOfCitatoin1992-1996
+                        ├── ...
+                        ├── NumberOfPapers1991-1995
+                        ├── NumberOfPapers1992-1996
+                        ├── ...
+                        ├── NumberOfSharedAuthors1991-1995
+                        ├── NumberOfSharedAuthors1992-1996
+                        ├── ...
+                        ├── NumberOfSharedAuthorsDisJoin1991-1995
+                        ├── NumberOfSharedAuthorsDisJoin1992-1996
+                        ├── ...
+                        ├── ResidualMatrixAuthors1991-1995
+                        ├── ResidualMatrixAuthors1992-1996
+                        ├── ...
+                        ├── ResidualMatrixCitation1991-1995
+                        ├── ResidualMatrixCitation1992-1996
+                        └── ...
+----------------------------------------------------------------
 Last Modified by Shiyan Yan on 6/4/14
 There are four new shell scripts in batch-processing.
 They all need parameters PATHI which indicates the folder all the results will be in, STYR and EDYR which indicate the time period codes will process.

@@ -1,10 +1,13 @@
 #pajek to gephi
 import sys
-source = sys.argv[1]
-position = sys.argv[2]
-startyear = int(sys.argv[4])
-endyear = int(sys.argv[5])
-window = int(sys.argv[6])
+netin = sys.argv[1]
+statsin = sys.argv[2]
+netout = sys.argv[3]
+
+position = sys.argv[4]
+startyear = int(sys.argv[6])
+endyear = int(sys.argv[7])
+window = int(sys.argv[8])
 head  = '<?xml version="1.0" encoding="UTF-8"?>\n'
 head += '<gexf xmlns="http://www.gexf.net/1.2draft" version="1.2" xmlns:viz="http://www.gexf.net/1.2draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd">\n'
 head += '  <meta lastmodifieddate="2013-12-11">\n'
@@ -42,10 +45,10 @@ def transfer(type):
     top = 11
     for year in range(startyear,endyear-3):
         if (type=="Authors"):
-            infileNode = open(source+'NumberOfPapers'+str(year)+"-"+str(year+window-1),'r')
+            infileNode = open(statsin+'NumberOfPapers'+str(year)+"-"+str(year+window-1),'r')
         else:
-            infileNode = open(source+'NumberOfPapers'+str(year)+"-"+str(year+window-1),'r')
-        infileEdge = open(source+type+' '+str(year)+"-"+str(year+window-1)+".net")
+            infileNode = open(statsin+'NumberOfPapers'+str(year)+"-"+str(year+window-1),'r')
+        infileEdge = open(netin+type+' '+str(year)+"-"+str(year+window-1)+".net")
         tot = 0
         for line in infileNode:
             tot +=1
@@ -72,7 +75,7 @@ def transfer(type):
             eweight = k[2]
             addstring = '        <edge id="' +  str(edgetot) + '" source="' + str(year)+ "-" + sou + '" target="' + str(year) + "-" + tar + '" weight="' + eweight[0:len(eweight)-1] + '" start="' + str(year-0.25) + '" end="' + str(year+0.25) + '"' +  '></edge>\n'
             writelistEdge += addstring
-    outFile = open(source + type +"DynamicAffinityNetwork.gexf",'w')
+    outFile = open(netout + type +"DynamicAffinityNetwork.gexf",'w')
     outFile.write(head)
     for line in writelistNode:
         outFile.write(line)
@@ -81,7 +84,7 @@ def transfer(type):
         outFile.write(line)
     outFile.write(end)
 
-transfer(sys.argv[3])
+transfer(sys.argv[5])
 #transfer("Citation")
 
 

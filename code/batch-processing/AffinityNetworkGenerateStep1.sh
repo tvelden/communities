@@ -1,18 +1,45 @@
-# #AffinityNetworkGenerateStep1
+# #AffinityNetworkGenerateStep1 (accumulative affinity network)
 . ../../parameters/parameters-global.txt
-#PATHI=/Users/shiyansiadmin/Dropbox/Files/Field2DataSS1/
-mkdir ${PATHI}affinity
-mkdir ${PATHI}affinity2
-cd ../cluster-analysis/topic-areas/
-STYR=${STYR}
-EDYR=${EDYR}
+STYR=${START_YEAR}
+EDYR=${END_YEAR}
+REDUCEDINPUTFILE=${ROOT_PATH}${FIELD}/data/data1/reduced/
+OUTPATH=${ROOT_PATH}${FIELD}/runs/${RUN}/output/
+PATHDCNIN=${OUTPATH}network/accumulative${STYR}-${EDYR}/citation/
+
+
 let "window=${EDYR}-${STYR}+1"
-python AffinityNetworkGenerate.py ${PATHI}in.txt ${PATHI}affinity/ ${PATHI}DirectCitationNetworkGiantComponent.net ${PATHI}DirectCitationNetworkGiantComponent_Synthe2.clu ${window} ${STYR} ${EDYR}
-python transferPajektoGephi.py ${PATHI}affinity/Authors\ ${STYR}-${EDYR}.net ${PATHI}affinity/NumberOfPapers${STYR}-${EDYR} ${PATHI}affinity/AccumulativeNetworkAuthor.gexf
-python transferPajektoGephi.py ${PATHI}affinity/Citation\ ${STYR}-${EDYR}.net ${PATHI}affinity/NumberOfPapers${STYR}-${EDYR} ${PATHI}affinity/AccumulativeNetworkCitation.gexf
+
+echo "The accumulative affinity network generation uses the input file named 'in-norm-dis-hfree-red' in $REDUCEDINPUTFILE"
+echo "It also uses the direct citation network in $PATHDCNIN"
+echo "START YEAR =  $START_YEAR"
+echo "END YEAR = $END_YEAR"
+
+NETOUT=${OUTPATH}network/accumulative${STYR}-${EDYR}/affinity/
+STATSOUT=${OUTPATH}statistics/accumulative${STYR}-${EDYR}/affinity/
 
 
+mkdir -p $NETOUT
+mkdir -p $STATSOUT
 
+
+cd ../cluster-analysis/topic-areas/
+
+echo "------------------------------------------------------------"
+
+echo "Generation Begin"
+
+python AffinityNetworkGenerate.py ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ${NETOUT} ${STATSOUT} ${PATHDCNIN}DirectCitationNetworkGiantComponent.net ${PATHDCNIN}DirectCitationNetworkGiantComponent_Synthe2.clu ${window} ${STYR} ${EDYR}
+
+echo "Pajek files generated (in $NETOUT)"
+
+python transferPajektoGephi.py ${NETOUT}/Authors\ ${STYR}-${EDYR}.net ${STATSOUT}/NumberOfPapers${STYR}-${EDYR} ${NETOUT}/AccumulativeNetworkAuthor.gexf
+python transferPajektoGephi.py ${NETOUT}/Citation\ ${STYR}-${EDYR}.net ${STATSOUT}/NumberOfPapers${STYR}-${EDYR} ${NETOUT}/AccumulativeNetworkCitation.gexf
+
+echo "Gephi files generated (in $NETOUT)"
+
+echo "------------------------------------------------------------"
+echo "Generation Complete"
+echo "The accumulative affinity network (Pajek files and Gephi files) are in $NETOUT. Some statistics results are in $STATSOUT"
 
 
 # PATHI1=/Users/shiyansiadmin/Dropbox/Files/Field2DataSS1/

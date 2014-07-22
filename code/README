@@ -1,10 +1,11 @@
 directories
 ===========
+Last Modified by Shiyan Yan 07/22/2014
 
 batch-processing: shell scripts to automate processing
 
 build-networks: 
-[subdirectories: co-author, document-citation]
+[subdirectories: co-author, document-citation, biblio-coupling]
 
 network-stats: descriptive stats of networks and their evolution
 e.g. growth of giant component, number of nodes, links, clusters
@@ -14,6 +15,7 @@ clustering: Rosvall's scripts
 cluster-analysis: 
 [subdirectories: co-author-clusters, topic-areas]
 - e.g. node role analysis for co-author network
+- affinty network analysis and citation network analysis
 
 community-analysis: 
 - extraction of collaboration/transfer networks from co-author network
@@ -22,3 +24,11 @@ community-analysis:
 - topic area overlay map
 
 data-visualization: R scripts
+
+pre-processing: some scripts to convert data format and build directory
+
+hub-analysis: hub node analysis on co-author network
+
+component-analysis: 
+
+cfstest:

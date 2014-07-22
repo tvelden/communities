@@ -1,15 +1,19 @@
 #extract key information
 import sys
-source_dir = sys.argv[1] 
-ids = source_dir + "DirectCitationNetworkGiantComponent.net" #giant component
-Labels = source_dir + "DirectCitationNetworkGiantComponent_Synthe2.clu" #partition files
-AllPapers = source_dir + "DirectCitationNetwork.net"
-articleMatch = source_dir + "ArticleID-ClusterID"
-inputfile = source_dir + "in.txt" #input file
+
+filein = sys.argv[1]
+netin = sys.argv[2]
+statsout = sys.argv[3]
+
+ids = netin + "DirectCitationNetworkGiantComponent.net" #giant component
+Labels = netin + "DirectCitationNetworkGiantComponent_Synthe2.clu" #partition files
+AllPapers = netin + "DirectCitationNetwork.net"
+articleMatch = statsout + "ArticleID-ClusterID"
+inputfile = filein #input file
 IDmatchLabel = {}
 top = 11
-startyear = int(sys.argv[2])
-endyear = int(sys.argv[3])
+startyear = int(sys.argv[4])
+endyear = int(sys.argv[5])
 tt = 0
 def readIDmatchLabel(IDs,Labels): #map between IDs and Labels
     # change the label from here
@@ -154,7 +158,7 @@ def readPaperFromFile(File):
 outfile = []
 def printKeyInformation(source):
     tt = 0
-    sourcet = source + "keyinfo/"
+    sourcet = source
     for i in range(0,top+1):
         ss = sourcet + "cluster" + str(i)
         outfile.append(open(ss,"w"))
@@ -196,7 +200,7 @@ readIDmatchLabel(ids,Labels)
 readPaperFromFile(inputfile)
 papers = sorted(papers,key= lambda Paper:Paper.YR, reverse=False)
 print "Total Paper Number: ",len(papers)
-printKeyInformation(source_dir)
+printKeyInformation(statsout)
 
 ##other
 oo = open(articleMatch,"w")

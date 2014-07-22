@@ -2,12 +2,14 @@
 import sys
 import math
 top = 12
-source = sys.argv[1]
+filein = sys.argv[1]
+netin = sys.argv[2]
+statsout = sys.argv[3]
 #source = "/Users/shiyansiadmin/Dropbox/Files/Field2DataSS1"
-ids = source + "DirectCitationNetworkGiantComponent.net" #giant component
-Labels = source + "DirectCitationNetworkGiantComponent_Synthe2.clu" #partition files
-inputfile = source + "in.txt" #input file
-target = source + "JournalFrequency.txt" #output file
+ids = netin + "DirectCitationNetworkGiantComponent.net" #giant component
+Labels = netin + "DirectCitationNetworkGiantComponent_Synthe2.clu" #partition files
+inputfile = filein #input file
+target = statsout + "JournalFrequency.txt" #output file
 
 class Paper:
     #ID

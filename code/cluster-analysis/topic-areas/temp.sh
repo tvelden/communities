@@ -1,2 +1,0 @@
-PATHI=/Users/shiyansiadmin/Dropbox/Files/Field2DataS1/
-python transferPajektoGephi.py ${PATHI}affinity/Citation\ 1991-2001.net ${PATHI}affinity/NumberOfPapers1991-2001 ${PATHI}affinity/AccumulativeNetworkCitation1991-2001.gexf

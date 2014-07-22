@@ -8,11 +8,16 @@ from operator import itemgetter
 import pdb
 import math
 import networkx as nx
-source = sys.argv[1]
-ids = source + "DirectCitationNetworkGiantComponent.net" # Giantcomponent 
-labels = source + "DirectCitationNetworkGiantComponent_Synthe2.clu" # partition file
-inputfile = source + "in.txt" #input file
-outfile = source + "clustersize.txt"
+
+
+filein = sys.argv[1]
+netin = sys.argv[2]
+statsout = sys.argv[3]
+
+ids = netin + "DirectCitationNetworkGiantComponent.net" # Giantcomponent 
+labels = netin + "DirectCitationNetworkGiantComponent_Synthe2.clu" # partition file
+inputfile = filein #input file
+outfile = statsout + "clustersize.txt"
 top = 11 # top X area
 IDmatchLabel = {}
 def readIDmatchLabel(IDs,Labels): #map between IDs and Labels
@@ -70,8 +75,8 @@ class Paper:
 
 papers = []
 clusteryearcount = {}
-styr = int(sys.argv[2])
-edyr = int(sys.argv[3])
+styr = int(sys.argv[4])
+edyr = int(sys.argv[5])
 for i in range(1,top+1):
     clusteryearcount[i] = {}
     for j in range(styr,edyr+1):
