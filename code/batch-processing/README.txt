@@ -7,7 +7,7 @@ FIELD: the field of the data e.g. field1, field2
 RUN: used as the mark of each run of the codes e.g. run1
 START_YEAR, END_YEAR: the time span of the literature analyzed e.g. 1991,2012
 SIZE: the window size for the time slices of affinity network
-ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/files/
+ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/files     *** not "/" in the end of ROOT_PATH
 
 There are five shell scripts for the citation network and affinity network analysis.
 1. /pre-processing/make_dir_cit_aff.sh
@@ -15,6 +15,8 @@ The codes will generate the data and output directory for the field using FIELD 
 the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
 
 2. /batch-processing/cluster_analysis_dynamic.sh
+Before running this code, users should make the files in the /code/cluster-analysis/co-authors/infomap_undir
+
 The codes will generate the citation network, extract the giant component and run clustering over the network. All 
 the results will be stored in 
 ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   

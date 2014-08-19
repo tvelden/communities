@@ -19,7 +19,7 @@ then
     echo "The input file is from the raw data directory"
 else
     echo "input file doesn't exists"
-    echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
+    echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE} or copy the raw input file named "in.txt" into ${RAWINPUTFILE}"
     exit
 fi
 
