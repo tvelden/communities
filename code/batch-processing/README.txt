@@ -11,28 +11,40 @@ ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/file
 
 There are five shell scripts for the citation network and affinity network analysis.
 1. /pre-processing/make_dir_cit_aff.sh
-The codes will generate the data and output directory for the field using FIELD and RUN. And the users need to put the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
+The codes will generate the data and output directory for the field using FIELD and RUN. And the users need to put 
+the input file named 'in-norm-dis-hfree-red.txt' into the ${ROOT_PATH}/${FIELD}/data/data1/reduced/
 
 2. /batch-processing/cluster_analysis_dynamic.sh
-The codes will generate the citation network, extract the giant component and run clustering over the network. All the results will be stored in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   the Pajek .net file DirectCitationNetworkGiantComponent.net and .clu file DirectCitationNetworkGiantComponent_Synthe2.clu will be used in the following steps
+The codes will generate the citation network, extract the giant component and run clustering over the network. All 
+the results will be stored in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/citation/   
+the Pajek .net file DirectCitationNetworkGiantComponent.net and .clu file DirectCitationNetworkGiantComponent_Synthe2.clu 
+will be used in the following steps
 
 3. /batch-processing/AffinityNetworkGenerateStep1.sh
 The codes are used to build the accumulative affinity network (both citation based and shared-author based) 
-all the network files (.net and .gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/
-all the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
+all the network files (.net and .gexf) will be saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/
+all the statistics information (number of papers, residual matrix, number of shared authors, etc.) 
+will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
 
 4. /batch-processing/AffinityNetworkGenerateStep2.sh
 The codes are used to build the dynamic affinity network (both citation based and shared-author based ).
-Before running the codes, users need to open the two gephi files with the suffix of .gexf in  ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/, changed the layout and save them as {Original names}Changed.gexf in the same directory.
+Before running the codes, users need to open the two gephi files with the suffix of .gexf in  
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/accumulative${START_YEAR}-${END_YEAR}/affinity/, 
+changed the layout and save them as {Original names}Changed.gexf in the same directory.
 
-All the network results (e.g. AuthorsDynamicAffinityNetwork.gexf) will be saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/dynamic${START_YEAR}-${END_YEAR}_${WINDOW}years/affinity/
+All the network results (e.g. AuthorsDynamicAffinityNetwork.gexf) will be saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/network/dynamic${START_YEAR}-${END_YEAR}_${WINDOW}years/affinity/
 All the statistics information (number of papers, residual matrix, number of shared authors, etc.) will be saved 
 in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/affinity/
 
 5. /batch-processing/clusterInformationGenerate.sh
-The codes will generate the key information for every cluster in citation network, the journal frequency for every cluster and cluster sizes. They should be run after the citation network is generated.
+The codes will generate the key information for every cluster in citation network, the journal frequency for
+every cluster and cluster sizes. They should be run after the citation network is generated.
 
-All the statistics are saved in ${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/citation/
+All the statistics are saved in 
+${ROOT_PATH}${FIELD}/runs/${RUN}/output/statistics/accumulative${START_YEAR}-${END_YEAR}/citation/
 
 
 The final directory will be like this:
@@ -138,16 +150,27 @@ The final directory will be like this:
 ----------------------------------------------------------------
 Last Modified by Shiyan Yan on 6/4/14
 There are four new shell scripts in batch-processing.
-They all need parameters PATHI which indicates the folder all the results will be in, STYR and EDYR which indicate the time period codes will process.
-cluster-analysis-dynamic.sh: The code needs the inputfile named as in.txt in the target folder. And it will generate the direct citation network, find the giant component and run the two round clustering algorithms to generate .clu files.
+They all need parameters PATHI which indicates the folder all the results will be in, STYR and EDYR
+which indicate the time period codes will process.
+cluster-analysis-dynamic.sh: The code needs the inputfile named as in.txt in the target folder. 
+And it will generate the direct citation network, find the giant component and run the two round clustering algorithms
+to generate .clu files.
 
-AffinityNetworkGenerateStep1.sh: The code will generate the affinity network for the accumulative network. The .gexf files will be saved in the PATHI/affinity/
+AffinityNetworkGenerateStep1.sh: The code will generate the affinity network for the accumulative network. 
+The .gexf files will be saved in the PATHI/affinity/
 
-After running the AffinityNetworkGenerateStep1.sh, users should use gephi to tune the layout of .gexf files. The layout will be used in the process of generating dynamic affinity netowork. Users should tune the layout of AccumulativeNetworkAuthor.gexf and save it as AccumulativeNetworkAuthorChanged.gexf in the same folder, tune the layout of AccumulativeNetworkCitation.gexf and save it as AccumulativeNetworkCitationChanged.gexf in the same folder.
+After running the AffinityNetworkGenerateStep1.sh, users should use gephi to tune the layout of .gexf files. 
+The layout will be used in the process of generating dynamic affinity netowork. 
+Users should tune the layout of AccumulativeNetworkAuthor.gexf and save it as AccumulativeNetworkAuthorChanged.gexf 
+in the same folder, tune the layout of AccumulativeNetworkCitation.gexf and save it as 
+AccumulativeNetworkCitationChanged.gexf in the same folder.
 
-AffinityNetworkGenerateStep2.sh: The code will generate dynamic affinity network with 5 years time winodw. All the files will be saved in affinity2/
+AffinityNetworkGenerateStep2.sh: The code will generate dynamic affinity network with 5 years time winodw. 
+All the files will be saved in affinity2/
 
-clusterInformationGenerate.sh: The code will generate some important information for the cluster analysis including: keyInformation files in the folder keyinfo/, JournalFrequency.txt and variation of clustersize for top 11 clusters.
+clusterInformationGenerate.sh: The code will generate some important information for the cluster analysis 
+including: keyInformation files in the folder keyinfo/, JournalFrequency.txt and variation of clustersize 
+for top 11 clusters.
 
 ----------------------------------------------------------------
 
