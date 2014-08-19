@@ -5,11 +5,27 @@
 
 . ../../parameters/parameters-global.txt
 cd ../cluster-analysis/topic-areas/
+RAWINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/raw/
+REDUCEDINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/reduced/
+OUTPATH=${ROOT_PATH}/nwa-${FIELD}/runs/${RUN}/output/
 
-REDUCEDINPUTFILE=${ROOT_PATH}${FIELD}/data/data1/reduced/
-OUTPATH=${ROOT_PATH}${FIELD}/runs/${RUN}/output/
+if [ -f ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ]
+then
+    INPUTFILE=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
+    echo "The input file is from the reduced data directory"
+elif [ -f ${RAWINPUTFILE}in.txt ]
+then
+    INPUTFILE=${RAWINPUTFILE}in.txt
+    echo "The input file is from the raw data directory"
+else
+    echo "input file doesn't exists"
+    echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
+    exit
+fi
 
-PATHIN=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
+
+
+PATHIN=${INPUTFILE}
 STYR=${START_YEAR}
 EDYR=${END_YEAR}
 PATHDCNOUT=${OUTPATH}statistics/accumulative${STYR}-${EDYR}/citation/

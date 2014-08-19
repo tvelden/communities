@@ -2,8 +2,9 @@
 . ../../parameters/parameters-global.txt
 STYR=${START_YEAR}
 EDYR=${END_YEAR}
-REDUCEDINPUTFILE=${ROOT_PATH}${FIELD}/data/data1/reduced/
-OUTPATH=${ROOT_PATH}${FIELD}/runs/${RUN}/output/
+RAWINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/raw/
+REDUCEDINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/reduced/
+OUTPATH=${ROOT_PATH}/nwa-${FIELD}/runs/${RUN}/output/
 PATHDCNIN=${OUTPATH}network/accumulative${STYR}-${EDYR}/citation/
 
 
@@ -22,13 +23,33 @@ mkdir -p $NETOUT
 mkdir -p $STATSOUT
 
 
+
+INPUTFILE=${REDUCEDINPUTFILE}
+if [ -f ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ]
+then
+    INPUTFILE=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
+    echo "The input file is from the reduced data directory"
+elif [ -f ${RAWINPUTFILE}in.txt ]
+then
+    INPUTFILE=${RAWINPUTFILE}in.txt
+    echo "The input file is from the raw data directory"
+else
+    echo "input file doesn't exists"
+    echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
+    exit
+fi
+
+
+
+
+
 cd ../cluster-analysis/topic-areas/
 
 echo "------------------------------------------------------------"
 
 echo "Generation Begin"
 
-python AffinityNetworkGenerate.py ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ${NETOUT} ${STATSOUT} ${PATHDCNIN}DirectCitationNetworkGiantComponent.net ${PATHDCNIN}DirectCitationNetworkGiantComponent_Synthe2.clu ${window} ${STYR} ${EDYR}
+python AffinityNetworkGenerate.py ${INPUTFILE} ${NETOUT} ${STATSOUT} ${PATHDCNIN}DirectCitationNetworkGiantComponent.net ${PATHDCNIN}DirectCitationNetworkGiantComponent_Synthe2.clu ${window} ${STYR} ${EDYR}
 
 echo "Pajek files generated (in $NETOUT)"
 

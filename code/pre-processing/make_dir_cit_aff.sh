@@ -9,16 +9,17 @@ echo "START YEAR = " $START_YEAR
 echo "END YEAR = "$END_YEAR
 echo "ROOT PATH = "$ROOT_PATH
 echo "-------------------------"
-RAWINPUTFILE=${ROOT_PATH}/${FIELD}/data/data1/raw/
-REDUCEDINPUTFILE=${ROOT_PATH}/${FIELD}/data/data1/reduced/
+RAWINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/raw/
+REDUCEDINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/reduced/
 mkdir -p ${RAWINPUTFILE}
 mkdir -p ${REDUCEDINPUTFILE}
 
 echo "Please copy the raw inputfile into ${RAWINPUTFILE} or copy the reduced inputfile named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
+echo "The reduced input file will have high priority to be read than the file in raw input file directory"
 
 echo 
 echo "------------------------"
-OUTPUTDIR=${ROOT_PATH}/${FIELD}/runs/${RUN}/output/
+OUTPUTDIR=${ROOT_PATH}/nwa-${FIELD}/runs/${RUN}/output/
 
 mkdir -p ${OUTPUTDIR}
 

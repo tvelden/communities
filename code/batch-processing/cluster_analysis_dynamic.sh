@@ -1,29 +1,35 @@
 #Shell script for the Clustering process for Direct Citation Network
 . ../../parameters/parameters-global.txt
+RAWINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/raw/
+REDUCEDINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/reduced/
 
-REDUCEDINPUTFILE=${ROOT_PATH}${FIELD}/data/data1/reduced/
-
-echo "The process for generation of direct citation network needs the input file named 'in-norm-dis-hfree-red.txt' in ${REDUCEDINPUTFILE}"
+echo "The process for generation of direct citation network needs the input file named 'in-norm-dis-hfree-red.txt' in ${REDUCEDINPUTFILE} or the input file named 'in.txt' in ${RAWINPUTFILE}"
 echo "START YEAR =  $START_YEAR"
 echo "END YEAR = $END_YEAR"
 
-OUTPATH=${ROOT_PATH}${FIELD}/runs/${RUN}/output/
+OUTPATH=${ROOT_PATH}/nwa-${FIELD}/runs/${RUN}/output/
 
-PATHIN=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
-STYR=${START_YEAR}
-EDYR=${END_YEAR}
+INPUTFILE=${REDUCEDINPUTFILE}
 
-PATHDCNOUT=${OUTPATH}network/accumulative${STYR}-${EDYR}/citation/
-mkdir -p $PATHDCNOUT
-
-if [ -f ${PATHIN} ];
+if [ -f ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ]
 then
-    echo "Generation Begin"
+    INPUTFILE=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
+    echo "The input file is from the reduced data directory"
+elif [ -f ${RAWINPUTFILE}in.txt ]
+then
+    INPUTFILE=${RAWINPUTFILE}in.txt
+    echo "The input file is from the raw data directory"
 else
     echo "input file doesn't exists"
     echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
     exit
 fi
+PATHIN=${INPUTFILE}
+STYR=${START_YEAR}
+EDYR=${END_YEAR}
+
+PATHDCNOUT=${OUTPATH}network/accumulative${STYR}-${EDYR}/citation/
+mkdir -p $PATHDCNOUT
 
 
 PATHDCN=${PATHDCNOUT}DirectCitationNetwork.net

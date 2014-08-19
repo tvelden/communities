@@ -4,9 +4,9 @@
 STYR=${START_YEAR}
 EDYR=${END_YEAR}
 WINDOW=${SIZE}
-
-REDUCEDINPUTFILE=${ROOT_PATH}${FIELD}/data/data1/reduced/
-OUTPATH=${ROOT_PATH}${FIELD}/runs/${RUN}/output/
+RAWINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/raw/
+REDUCEDINPUTFILE=${ROOT_PATH}/nwa-${FIELD}/data/data1/reduced/
+OUTPATH=${ROOT_PATH}/nwa-${FIELD}/runs/${RUN}/output/
 NETIN=${OUTPATH}network/accumulative${STYR}-${EDYR}/affinity/
 PATHDCNIN=${OUTPATH}network/accumulative${STYR}-${EDYR}/citation/
 
@@ -39,11 +39,24 @@ python Zoomout.py ${NETIN}positionAuthor ${DYNETOUT}layoutAuthor
 python Zoomout.py ${NETIN}positionCitation ${DYNETOUT}layoutCitation
 echo "The layouts are stored in $DYNETOUT"
 
-
+INPUTFILE=${REDUCEDINPUTFILE}
+if [ -f ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ]
+then
+    INPUTFILE=${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt
+    echo "The input file is from the reduced data directory"
+elif [ -f ${RAWINPUTFILE}in.txt ]
+then
+    INPUTFILE=${RAWINPUTFILE}in.txt
+    echo "The input file is from the raw data directory"
+else
+    echo "input file doesn't exists"
+    echo "Please copy the input file named 'in-norm-dis-hfree-red.txt' into ${REDUCEDINPUTFILE}"
+    exit
+fi
 
 
 echo "Begin to generate the affinity network for each time slices between $STYR and $EDYR with the window $WINDOW years"
-python AffinityNetworkGenerate.py ${REDUCEDINPUTFILE}in-norm-dis-hfree-red.txt ${DYNETOUT} ${DYSTATSOUT} ${PATHDCNIN}DirectCitationNetworkGiantComponent.net ${PATHDCNIN}DirectCitationNetworkGiantComponent_Synthe2.clu ${WINDOW} ${STYR} ${EDYR}
+python AffinityNetworkGenerate.py ${INPUTFILE} ${DYNETOUT} ${DYSTATSOUT} ${PATHDCNIN}DirectCitationNetworkGiantComponent.net ${PATHDCNIN}DirectCitationNetworkGiantComponent_Synthe2.clu ${WINDOW} ${STYR} ${EDYR}
 
 python AffinityNetworkPajektoGephi.py $DYNETOUT $DYSTATSOUT $DYNETOUT ${DYNETOUT}layoutAuthor Authors ${STYR} ${EDYR} ${SIZE}
 python AffinityNetworkPajektoGephi.py $DYNETOUT $DYSTATSOUT $DYNETOUT ${DYNETOUT}layoutCitation Citation ${STYR} ${EDYR} ${SIZE}
