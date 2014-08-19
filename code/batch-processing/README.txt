@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
-Last Modified by Shiyan Yan on 7/22/14
+Last Modified by Shiyan Yan on 8/19/14
 Changed all the directories of shell scripts on 6/4/14.
 
 The parameters needed now are:
@@ -7,7 +7,7 @@ FIELD: the field of the data e.g. field1, field2
 RUN: used as the mark of each run of the codes e.g. run1
 START_YEAR, END_YEAR: the time span of the literature analyzed e.g. 1991,2012
 SIZE: the window size for the time slices of affinity network
-ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/files     *** not "/" in the end of ROOT_PATH
+ROOT_PATH: the path of the root directory for all the files e.g. ../Dropbox/files     *** no "/" in the end of ROOT_PATH
 
 There are five shell scripts for the citation network and affinity network analysis.
 1. /pre-processing/make_dir_cit_aff.sh
