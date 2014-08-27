@@ -104,13 +104,13 @@ for year in range(int(_STARTYEAR), int(_ENDYEAR) + 1):
 	gephFileName = _FIELD + _RUN + "_" + sliceName + "_wholenet.gexf"
 	
 	#Pajek files
-	pajLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + _STARTYEAR + "-" + str(year) + "/whole_net/pajek/" + pajFileName
-	vecLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + vecFileName
+	pajLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + _STARTYEAR + "-" + str(year) + "/whole_net/pajek/" + pajFileName
+	vecLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + vecFileName
 	accumPajNetLocs.append(pajLoc)
 	accumPajVecLocs.append(vecLoc)
 
 	#Gephi files
-	gephLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + _STARTYEAR + "-" + str(year) + "/whole_net/gephi/" + gephFileName
+	gephLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _accRunType + "/generic/" + _STARTYEAR + "-" + str(year) + "/whole_net/gephi/" + gephFileName
 	accumGephNetLocs.append(gephLoc)
 print linebreak1
 
@@ -124,14 +124,14 @@ for year in range(int(_STARTYEAR), int(_ENDYEAR) + 1):
 
 	
 	#Pajek Files
-	pajLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + pajFileName
-	vecLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + vecFileName
+	pajLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + pajFileName
+	vecLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/pajek/" + vecFileName
 	discPajNetLocs.append(pajLoc)
 	discVecNetLocs.append(vecLoc)
 
 	#Gephi Files
-	gephLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/gephi/" + gephFileName
-	gephAttLoc = "../../../" + _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/gephi/" + gephFileNameAtts
+	gephLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/gephi/" + gephFileName
+	gephAttLoc = _NETPATH + "/nwa-" + _FIELD + "/runs/" + _RUN + "/output/" + "networks/" + _discRunType + "/generic/" + str(year) + "-" + str(year) + "/whole_net/gephi/" + gephFileNameAtts
 	discGephNetLocs.append(gephLoc)
 	discGephNetAttLocs.append(gephAttLoc)
 

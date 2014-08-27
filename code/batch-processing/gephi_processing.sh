@@ -17,8 +17,8 @@ echo "NET_PATH =  " $NET_PATH
 echo "DATA_PATH =  " $DATA_PATH
 
 ROOT_PATH="../../"
-FULL_DATA_PATH=${ROOT_PATH}${NET_PATH}/nwa-${FIELD}/data/$DATA_PATH
-FULL_RUN_PATH=${ROOT_PATH}${NET_PATH}/nwa-${FIELD}/runs/
+FULL_DATA_PATH=${NET_PATH}/nwa-${FIELD}/data/$DATA_PATH
+FULL_RUN_PATH=${NET_PATH}/nwa-${FIELD}/runs/
 slicing=${TYPE}${START_YEAR}-${END_YEAR}_${SIZE}years
 discrete_slice=discrete${START_YEAR}-${END_YEAR}_${SIZE}years
 accumul_slice=accumulative${START_YEAR}-${END_YEAR}_${SIZE}years
@@ -27,7 +27,7 @@ hubnew_png="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/a
 
 linebreak1="/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/"
 csvLoc="${FULL_RUN_PATH}${RUN}/output/statistics/${discrete_slice}/generic/allyears/whole_net/tables/gephiProcess_Stats.csv"
-hubFileLoc="../${FULL_RUN_PATH}${RUN}/output/networks/${accumul_slice}/generic/${START_YEAR}-${END_YEAR}/whole_net/hubs/${FIELD}${RUN}_accumulative${START_YEAR}-${END_YEAR}_${SIZE}years_wholenet.hub"
+hubFileLoc="${FULL_RUN_PATH}${RUN}/output/networks/${accumul_slice}/generic/${START_YEAR}-${END_YEAR}/whole_net/hubs/${FIELD}${RUN}_accumulative${START_YEAR}-${END_YEAR}_${SIZE}years_wholenet.hub"
 
 echo "Hub File Location : " ${hubFileLoc}
 echo $linebreak1
